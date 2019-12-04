@@ -1,0 +1,48 @@
+.gemeindetag-stats-widget {
+  position: relative;
+}
+
+.gemeindetag-stats-widget .components-spinner {
+  display: block;
+  margin: 1em auto;
+  float: none;
+  height: calc(1.5 * 18px);
+  width: calc(1.5 * 18px);
+}
+
+.gemeindetag-stats-widget .components-spinner::before {
+  transform-origin: calc(1.5 * 6px) calc(1.5 * 6px);
+  height: calc(1.5 * 4px);
+  width: calc(1.5 * 4px);
+  top: calc(1.5 * 3px);
+  left: calc(1.5 * 3px);
+}
+
+.gemeindetag-stats-widget label.hide-empty {
+  margin-right: 1em;
+}
+
+.gemeindetag-stats-widget .wp-list-table {
+  margin-top: 1em;
+}
+
+.gemeindetag-stats-widget .nr {
+  display: inline-block;
+  padding: 3px 5px;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 6px;
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.gemeindetag-stats-widget {
+  --accent-color: #97b226;
+}
+.gemeindetag-stats-widget .workshops {
+  --accent-color: #3c964e;
+}
+.gemeindetag-stats-widget .ausfluege {
+  --accent-color: #3c964e;
+}

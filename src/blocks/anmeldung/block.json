@@ -1,0 +1,133 @@
+{
+	"title": "Anmeldung",
+	"icon": "money",
+	"description": "Anmeldung",
+	"category": "common",
+	"attributes": {
+		"vorname": {
+			"type": "string",
+			"source": "meta",
+			"meta": "vorname"
+		},
+		"nachname": {
+			"type": "string",
+			"source": "meta",
+			"meta": "nachname"
+		},
+		"geschlecht": {
+			"type": "string",
+			"source": "meta",
+			"meta": "geschlecht"
+		},
+		"adresse_straße": {
+			"type": "string",
+			"source": "meta",
+			"meta": "adresse_straße"
+		},
+		"adresse_plz": {
+			"type": "number",
+			"source": "meta",
+			"meta": "adresse_plz"
+		},
+		"adresse_ort": {
+			"type": "string",
+			"source": "meta",
+			"meta": "adresse_ort"
+		},
+		"geb_datum": {
+			"type": "string",
+			"source": "meta",
+			"meta": "geb_datum"
+		},
+		"telefon": {
+			"type": "string",
+			"source": "meta",
+			"meta": "telefon"
+		},
+		"email": {
+			"type": "string",
+			"source": "meta",
+			"meta": "email"
+		},
+		"teilnahmetage": {
+			"type": "array",
+			"source": "meta",
+			"meta": "teilnahmetage"
+		},
+		"mitarbeit": {
+			"type": "array",
+			"source": "meta",
+			"meta": "mitarbeit"
+		},
+		"kinderprogramm": {
+			"type": "array",
+			"source": "meta",
+			"meta": "kinderprogramm"
+		},
+		"kinderprogramm_bemerkung": {
+			"type": "string",
+			"source": "meta",
+			"meta": "kinderprogramm_bemerkung"
+		},
+		"kinderprogramm_notfall_nummer": {
+			"type": "string",
+			"source": "meta",
+			"meta": "kinderprogramm_notfall_nummer"
+		},
+		"workshops": {
+			"type": "array",
+			"source": "meta",
+			"meta": "workshops"
+		},
+		"ausfluege": {
+			"type": "array",
+			"source": "meta",
+			"meta": "ausfluege"
+		},
+		"verpflegung": {
+			"type": "array",
+			"source": "meta",
+			"meta": "verpflegung"
+		},
+		"datenschutz": {
+			"type": "boolean",
+			"source": "meta",
+			"meta": "datenschutz"
+		},
+		"rechnung_versand": {
+			"type": "string",
+			"source": "meta",
+			"meta": "rechnung_versand"
+		},
+		"zahlungsbestaetigung_versand": {
+			"type": "string",
+			"source": "meta",
+			"meta": "zahlungsbestaetigung_versand"
+		},
+		"status": {
+			"type": "string",
+			"source": "meta",
+			"meta": "status"
+		},
+		"betrag": {
+			"type": "string",
+			"source": "meta",
+			"meta": "betrag"
+		},
+		"gedrucktes_liederheft": {
+			"type": "string",
+			"source": "meta",
+			"meta": "gedrucktes_liederheft"
+		},
+		"gedrucktes_programmheft": {
+			"type": "string",
+			"source": "meta",
+			"meta": "gedrucktes_programmheft"
+		},
+		"daten_fuer_mitfahrgelegenheit_teilen": {
+			"type": "string",
+			"source": "meta",
+			"meta": "daten_fuer_mitfahrgelegenheit_teilen"
+		}
+	}
+}

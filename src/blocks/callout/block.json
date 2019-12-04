@@ -1,0 +1,40 @@
+{
+    "title": "Callout",
+    "icon": "megaphone",
+    "description": "Callout",
+    "category": "common",
+    "attributes": {
+        "titel": {
+            "type": "string"
+        },
+        "link": {
+            "type": "string"
+        },
+        "textColor": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "backgroundColor": {
+            "type": "string",
+            "default": "#de7930"
+        },
+        "buttonTextColor": {
+            "type": "string",
+            "default": "#de7930"
+        },
+        "buttonBackgroundColor": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "linkText": {
+            "type": "string",
+            "default": "Click Here"
+        }
+    },
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ]
+    }
+}

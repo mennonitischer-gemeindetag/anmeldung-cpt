@@ -1,0 +1,14 @@
+{
+    "title": "Card",
+    "icon": "id",
+    "description": "Card",
+    "category": "common",
+    "attributes": {
+        "image": {
+            "type": "string"
+        },
+        "color": {
+            "type": "string"
+        }
+    }
+}
