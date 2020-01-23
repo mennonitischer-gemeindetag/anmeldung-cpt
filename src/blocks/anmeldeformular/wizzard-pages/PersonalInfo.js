@@ -87,6 +87,8 @@ export default ( { setAge } ) => {
 					type={ 'text' }
 					placeholder={ 'dd.mm.yyyy' }
 					name={ 'geb_datum' }
+					pattern="\d{1,2}\.\d{1,2}\.\d{4}"
+					patternMismatch="Bitte in Format dd.mm.yyyy angeben!"
 					autoComplete="bday"
 					required
 				/>
