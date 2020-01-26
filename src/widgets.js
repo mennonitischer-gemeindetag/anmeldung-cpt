@@ -5,4 +5,4 @@ import './widgets/essen-stats';
 import './widgets/ticket-stats';
 import './widgets/print-stats';
 import './widgets/alter-stats';
-
+import './widgets/total-earnings';

@@ -25,6 +25,7 @@ function create_dashboard_widgets() {
 		'tickets-stats-widget'     => 'Anmeldungen pro Tag',
 		'printed-stats-widget'     => 'Druckprodukte',
 		'age-stats-widget'         => 'Alter der Anmeldungen',
+		'total-earnings-widget'    => 'Einnahmen',
 	];
 
 	foreach ( $widgets as $widget_slug => $widget_title ) {

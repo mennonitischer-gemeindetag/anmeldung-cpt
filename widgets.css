@@ -46,3 +46,12 @@
 .gemeindetag-stats-widget .ausfluege {
   --accent-color: #3c964e;
 }
+
+#total-earnings-widget {
+  --accent-color: #3c964e;
+}
+
+.gemeindetag-stats-widget .price {
+  font-size: 2em !important;
+  color: var(--accent-color) !important;
+}
