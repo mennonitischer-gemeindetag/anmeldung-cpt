@@ -40,7 +40,6 @@ export default ( props ) => {
 
 	const selectedTickets = values.teilnahmetage ?
 		tickets.filter( ( ticket ) => {
-			debugger;
 			return values.teilnahmetage.some( ( item ) => item == ticket.id );
 		} ) :
 		[];
