@@ -16,7 +16,7 @@ add_action( 'init', __NAMESPACE__ . '\custom_post_type_uebernachtungen', 0 );
  * Add CPT uebernachtungen
  */
 function custom_post_type_uebernachtungen() {
-	$labels = array(
+	$labels = [
 		'name'               => __( 'Übernachtungen', 'gemeindetag' ),
 		'singular_name'      => __( 'Übernachtung', 'gemeindetag' ),
 		'menu_name'          => __( 'Übernachtungen', 'gemeindetag' ),
@@ -29,9 +29,9 @@ function custom_post_type_uebernachtungen() {
 		'search_items'       => __( 'Übernachtung Suchen', 'gemeindetag' ),
 		'not_found'          => __( 'Nichts gefunden', 'gemeindetag' ),
 		'not_found_in_trash' => __( 'Nichts im Papierkorb gefunden', 'gemeindetag' ),
-	);
+	];
 
-	$args = array(
+	$args = [
 		'labels'              => $labels,
 		'description'         => __( 'Übernachtungen', 'gemeindetag' ),
 		'menu_icon'           => 'dashicons-format-status',
@@ -50,30 +50,30 @@ function custom_post_type_uebernachtungen() {
 		'capability_type'     => 'post',
 		'show_in_rest'        => true,
 		'rest_base'           => 'uebernachtungen',
-	);
+	];
 	register_post_type( 'uebernachtungen', $args );
 }
 
-$string           = array(
+$string           = [
 	'type'         => 'string',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$boolean          = array(
+];
+$boolean          = [
 	'type'         => 'boolean',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$number           = array(
+];
+$number           = [
 	'type'         => 'number',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$multiple_numbers = array(
+];
+$multiple_numbers = [
 	'type'         => 'number',
 	'single'       => false,
 	'show_in_rest' => true,
-);
+];
 
 
 register_post_meta( 'uebernachtungen', 'price', $string );
