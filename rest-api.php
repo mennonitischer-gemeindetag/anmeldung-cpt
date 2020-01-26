@@ -24,7 +24,7 @@ function register_gemeindetag_signup_rest_route() {
 /**
  * handles the signup request
  *
- * @param {WP_REST_Request} $request request
+ * @param WP_REST_Request $request request
  */
 function handle_signup_request( $request ) {
 
@@ -137,7 +137,7 @@ function register_gemeindetag_get_invoice() {
 /**
  * Handle get invoice
  *
- * @param {WP_REST_Request} $request request
+ * @param WP_REST_Request $request request
  */
 function handle_get_invoice( $request ) {
 

@@ -12,9 +12,9 @@ add_action( 'save_post_anmeldung', __NAMESPACE__ . '\send_anmelde_emails', 10, 3
 /**
  * send anmelde emails
  *
- * @param {Integer} $post_id    Post ID
- * @param {Array}   $post Post  Object
- * @param {Bolean}  $is_update  Weather or not it is an Update
+ * @param Integer $post_id    Post ID
+ * @param Array   $post Post  Object
+ * @param Bolean  $is_update  Weather or not it is an Update
  */
 function send_anmelde_emails( $post_id, $post, $is_update ) {
 	if ( ! $is_update ) {
@@ -34,7 +34,7 @@ function send_anmelde_emails( $post_id, $post, $is_update ) {
 /**
  * sending the signup email
  *
- * @param {Integer} $post_id ID of the post
+ * @param Integer $post_id ID of the post
  */
 function send_signup_mail( $post_id ) {
 
@@ -66,7 +66,7 @@ function send_signup_mail( $post_id ) {
 /**
  * get the invoice from API
  *
- * @param {Integer} $post_id ID of Post
+ * @param Integer $post_id ID of Post
  */
 function get_invoice( $post_id ) {
 
@@ -149,8 +149,8 @@ function get_invoice( $post_id ) {
 	/**
 	 * add prices together
 	 *
-	 * @param {Integer} $carry carry
-	 * @param {Integer} $item item
+	 * @param Integer $carry carry
+	 * @param Integer $item item
 	 */
 	function sum( $carry, $item ) {
 		$carry += \floatval( $item['price'] );
@@ -232,7 +232,7 @@ function get_invoice( $post_id ) {
 /**
  * calculates the Age
  *
- * @param {String} $geb_date dd.mm.yyyy
+ * @param String $geb_date dd.mm.yyyy
  */
 function get_age( $geb_date ) {
 
@@ -247,9 +247,9 @@ function get_age( $geb_date ) {
 /**
  * gets the price of a given anmeldung
  *
- * @param {Integer} $post_id ID of Post
- * @param {Integer} $age Age
- * @param {Boolean} $ermaessigt_adult lower rate
+ * @param Integer $post_id ID of Post
+ * @param Integer $age Age
+ * @param Boolean $ermaessigt_adult lower rate
  */
 function get_price( $post_id, $age, $ermaessigt_adult = false ) {
 	$key         = 'price_adult';
@@ -290,7 +290,7 @@ function calculate_late_payment() {
 /**
  * send payment success email
  *
- * @param {Integer} $post_id ID of Post
+ * @param Integer $post_id ID of Post
  */
 function send_payment_success_email( $post_id ) {
 

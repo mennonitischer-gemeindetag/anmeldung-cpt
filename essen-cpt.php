@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * register cpt essen
  */
 function custom_post_type_essen() {
-	$labels = array(
+	$labels = [
 		'name'               => __( 'Essen', 'gemeindetag' ),
 		'singular_name'      => __( 'Essen', 'gemeindetag' ),
 		'menu_name'          => __( 'Essen', 'gemeindetag' ),
@@ -27,13 +27,13 @@ function custom_post_type_essen() {
 		'search_items'       => __( 'Essen Suchen', 'gemeindetag' ),
 		'not_found'          => __( 'Nichts gefunden', 'gemeindetag' ),
 		'not_found_in_trash' => __( 'Nichts im Papierkorb gefunden', 'gemeindetag' ),
-	);
+	];
 
-	$args = array(
+	$args = [
 		'labels'              => $labels,
 		'description'         => __( 'Essen', 'gemeindetag' ),
 		'menu_icon'           => 'dashicons-carrot',
-		'supports'            => array( 'title', 'editor', 'meta', 'custom-fields' ),
+		'supports'            => [ 'title', 'editor', 'meta', 'custom-fields' ],
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
@@ -48,32 +48,32 @@ function custom_post_type_essen() {
 		'capability_type'     => 'post',
 		'show_in_rest'        => true,
 		'rest_base'           => 'essen',
-	);
+	];
 	register_post_type( 'essen', $args );
 
 }
 add_action( 'init', __NAMESPACE__ . '\custom_post_type_essen', 0 );
 
-$string           = array(
+$string           = [
 	'type'         => 'string',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$boolean          = array(
+];
+$boolean          = [
 	'type'         => 'boolean',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$number           = array(
+];
+$number           = [
 	'type'         => 'number',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$multiple_numbers = array(
+];
+$multiple_numbers = [
 	'type'         => 'number',
 	'single'       => false,
 	'show_in_rest' => true,
-);
+];
 
 register_post_meta( 'essen', 'price', $string );
 register_post_meta( 'essen', 'tag', $string );
