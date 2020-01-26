@@ -54,26 +54,26 @@ function custom_post_type_tickets() {
 	register_post_type( 'tickets', $args );
 }
 
-$string           = array(
+$string           = [
 	'type'         => 'string',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$boolean          = array(
+];
+$boolean          = [
 	'type'         => 'boolean',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$number           = array(
+];
+$number           = [
 	'type'         => 'number',
 	'single'       => true,
 	'show_in_rest' => true,
-);
-$multiple_numbers = array(
+];
+$multiple_numbers = [
 	'type'         => 'number',
 	'single'       => false,
 	'show_in_rest' => true,
-);
+];
 
 register_post_meta( 'tickets', 'price_adult', $string );
 register_post_meta( 'tickets', 'price_teen', $string );
