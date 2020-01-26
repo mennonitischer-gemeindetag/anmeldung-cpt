@@ -8,7 +8,6 @@
 namespace gemeindetag\anmeldung;
 
 add_action( 'save_post_anmeldung', __NAMESPACE__ . '\send_anmelde_emails', 10, 3 );
-
 /**
  * send anmelde emails
  *
@@ -18,19 +17,40 @@ add_action( 'save_post_anmeldung', __NAMESPACE__ . '\send_anmelde_emails', 10, 3
  */
 function send_anmelde_emails( $post_id, $post, $is_update ) {
 	if ( ! $is_update ) {
-		send_signup_mail( $post_id );
-		update_post_meta( $post_id, 'rechnung_versand', 1 );
-	}
-
-	$status                       = $post->status;
-	$zahlungsbestaetigung_versand = $post->zahlungsbestaetigung_versand;
-
-	if ( $is_update && 'bezahlt' === $status && ! $zahlungsbestaetigung_versand ) {
-		send_payment_success_email( $post_id );
-		update_post_meta( $post_id, 'zahlungsbestaetigung_versand', 1 );
+		do_action( 'send_signup_mail', $post_id );
 	}
 }
 
+add_action( 'updated_post_meta', __NAMESPACE__ . '\send_payment_success_emails', 10, 4 );
+/**
+ * send payment success email
+ *
+ * @param Integer $meta_id       Meta ID
+ * @param Integer $post_id Post  Post ID
+ * @param String  $meta_key      meta key
+ * @param String  $meta_value    meta value
+ */
+function send_payment_success_emails( $meta_id, $post_id, $meta_key, $meta_value ) {
+
+	if ( 'status' === $meta_key ) {
+		$zahlungsbestaetigung_versand = get_post_meta( $post_id, 'zahlungsbestaetigung_versand', true );
+		if ( 'bezahlt' === $meta_value && ! $zahlungsbestaetigung_versand ) {
+			do_action( 'send_payment_success_email', $post_id );
+		}
+	}
+}
+
+add_action( 'send_signup_mail', __NAMESPACE__ . '\set_invoice_sent', 0, 1 );
+/**
+ * set invoice send meta field
+ *
+ * @param Integer $post_id ID of the post to update
+ */
+function set_invoice_sent( $post_id ) {
+	update_post_meta( $post_id, 'rechnung_versand', true );
+};
+
+add_action( 'send_signup_mail', __NAMESPACE__ . '\send_signup_mail', 10, 1 );
 /**
  * sending the signup email
  *
@@ -287,6 +307,7 @@ function calculate_late_payment() {
 }
 
 
+add_action( 'send_payment_success_email', __NAMESPACE__ . '\send_payment_success_email', 10, 1 );
 /**
  * send payment success email
  *
@@ -309,3 +330,13 @@ function send_payment_success_email( $post_id ) {
 
 	return wp_mail( $to, $subject, $body, $headers );
 }
+
+add_action( 'send_payment_success_email', __NAMESPACE__ . '\set_payment_success', 11, 1 );
+/**
+ * set payent success meta field
+ *
+ * @param Integer $post_id ID of the post to update
+ */
+function set_payment_success( $post_id ) {
+	update_post_meta( $post_id, 'zahlungsbestaetigung_versand', true );
+};

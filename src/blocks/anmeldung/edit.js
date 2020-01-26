@@ -1,9 +1,8 @@
 import { useEffect, useState } from '@wordpress/element';
-import { Spinner, PanelBody, SelectControl, CheckboxControl } from '@wordpress/components';
+import { Spinner, PanelBody, SelectControl, CheckboxControl, Button } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { InspectorControls } from '@wordpress/editor';
 import { useSelect } from '@wordpress/data';
-import { Document } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${ pdfjs.version }/pdf.worker.js`;
 
@@ -42,6 +41,8 @@ export default ( props ) => {
 	} = props;
 
 	const [ isLoading, setIsLoading ] = useState( true );
+	const [ isSendingInvoiceEmail, setIsSendingInvoiceEmail ] = useState( false );
+	const [ isSendingPaymentEmail, setIsSendingPaymentEmail ] = useState( false );
 	const [ allWorkshops, setWorkshops ] = useState( [] );
 	const [ allAusfluege, setAusfluege ] = useState( [] );
 	const [ allEssen, setEssen ] = useState( [] );
@@ -75,6 +76,28 @@ export default ( props ) => {
 			.catch( ( error ) => console.error( error ) );
 	}, [] );
 
+	const handleSendInvoice = () => {
+		setIsSendingInvoiceEmail(true);
+		apiFetch( { 
+			path: `gemeindetag/v1/send-invoice/${invoiceId}`, 
+			method: 'POST', 
+		} ).then( response => {
+			setIsSendingInvoiceEmail(false);
+			console.log( response );
+		} )
+	}
+
+	const handleSendPaymentConfirmation = () => {
+		setIsSendingPaymentEmail(true);
+		apiFetch( { 
+			path: `gemeindetag/v1/send-payment-confirmation/${invoiceId}`, 
+			method: 'POST', 
+		} ).then( response => {
+			setIsSendingPaymentEmail(false);
+			console.log( response );
+		} )
+	}
+
 	return (
 		<>
 			<InspectorControls>
@@ -89,18 +112,38 @@ export default ( props ) => {
 						onChange={ ( status ) => {
 							setAttributes( { status } );
 						} }
-					/>
-					<br />
+						/>
+				</PanelBody>
+				<PanelBody title={ 'Emails' }>
 					<CheckboxControl
 						label="Rechnung Versand"
 						checked={ !! rechnung_versand }
 						onChange={ () => {} }
-					/>
+						/>
+					<p><Button 
+						isPrimary
+						isBusy={isSendingInvoiceEmail} 
+						onClick={handleSendInvoice}
+						>
+						{ rechnung_versand ? 'Rechnung erneut versenden' : 'Rechnung versenden' }
+					</Button></p>
+
 					<CheckboxControl
 						label="Zahlungsbestätigung Versand"
 						checked={ !! zahlungsbestaetigung_versand }
 						onChange={ () => {} }
-					/>
+						/>
+					<p><Button 
+						isPrimary
+						isBusy={isSendingPaymentEmail} 
+						onClick={handleSendPaymentConfirmation}
+						>
+						{ 
+						zahlungsbestaetigung_versand ? 
+						'Zahlungsbestätigung erneut versenden':
+						'Zahlungsbestätigung versenden' 
+					}
+					</Button></p>
 				</PanelBody>
 			</InspectorControls>
 			<div className={ className }>

@@ -159,3 +159,87 @@ function handle_get_invoice( $request ) {
 		return new WP_Error( 'get-invoice-failed', "No Invoice was found for the ID: $invoice_id", [ 'status' => 404 ] );
 	}
 };
+
+
+add_action( 'rest_api_init', 'register_gemeindetag_payment_confirmation_rest_route' );
+/**
+ * Adding custom rest endpoint to send payment confirmation
+ */
+function register_gemeindetag_payment_confirmation_rest_route() {
+	register_rest_route(
+		'gemeindetag/v1',
+		'/send-payment-confirmation/(?P<id>\d+)',
+		[
+			'methods'  => 'POST',
+			'callback' => 'handle_send_payment_confirmation_request',
+			'args'     => [
+				'id' => [
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					},
+				],
+			],
+		]
+	);
+};
+
+/**
+ * Handle payment success request
+ *
+ * @param WP_REST_Request $request request
+ */
+function handle_send_payment_confirmation_request( $request ) {
+
+	if ( ! is_user_logged_in() ) {
+		return new WP_Error( 'not-authorized', 'You need to be logged in to access this file', [ 'status' => 401 ] );
+	};
+
+	$anmeldugs_id = $request['id'];
+
+	do_action( 'send_payment_success_email', $anmeldugs_id );
+
+	return new WP_REST_Response( 'Confirmation Email sent' );
+
+};
+
+
+add_action( 'rest_api_init', 'register_gemeindetag_send_invoice_rest_route' );
+/**
+ * Adding custom rest endpoint to send payment confirmation
+ */
+function register_gemeindetag_send_invoice_rest_route() {
+	register_rest_route(
+		'gemeindetag/v1',
+		'/send-invoice/(?P<id>\d+)',
+		[
+			'methods'  => 'POST',
+			'callback' => 'handle_send_invoice_request',
+			'args'     => [
+				'id' => [
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					},
+				],
+			],
+		]
+	);
+};
+
+/**
+ * Handle payment success request
+ *
+ * @param WP_REST_Request $request request
+ */
+function handle_send_invoice_request( $request ) {
+
+	if ( ! is_user_logged_in() ) {
+		return new WP_Error( 'not-authorized', 'You need to be logged in to access this file', [ 'status' => 401 ] );
+	};
+
+	$anmeldugs_id = $request['id'];
+
+	do_action( 'send_signup_mail', $anmeldugs_id );
+
+	return new WP_REST_Response( 'Invoice Email sent' );
+
+};
