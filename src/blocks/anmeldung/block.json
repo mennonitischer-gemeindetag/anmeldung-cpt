@@ -128,6 +128,10 @@
 			"type": "string",
 			"source": "meta",
 			"meta": "daten_fuer_mitfahrgelegenheit_teilen"
+		},
+		"isEditing": {
+			"type": "boolean",
+			"default": false
 		}
 	}
 }
