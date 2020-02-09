@@ -250,11 +250,30 @@ function get_invoice( $post_id ) {
 }
 
 /**
+ * is date
+ *
+ * @param String $date date string
+ */
+function is_date( $date ) {
+	return 1 === preg_match(
+		'~^(((0[1-9]|[12]\\d|3[01])\\.(0[13578]|1[02])\\.((19|[2-9]\\d)\\d{2}))|((0[1-9]|[12]\\d|30)\\.(0[13456789]|1[012])\\.((19|[2-9]\\d)\\d{2}))|((0[1-9]|1\\d|2[0-8])\\.02\\.((19|[2-9]\\d)\\d{2}))|(29\\.02\\.((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$~',
+		$date
+	);
+}
+
+/**
  * calculates the Age
  *
  * @param String $geb_date dd.mm.yyyy
+ * @throws WP_Error Error when not a Date
  */
 function get_age( $geb_date ) {
+
+	$is_valid_date = is_date( $geb_date );
+
+	if ( ! $is_valid_date ) {
+		return 'Fehler im Geburtsdatum';
+	}
 
 	$d1 = new \DateTime( $geb_date );
 	$d2 = new \DateTime( '25.05.2020' );
@@ -262,6 +281,7 @@ function get_age( $geb_date ) {
 	$diff = $d2->diff( $d1 );
 
 	return $diff->y;
+
 }
 
 /**
