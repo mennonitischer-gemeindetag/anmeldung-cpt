@@ -1,4 +1,4 @@
-import { Spinner, TextControl, PanelBody, PanelRow, SelectControl, CheckboxControl, IconButton} from '@wordpress/components';
+import { Spinner, TextControl, PanelBody, PanelRow, SelectControl, CheckboxControl, Button} from '@wordpress/components';
 
 function HtmlEncode(string) {
   const element = document.createElement("div");
@@ -278,6 +278,7 @@ export default (props) => {
                             label='Übernachtungsart'
                             value={ uebernachtung }
                             options={[
+                                { label: '', value: '' },
                                 { label: 'Turnhalle', value: 'Turnhalle' },
                                 { label: 'Eigenes Zelt', value: 'Eigenes Zelt' },
                                 { label: 'Im Zelt mit:', value: 'Im Zelt mit...' },
@@ -306,13 +307,13 @@ export default (props) => {
                     onChange={ isChecked => setAttributes( { gedrucktes_programmheft: isChecked } ) }
                 />
             </PanelBody>
-            <IconButton 
+            <Button 
                 isPrimary 
                 icon="yes"
                 onClick={ () => setAttributes( { isEditing: false } ) } 
             >
                 Zur Übersicht
-            </IconButton>
+            </Button>
         </div>
     )
 
