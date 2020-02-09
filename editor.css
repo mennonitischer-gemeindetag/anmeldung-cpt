@@ -1,3 +1,13 @@
 .wp-block-gemeindetag-anmeldung .edit-anmeldung .components-panel__row {
     align-items: start;
+    justify-content: start;
+}
+
+.wp-block-gemeindetag-anmeldung .edit-anmeldung .components-panel__row > :not(:last-child) {
+    margin-right: 1em;
+}
+
+.wp-block-gemeindetag-anmeldung .edit-anmeldung .components-base-control__help {
+    font-size: 1em;
+    color: #999;
 }
