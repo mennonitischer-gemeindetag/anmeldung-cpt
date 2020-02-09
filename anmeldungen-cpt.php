@@ -59,6 +59,14 @@ function custom_post_type_anmeldung() {
 }
 add_action( 'init', __NAMESPACE__ . '\custom_post_type_anmeldung', 0 );
 
+
+
+/*********************************************************
+ * Post Meta
+ */
+
+
+
 $string           = [
 	'type'         => 'string',
 	'single'       => true,
@@ -120,8 +128,8 @@ register_post_meta( 'anmeldung', 'kinderprogramm_notfall_nummer', $string );
 register_post_meta( 'anmeldung', 'ausfluege', $multiple_numbers );
 register_post_meta( 'anmeldung', 'workshops', $multiple_numbers );
 register_post_meta( 'anmeldung', 'uebernachtung_and_breakfast', $boolean );
-register_post_meta( 'anmeldung', 'uebernachtung_zelt_mit', $boolean );
-register_post_meta( 'anmeldung', 'uebernachtung', $multiple_numbers );
+register_post_meta( 'anmeldung', 'uebernachtung_zelt_mit', $string );
+register_post_meta( 'anmeldung', 'uebernachtung', $string );
 register_post_meta( 'anmeldung', 'verpflegung', $multiple_numbers );
 register_post_meta( 'anmeldung', 'bemerkung', $string );
 register_post_meta( 'anmeldung', 'allergien', $string );
@@ -133,6 +141,11 @@ register_post_meta( 'anmeldung', 'status', $string );
 register_post_meta( 'anmeldung', 'rechnung_versand', $boolean );
 register_post_meta( 'anmeldung', 'betrag', $number );
 register_post_meta( 'anmeldung', 'zahlungsbestaetigung_versand', $boolean );
+
+
+/*********************************************************
+ * Admin Columns
+ */
 
 
 /**
@@ -281,3 +294,65 @@ function orderby_colums( $query ) {
 	}
 }
 add_action( 'pre_get_posts', __NAMESPACE__ . '\orderby_colums' );
+
+
+
+/*********************************************************
+ * Bulk Actions
+ */
+
+add_filter( 'bulk_actions-edit-anmeldung', __NAMESPACE__ . '\register_set_status_payed_action' );
+/**
+ * register set status payed bulk action
+ *
+ * @param {} $bulk_actions bulk actions
+ */
+function register_set_status_payed_action( $bulk_actions ) {
+	$bulk_actions['set_status_payed'] = 'Status auf Bezahlt setzen';
+	return $bulk_actions;
+}
+
+add_filter( 'handle_bulk_actions-edit-anmeldung', __NAMESPACE__ . '\set_status_payed_action_handler', 10, 3 );
+/**
+ * handler for set status to payed
+ *
+ * @param {} $redirect_to URL to Redirect to
+ * @param {} $doaction handle of action to execute
+ * @param {} $post_ids array of post id's that the handler is called on
+ */
+function set_status_payed_action_handler( $redirect_to, $doaction, $post_ids ) {
+	if ( 'set_status_payed' !== $doaction ) {
+		return $redirect_to;
+	}
+	foreach ( $post_ids as $post_id ) {
+		// Perform action for each post.
+		update_post_meta(
+			$post_id,
+			'status',
+			'bezahlt',
+			'wartet auf zahlung'
+		);
+	}
+	$redirect_to = add_query_arg( 'bulk_set_status_to_payed_posts', count( $post_ids ), $redirect_to );
+	return $redirect_to;
+}
+
+
+add_action( 'admin_notices', __NAMESPACE__ . '\set_status_payed_action_admin_notice' );
+/**
+ * show notice upon completing the bulk action
+ */
+function set_status_payed_action_admin_notice() {
+	if ( ! empty( $_REQUEST['bulk_set_status_to_payed_posts'] ) ) {
+		$updated_posts_count = intval( $_REQUEST['bulk_set_status_to_payed_posts'] );
+		printf(
+			'<div id="message" class="updated fade">' .
+			_n(
+				'Status von %s Anmeldung in Bezahlt geändert.',
+				'Status von %s Anmeldungen in Bezahlt geändert.',
+				$updated_posts_count
+			) . '</div>',
+			esc_attr( $updated_posts_count )
+		);
+	}
+}
