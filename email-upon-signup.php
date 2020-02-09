@@ -331,12 +331,13 @@ function send_payment_success_email( $post_id ) {
 	return wp_mail( $to, $subject, $body, $headers );
 }
 
-add_action( 'send_payment_success_email', __NAMESPACE__ . '\set_payment_success', 11, 1 );
+add_action( 'send_payment_success_email', __NAMESPACE__ . '\set_payment_success', 15, 1 );
 /**
  * set payent success meta field
  *
  * @param Integer $post_id ID of the post to update
  */
 function set_payment_success( $post_id ) {
-	update_post_meta( $post_id, 'zahlungsbestaetigung_versand', true );
+	$updated = update_post_meta( $post_id, 'zahlungsbestaetigung_versand', 'true' );
+	return $updated;
 };
