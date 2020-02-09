@@ -26,6 +26,7 @@ function create_dashboard_widgets() {
 		'printed-stats-widget'     => 'Druckprodukte',
 		'age-stats-widget'         => 'Alter der Anmeldungen',
 		'total-earnings-widget'    => 'Einnahmen',
+		'jugend-uebernachtungen'   => 'Jugend Übernachtungen',
 	];
 
 	foreach ( $widgets as $widget_slug => $widget_title ) {
