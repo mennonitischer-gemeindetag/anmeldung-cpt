@@ -1,5 +1,11 @@
 import { Spinner, TextControl, PanelBody, PanelRow, SelectControl, CheckboxControl, IconButton} from '@wordpress/components';
 
+function HtmlEncode(string) {
+  const element = document.createElement("div");
+  element.innerHTML = element.textContent = string;
+  return element.innerText;
+}
+
 export default (props) => {
 
     const {
@@ -21,15 +27,13 @@ export default (props) => {
 			workshops,
 			ausfluege,
 			verpflegung,
-			status,
 			betrag,
 			gedrucktes_liederheft,
-			gedrucktes_programmheft,
-			daten_fuer_mitfahrgelegenheit_teilen,
-	  		zahlungsbestaetigung_versand,
-	  		rechnung_versand,
+            gedrucktes_programmheft,
+            uebernachtung_and_breakfast,
+            uebernachtung_zelt_mit,
+            uebernachtung,
 		},
-        className,
         setAttributes,
         isLoading,
         allWorkshops,
@@ -37,7 +41,6 @@ export default (props) => {
         allEssen,
         allTickets,
         allKinderprogramm,
-        invoice
     } = props;
     
     const handleTicketChange = (isChecked, ticket) => {
@@ -128,7 +131,7 @@ export default (props) => {
 
     return (
         <div className={ 'edit-anmeldung' }>
-            <PanelBody title='Persönliche Infos' className={ 'personal-info' } >
+            <PanelBody title='Persönliche Infos' className={ 'personal-info' } icon="admin-users" >
                 <PanelRow>
                     <TextControl  value={vorname} onChange={vorname => setAttributes({ vorname })} label='Vorname' />
                     <TextControl  value={nachname} onChange={nachname => setAttributes({ nachname })} label='Nachname' />
@@ -158,20 +161,21 @@ export default (props) => {
                     <TextControl  value={telefon} onChange={telefon => setAttributes({ telefon })} label='Telefon'  />
                 </PanelRow>
             </PanelBody>
-            <PanelBody title='Teilnahmetage' className={ 'teilnahmetage' } >
+            <PanelBody title='Teilnahmetage' className={ 'teilnahmetage' } icon="tickets" >
 				{ isLoading ? <Spinner /> : (
-                    allTickets
+                    [...allTickets]
+                        .reverse()
                         .map( ( ticket ) => (
                             <CheckboxControl
                                 key={ ticket.id }
-                                label={ ticket.title.rendered }
+                                label={ HtmlEncode( ticket.title.rendered ) }
                                 checked={ teilnahmetage.includes( ticket.id ) }
                                 onChange={ (isChecked) => handleTicketChange(isChecked, ticket) }
                             />
                         ) )
                 )}
             </PanelBody>
-            <PanelBody title='Mitarbeit' className={ 'mitarbeit' } >
+            <PanelBody title='Mitarbeit' className={ 'mitarbeit' } icon="awards" >
 				{ isLoading ? <Spinner /> : (
                     [ 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag' ].map( ( tag, key ) => (
                         <CheckboxControl 
@@ -183,85 +187,122 @@ export default (props) => {
                     ) )
 				) }
             </PanelBody>
-            <PanelBody title="Workshops" className="workshops" >
+            <PanelBody title="Workshops" className="workshops" icon="clipboard" >
                 { isLoading ? <Spinner /> : (
-                    allWorkshops
+                    [...allWorkshops]
+                        .reverse()
                         .map( ( workshop ) => (
                             <CheckboxControl
                                 key={ workshop.id }
-                                label={ `${ workshop.meta.character }${ workshop.meta.nr } - ${ workshop.title.rendered }` }
+                                label={ HtmlEncode( `${ workshop.meta.character }${ workshop.meta.nr } - ${ workshop.title.rendered }` ) }
                                 checked={ workshops.includes( workshop.id ) }
                                 onChange={ isChecked => handleWorkshopChange( isChecked, workshop) }
                             />
                         ) )
                     ) }
             </PanelBody>
-			<PanelBody title="Ausflüge" className="ausfluege">
+			<PanelBody title="Ausflüge" className="ausfluege" icon="location-alt" >
                 { isLoading ? (
                     <Spinner />
                 ) : ( 
-                    allAusfluege
+                    [...allAusfluege]
+                        .reverse()
                         .map( ausflug => (
                             <CheckboxControl
                                 key={ ausflug.id }
-                                label={ `${ ausflug.meta.character }${ ausflug.meta.nr } - ${ ausflug.title.rendered }` }
+                                label={ HtmlEncode( `${ ausflug.meta.character }${ ausflug.meta.nr } - ${ ausflug.title.rendered }` ) }
                                 checked={ ausfluege.includes( ausflug.id ) }
                                 onChange={ isChecked => handleAusfluegeChange( isChecked, ausflug ) }
                             />
                         ))  		
 				) }
             </PanelBody>
-			<PanelBody title="Verpflegung" className="verplegung">
+			<PanelBody title="Verpflegung" className="verplegung" icon="carrot">
                 { isLoading ? (
                     <Spinner />
                 ) : (
-                        allEssen
+                        [...allEssen]
+                            .reverse()
                             .map( ( essen, key ) => (
                                 <CheckboxControl
                                     key={ key }
-                                    label={ `${ essen.title.rendered }` }
+                                    label={ HtmlEncode(`${ essen.title.rendered }` ) }
                                     checked={ verpflegung.includes( essen.id ) }
                                     onChange={ isChecked => handleVerpflegungChange( isChecked, essen ) }
                                 />
                             ) )
                 ) }
             </PanelBody>
-            <PanelBody title="Kinderprogramm" className="kinderprogramm">
+            <PanelBody title="Kinderprogramm" className="kinderprogramm" icon="buddicons-activity">
                 { isLoading ? (
                     <Spinner />
                 ) : (
                     <>
-                        { allKinderprogramm
+                        { [...allKinderprogramm]
+                            .reverse()
                             .map( ( programm, key ) => (
                                 <CheckboxControl
                                     key={ key }
-                                    label={ `${ programm.title.rendered }` }
+                                    label={ HtmlEncode(`${ programm.title.rendered }` ) }
                                     checked={ kinderprogramm.includes( programm.id ) }
                                     onChange={ isChecked => handleKinderprogrammChange( isChecked, programm ) }
                                 />
                             ) ) }
-                            <TextControl 
-                                label='Bemerkung'
-                                value={ kinderprogramm_bemerkung }
-                                onChange={ kinderprogramm_bemerkung => setAttributes({kinderprogramm_bemerkung}) }
-                            />
-                            <TextControl 
-                                label='Notfall Nummer'
-                                value={ kinderprogramm_notfall_nummer }
-                                onChange={ kinderprogramm_notfall_nummer => setAttributes({kinderprogramm_notfall_nummer}) }
-                            />
+                            { kinderprogramm.length ? 
+                                <>
+                                    <TextControl 
+                                        label='Bemerkung'
+                                        value={ kinderprogramm_bemerkung }
+                                        onChange={ kinderprogramm_bemerkung => setAttributes({kinderprogramm_bemerkung}) }
+                                    />
+                                    <TextControl 
+                                        label='Notfall Nummer'
+                                        value={ kinderprogramm_notfall_nummer }
+                                        onChange={ kinderprogramm_notfall_nummer => setAttributes({kinderprogramm_notfall_nummer}) }
+                                    />
+                                </>
+                            : null }
                         </>
                 ) }
             </PanelBody>
-            <PanelBody title="Sonstiges" className="sonstiges">
+            <PanelBody title="Übernachtung" className="uebernachtung" icon="store">
+                <p>Unterkünfte bitte selbständig buchen. Für Jugendliche, Studierende, Azubis und FSJler*innen steht eine Gruppenunterkunft in der Turnhalle des Gymnasium Weierhof zur Verfügung (Lageplan Nr. 7).</p>
+                <CheckboxControl 
+                    label='Übernachtung mit Frühstück'
+                    checked={ uebernachtung_and_breakfast }
+                    onChange={ () => setAttributes( { uebernachtung_and_breakfast: !uebernachtung_and_breakfast } ) }
+                />
+                { uebernachtung_and_breakfast ?
+                    <PanelRow>
+                        <SelectControl 
+                            label='Übernachtungsart'
+                            value={ uebernachtung }
+                            options={[
+                                { label: 'Turnhalle', value: 'Turnhalle' },
+                                { label: 'Eigenes Zelt', value: 'Eigenes Zelt' },
+                                { label: 'Im Zelt mit:', value: 'Im Zelt mit...' },
+                            ]}
+                            onSelect={ uebernachtung => setAttributes({uebernachtung}) }
+                        />
+                        { uebernachtung === 'Im Zelt mit...' ?
+                            <TextControl 
+                                label='Übernachtung im Zelt mit:'
+                                value={uebernachtung_zelt_mit}
+                                onChange={ uebernachtung_zelt_mit => setAttributes( { uebernachtung_zelt_mit } ) }
+                            /> : null
+                        }
+                    </PanelRow>
+                : null }
+            </PanelBody>
+            <PanelBody title="Sonstiges" className="sonstiges" icon="admin-generic">
                 <CheckboxControl 
                     label="Gedrucktes Liederheft"
-                    isChecked={ gedrucktes_liederheft }
+                    checked={ gedrucktes_liederheft }
                     onChange={ isChecked => setAttributes( { gedrucktes_liederheft: isChecked } ) }
                 />
                 <CheckboxControl 
                     label="Gedrucktes Programmheft"
-                    isChecked={ gedrucktes_programmheft }
+                    checked={ gedrucktes_programmheft }
                     onChange={ isChecked => setAttributes( { gedrucktes_programmheft: isChecked } ) }
                 />
             </PanelBody>
