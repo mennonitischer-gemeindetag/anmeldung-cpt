@@ -33,6 +33,7 @@ export default ( props ) => {
 	const invoiceId = useSelect( ( select ) =>
 		select( 'core/editor' ).getCurrentPostId()
 	);
+	const isSaving = useSelect( select => select( 'core/editor' ).isSavingPost() )
 
 	useEffect( () => {
 		Promise.all( [
@@ -56,6 +57,12 @@ export default ( props ) => {
 			)
 			.catch( ( error ) => console.error( error ) );
 	}, [] );
+
+	useEffect( () => {
+		if (isSaving) {
+			setAttributes( { isEditing: false } );
+		}
+	}, [isSaving] )
 
 	const handleSendInvoice = () => {
 		setIsSendingInvoiceEmail(true);
