@@ -47,7 +47,7 @@ function custom_post_type_anmeldung() {
 		'exclude_from_search' => true,
 		'publicly_queryable'  => false,
 		'template'            => [
-			[ 'gemeindetag/anmeldung', [] ],
+			[ 'gemeindetag/anmeldung', [ 'isEditing' => true ] ],
 		],
 		'template_lock'       => 'all', // or 'insert' to allow moving
 		'capability_type'     => 'post',
@@ -147,11 +147,14 @@ function modify_columns( $columns ) {
 
 	// New columns to add to table
 	$new_columns = [
-		'status'       => 'Status',
-		'name'         => 'Name',
-		'invoice_id'   => 'Rechnungs Nummer',
-		'betrag'       => 'Betrag',
-		'anmeldedatum' => 'Datum',
+		'status'                       => 'Status',
+		'name'                         => 'Name',
+		'invoice_id'                   => 'Rechnungs Nummer',
+		'betrag'                       => 'Betrag',
+		'anmeldedatum'                 => 'Datum',
+		'alter'                        => 'Alter',
+		'rechnung_versand'             => 'Rechnung Versand',
+		'zahlungsbestaetigung_versand' => 'Bestätigung Versand',
 	];
 
 	// Remove unwanted publish date column
@@ -212,6 +215,25 @@ function custom_column_content( $column ) {
 		case 'anmeldedatum':
 			echo esc_attr( get_the_date() );
 			break;
+
+		case 'alter':
+			$geb_date = get_post_meta( $post->ID, 'geb_datum', true );
+			echo esc_attr( get_age( $geb_date ) );
+			break;
+
+		case 'rechnung_versand':
+			$rechnung_versand = get_post_meta( $post->ID, 'rechnung_versand', true );
+			$bool             = filter_var( $rechnung_versand, FILTER_VALIDATE_BOOLEAN );
+			$checked          = $bool ? 'checked' : '';
+			echo sprintf( '<input type="checkbox" %s disabled></input>', esc_attr( $checked ) );
+			break;
+
+		case 'zahlungsbestaetigung_versand':
+			$zahlungsbestaetigung_versand = get_post_meta( $post->ID, 'zahlungsbestaetigung_versand', true );
+			$bool                         = filter_var( $zahlungsbestaetigung_versand, FILTER_VALIDATE_BOOLEAN );
+			$checked                      = $bool ? 'checked' : '';
+			echo sprintf( '<input type="checkbox" %s disabled></input>', esc_attr( $checked ) );
+			break;
 	}
 }
 
@@ -233,9 +255,29 @@ function custom_columns_sortable( $columns ) {
 		$columns['name']         = 'name';
 		$columns['invoice_id']   = 'invoice_id';
 		$columns['anmeldedatum'] = 'anmeldedatum';
+		$columns['alter']        = 'alter';
 
 		return $columns;
 }
 
 // Let WordPress know to use our filter
 add_filter( 'manage_edit-anmeldung_sortable_columns', __NAMESPACE__ . '\custom_columns_sortable' );
+
+/**
+ * function to order the columns by
+ *
+ * @param WP_Query $query wp query
+ */
+function orderby_colums( $query ) {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$orderby = $query->get( 'orderby' );
+
+	if ( 'alter' === $orderby ) {
+		$query->set( 'meta_key', 'geb_datum' );
+		$query->set( 'orderby', 'meta_value_num' );
+	}
+}
+add_action( 'pre_get_posts', __NAMESPACE__ . '\orderby_colums' );
