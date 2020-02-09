@@ -60,6 +60,8 @@ function handle_signup_request( $request ) {
 			'gedrucktes_programmheft'              => $request['gedrucktes_programmheft'] ? true : false,
 			'status'                               => 'wartet auf zahlung',
 			'daten_fuer_mitfahrgelegenheit_teilen' => $request['daten_fuer_mitfahrgelegenheit_teilen'] ? true : false,
+			'rechnung_versand'                     => false,
+			'zahlungsbestaetigung_versand'         => false,
 		],
 	];
 	$post_id = wp_insert_post( $post );
