@@ -4,7 +4,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { InspectorControls, BlockControls } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import ShowAnmeldung from './components/showAnmeldung';
-import EditAnmeldung from './components/editAnmelding';
+import EditAnmeldung from './components/editAnmeldung';
 
 import { Status } from '../../widgets/helper';
 
