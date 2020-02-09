@@ -1,4 +1,4 @@
-import { Spinner, TextControl, PanelBody, PanelRow, SelectControl, CheckboxControl } from '@wordpress/components';
+import { Spinner, TextControl, PanelBody, PanelRow, SelectControl, CheckboxControl, IconButton} from '@wordpress/components';
 
 export default (props) => {
 
@@ -55,13 +55,80 @@ export default (props) => {
         }
         
         setAttributes( { teilnahmetage: newTeilnahmetage } );
-        
-        console.log({teilnahmetage, isChecked})
     };
+
+    const handleMitarbeitChange = ( isChecked, tag ) => {
+        let newMitarbeit = mitarbeit || [];
+
+        if ( !isChecked && mitarbeit.includes(tag) ) {
+            newMitarbeit = mitarbeit.filter( day => day != tag );
+        }
+        if ( isChecked && !mitarbeit.includes(tag) ) {
+            newMitarbeit = [ ...mitarbeit, tag];
+        }
+
+        setAttributes({mitarbeit: newMitarbeit});
+    }
+
+    const handleWorkshopChange = ( isChecked, workshop ) => {
+        let newWorkshops = workshops || [];
+                
+        if ( !isChecked && workshops.includes( workshop.id ) ) {
+            newWorkshops = workshops.filter( id => id != workshop.id );
+        }
+        if ( isChecked && !workshops.includes(workshop.id) ) {
+            newWorkshops = [ ...workshops, workshop.id];
+        }
+
+        setAttributes({workshops: newWorkshops});
+    }
+
+    const handleAusfluegeChange = ( isChecked, ausflug ) => {
+        let newAusfluege = ausfluege || [];
+                
+        if ( !isChecked && ausfluege.includes(ausflug.id) ) {
+            newAusfluege = ausfluege.filter( id => id != ausflug.id );
+        }
+        if ( isChecked && !ausfluege.includes(ausflug.id) ) {
+            newAusfluege = [ ...ausfluege, ausflug.id];
+        }
+
+        setAttributes({ausfluege: newAusfluege});
+    }
+
+    const handleVerpflegungChange = ( isChecked, essen ) => {
+
+        let newEssen = verpflegung || [];
+                
+        if ( !isChecked && verpflegung.includes(essen.id) ) {
+            newEssen = verpflegung.filter( id => id != essen.id );
+        }
+        if ( isChecked && !verpflegung.includes(essen.id) ) {
+            newEssen = [ ...verpflegung, essen.id];
+        }
+
+        setAttributes({verpflegung: newEssen});
+    }
+
+    const handleKinderprogrammChange = ( isChecked, programm ) => {
+
+        let newKinderprogramm = kinderprogramm || [];
+                
+        if ( !isChecked && kinderprogramm.includes(programm.id) ) {
+            newKinderprogramm = kinderprogramm.filter( id => id != programm.id );
+        }
+        if ( isChecked && !kinderprogramm.includes(programm.id) ) {
+            newKinderprogramm = [ ...kinderprogramm, programm.id];
+        }
+
+        setAttributes({kinderprogramm: newKinderprogramm});
+    }
+
+
 
     return (
         <div className={ 'edit-anmeldung' }>
-            <PanelBody className={ 'personal-info' } title='Persönliche Infos'>
+            <PanelBody title='Persönliche Infos' className={ 'personal-info' } >
                 <PanelRow>
                     <TextControl  value={vorname} onChange={vorname => setAttributes({ vorname })} label='Vorname' />
                     <TextControl  value={nachname} onChange={nachname => setAttributes({ nachname })} label='Nachname' />
@@ -75,7 +142,8 @@ export default (props) => {
                 </PanelRow>
                 <PanelRow>
                     <SelectControl 
-                        label='Geschlecht' 
+                        label='Geschlecht'
+                        value={ geschlecht }
                         options={ [ 
                             {  label: 'Männlich', value:'männlich' }, 
                             {  label: 'Weiblich', value:'weiblich' }, 
@@ -90,7 +158,7 @@ export default (props) => {
                     <TextControl  value={telefon} onChange={telefon => setAttributes({ telefon })} label='Telefon'  />
                 </PanelRow>
             </PanelBody>
-            <PanelBody className={ 'teilnahmetage' } title='Teilnahmetage' >
+            <PanelBody title='Teilnahmetage' className={ 'teilnahmetage' } >
 				{ isLoading ? <Spinner /> : (
                     allTickets
                         .map( ( ticket ) => (
@@ -103,119 +171,108 @@ export default (props) => {
                         ) )
                 )}
             </PanelBody>
-							
-				{ !! mitarbeit && !! mitarbeit.length && (
-					<div className={ 'mitarbeit' }>
-						<h2>Mitarbeit</h2>
-						<ul>
-							{ mitarbeit.map( ( tag ) => (
-								<li key={ tag.id }>{ tag }</li>
-							) ) }
-						</ul>
-					</div>
+            <PanelBody title='Mitarbeit' className={ 'mitarbeit' } >
+				{ isLoading ? <Spinner /> : (
+                    [ 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag' ].map( ( tag, key ) => (
+                        <CheckboxControl 
+                            key={ key } 
+                            label={ tag } 
+                            checked={ mitarbeit.includes( tag ) } 
+                            onChange={ isChecked => handleMitarbeitChange( isChecked, tag ) } 
+                        />
+                    ) )
 				) }
-				{ !! workshops && !! workshops.length && (
-					<div className={ 'workshops' }>
-						<h2>Workshops</h2>
-						{ isLoading ? (
-							<Spinner />
-						) : (
-							<ul>
-								{ allWorkshops
-									.filter( ( workshop ) => workshops.includes( workshop.id ) )
-									.reverse()
-									.map( ( workshop ) => (
-										<li
-											key={ workshop.id }
-											dangerouslySetInnerHTML={ {
-												__html: `${ workshop.meta.character }${ workshop.meta.nr } - ${ workshop.title.rendered }`,
-											} }
-										/>
-									) ) }
-							</ul>
-						) }
-					</div>
+            </PanelBody>
+            <PanelBody title="Workshops" className="workshops" >
+                { isLoading ? <Spinner /> : (
+                    allWorkshops
+                        .map( ( workshop ) => (
+                            <CheckboxControl
+                                key={ workshop.id }
+                                label={ `${ workshop.meta.character }${ workshop.meta.nr } - ${ workshop.title.rendered }` }
+                                checked={ workshops.includes( workshop.id ) }
+                                onChange={ isChecked => handleWorkshopChange( isChecked, workshop) }
+                            />
+                        ) )
+                    ) }
+            </PanelBody>
+			<PanelBody title="Ausflüge" className="ausfluege">
+                { isLoading ? (
+                    <Spinner />
+                ) : ( 
+                    allAusfluege
+                        .map( ausflug => (
+                            <CheckboxControl
+                                key={ ausflug.id }
+                                label={ `${ ausflug.meta.character }${ ausflug.meta.nr } - ${ ausflug.title.rendered }` }
+                                checked={ ausfluege.includes( ausflug.id ) }
+                                onChange={ isChecked => handleAusfluegeChange( isChecked, ausflug ) }
+                            />
+                        ))  		
 				) }
-				{ !! ausfluege && !! ausfluege.length && (
-					<div className={ 'ausfluege' }>
-						<h2>Ausflüge</h2>
-						{ isLoading ? (
-							<Spinner />
-						) : (
-							<ul>
-								{ allAusfluege
-									.filter( ( ausflug ) => ausfluege.includes( ausflug.id ) )
-									.reverse()
-									.map( ( ausflug ) => (
-										<li
-											key={ ausflug.id }
-											dangerouslySetInnerHTML={ {
-												__html: `${ ausflug.meta.character }${ ausflug.meta.nr } - ${ ausflug.title.rendered }`,
-											} }
-										/>
-									) ) }
-							</ul>
-						) }
-					</div>
-				) }
-				{ !! verpflegung && !! verpflegung.length && (
-					<div className={ 'verpflegung' }>
-						<h2>Verpflegung</h2>
-						{ isLoading ? (
-							<Spinner />
-						) : (
-							<ul>
-								{ allEssen
-									.filter( ( essem ) => verpflegung.includes( essem.id ) )
-									.reverse()
-									.map( ( essem ) => (
-										<li
-											dangerouslySetInnerHTML={ {
-												__html: `${ essem.title.rendered }`,
-											} }
-										/>
-									) ) }
-							</ul>
-						) }
-					</div>
-				) }
-
-				{ !! kinderprogramm && !! kinderprogramm.length && (
-					<div className={ 'kinderprogramm' }>
-						<h2>Kinderprogramm</h2>
-						{ isLoading ? (
-							<Spinner />
-						) : (
-							<>
-								<ul>
-									{ allKinderprogramm
-										.filter( ( programm ) => kinderprogramm.includes( programm.id ) )
-										.reverse()
-										.map( ( programm ) => (
-											<li
-												dangerouslySetInnerHTML={ {
-													__html: `${ programm.title.rendered }`,
-												} }
-											/>
-										) ) }
-								</ul>
-								{ !! kinderprogramm_bemerkung && (
-									<>
-										<h3>Bemerkung:</h3>
-										<p>{ kinderprogramm_bemerkung }</p>
-									</>
-								) }
-								{ !! kinderprogramm_notfall_nummer && (
-									<>
-										<h3>Notfall Nummer:</h3>
-										<p>{ kinderprogramm_notfall_nummer }</p>
-									</>
-								) }
-							</>
-						) }
-					</div>
-				) }
-			</div>
+            </PanelBody>
+			<PanelBody title="Verpflegung" className="verplegung">
+                { isLoading ? (
+                    <Spinner />
+                ) : (
+                        allEssen
+                            .map( ( essen, key ) => (
+                                <CheckboxControl
+                                    key={ key }
+                                    label={ `${ essen.title.rendered }` }
+                                    checked={ verpflegung.includes( essen.id ) }
+                                    onChange={ isChecked => handleVerpflegungChange( isChecked, essen ) }
+                                />
+                            ) )
+                ) }
+            </PanelBody>
+            <PanelBody title="Kinderprogramm" className="kinderprogramm">
+                { isLoading ? (
+                    <Spinner />
+                ) : (
+                    <>
+                        { allKinderprogramm
+                            .map( ( programm, key ) => (
+                                <CheckboxControl
+                                    key={ key }
+                                    label={ `${ programm.title.rendered }` }
+                                    checked={ kinderprogramm.includes( programm.id ) }
+                                    onChange={ isChecked => handleKinderprogrammChange( isChecked, programm ) }
+                                />
+                            ) ) }
+                            <TextControl 
+                                label='Bemerkung'
+                                value={ kinderprogramm_bemerkung }
+                                onChange={ kinderprogramm_bemerkung => setAttributes({kinderprogramm_bemerkung}) }
+                            />
+                            <TextControl 
+                                label='Notfall Nummer'
+                                value={ kinderprogramm_notfall_nummer }
+                                onChange={ kinderprogramm_notfall_nummer => setAttributes({kinderprogramm_notfall_nummer}) }
+                            />
+                        </>
+                ) }
+            </PanelBody>
+            <PanelBody title="Sonstiges" className="sonstiges">
+                <CheckboxControl 
+                    label="Gedrucktes Liederheft"
+                    isChecked={ gedrucktes_liederheft }
+                    onChange={ isChecked => setAttributes( { gedrucktes_liederheft: isChecked } ) }
+                />
+                <CheckboxControl 
+                    label="Gedrucktes Programmheft"
+                    isChecked={ gedrucktes_programmheft }
+                    onChange={ isChecked => setAttributes( { gedrucktes_programmheft: isChecked } ) }
+                />
+            </PanelBody>
+            <IconButton 
+                isPrimary 
+                icon="yes"
+                onClick={ () => setAttributes( { isEditing: false } ) } 
+            >
+                Zur Übersicht
+            </IconButton>
+        </div>
     )
 
 }
