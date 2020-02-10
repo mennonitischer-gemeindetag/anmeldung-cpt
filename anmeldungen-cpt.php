@@ -34,7 +34,7 @@ function custom_post_type_anmeldung() {
 		'labels'              => $labels,
 		'description'         => __( 'Anmeldungen', 'gemeindetag' ),
 		'menu_icon'           => 'dashicons-money',
-		'supports'            => [ 'title', 'editor', 'meta', 'custom-fields' ],
+		'supports'            => [ 'title', 'editor', 'meta', 'custom-fields', 'revisions' ],
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
@@ -301,18 +301,18 @@ add_action( 'pre_get_posts', __NAMESPACE__ . '\orderby_colums' );
  * Bulk Actions
  */
 
-add_filter( 'bulk_actions-edit-anmeldung', __NAMESPACE__ . '\register_set_status_payed_action' );
+add_filter( 'bulk_actions-edit-anmeldung', __NAMESPACE__ . '\register_anmeldung_actions' );
 /**
  * register set status payed bulk action
  *
  * @param {} $bulk_actions bulk actions
  */
-function register_set_status_payed_action( $bulk_actions ) {
+function register_anmeldung_actions( $bulk_actions ) {
 	$bulk_actions['set_status_payed'] = 'Status auf Bezahlt setzen';
 	return $bulk_actions;
 }
 
-add_filter( 'handle_bulk_actions-edit-anmeldung', __NAMESPACE__ . '\set_status_payed_action_handler', 10, 3 );
+add_filter( 'handle_bulk_actions-edit-anmeldung', __NAMESPACE__ . '\anmeldung_actions_handler', 10, 3 );
 /**
  * handler for set status to payed
  *
@@ -320,39 +320,42 @@ add_filter( 'handle_bulk_actions-edit-anmeldung', __NAMESPACE__ . '\set_status_p
  * @param {} $doaction handle of action to execute
  * @param {} $post_ids array of post id's that the handler is called on
  */
-function set_status_payed_action_handler( $redirect_to, $doaction, $post_ids ) {
-	if ( 'set_status_payed' !== $doaction ) {
+function anmeldung_actions_handler( $redirect_to, $doaction, $post_ids ) {
+	if ( 'set_status_payed' === $doaction ) {
+		foreach ( $post_ids as $post_id ) {
+			// Perform action for each post.
+			update_post_meta(
+				$post_id,
+				'status',
+				'bezahlt',
+				'wartet auf zahlung'
+			);
+		}
+		$redirect_to = add_query_arg( 'bulk_set_status_to_payed_posts', count( $post_ids ), $redirect_to );
 		return $redirect_to;
 	}
-	foreach ( $post_ids as $post_id ) {
-		// Perform action for each post.
-		update_post_meta(
-			$post_id,
-			'status',
-			'bezahlt',
-			'wartet auf zahlung'
-		);
-	}
-	$redirect_to = add_query_arg( 'bulk_set_status_to_payed_posts', count( $post_ids ), $redirect_to );
-	return $redirect_to;
 }
 
 
-add_action( 'admin_notices', __NAMESPACE__ . '\set_status_payed_action_admin_notice' );
+add_action( 'admin_notices', __NAMESPACE__ . '\anmeldung_actions_admin_notice' );
 /**
  * show notice upon completing the bulk action
  */
-function set_status_payed_action_admin_notice() {
+function anmeldung_actions_admin_notice() {
 	if ( ! empty( $_REQUEST['bulk_set_status_to_payed_posts'] ) ) {
 		$updated_posts_count = intval( $_REQUEST['bulk_set_status_to_payed_posts'] );
 		printf(
-			'<div id="message" class="updated fade">' .
-			_n(
-				'Status von %s Anmeldung in Bezahlt geändert.',
-				'Status von %s Anmeldungen in Bezahlt geändert.',
-				$updated_posts_count
-			) . '</div>',
-			esc_attr( $updated_posts_count )
+			'<div class="notice notice-success is-dismissible"><p>' .
+				_n(
+					'Status von %s Anmeldung in Bezahlt geändert.',
+					'Status von %s Anmeldungen in Bezahlt geändert.',
+					$updated_posts_count
+				) . '</p>
+				<button type="button" class="notice-dismiss">
+					<span class="screen-reader-text">Dismiss this notice.</span>
+				</button>
+			</div>',
+			1 === $updated_posts_count ? 'einer' : esc_attr( $updated_posts_count )
 		);
 	}
-}
+};
