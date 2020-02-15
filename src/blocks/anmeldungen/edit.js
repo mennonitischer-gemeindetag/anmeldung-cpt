@@ -45,16 +45,18 @@ return (
 				<tr>
 					<th className={ 'column-title' }>Name</th>
 					<th className={ 'column-title' }>Geb. Datum</th>
+					<th className={ 'column-title' }>Status</th>
 				</tr>
 			</thead>
 			<tbody id="the-list">
 			{ anmeldungen
 				.map( anmeldung => { 
-				const { meta: { vorname, nachname, geb_datum }, id } = anmeldung;
+				const { meta: { vorname, nachname, geb_datum, status }, id } = anmeldung;
 				return (
 				<tr>
 					<td><a href={ `http://gemeindetag.test/wp-admin/post.php?post=${id}&action=edit` } target="_blank">{ `${ vorname } ${ nachname }` }</a></td>
 					<td>{ geb_datum }</td>
+					<td>{ status }</td>
 				</tr>
 				) 
 			} ) }
