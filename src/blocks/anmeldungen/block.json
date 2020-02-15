@@ -1,0 +1,6 @@
+{
+	"title": "Anmeldungen",
+	"icon": "tickets",
+	"description": "Zeigt eine liste aller Anmeldungen für den aktuellen Ausflug / Workshop",
+	"category": "common"
+}
