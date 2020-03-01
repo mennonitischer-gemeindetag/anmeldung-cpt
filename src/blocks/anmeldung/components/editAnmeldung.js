@@ -197,6 +197,7 @@ export default (props) => {
                                 label={ HtmlEncode( `${ workshop.meta.character }${ workshop.meta.nr } - ${ workshop.title.rendered }` ) }
                                 checked={ workshops.includes( workshop.id ) }
                                 onChange={ isChecked => handleWorkshopChange( isChecked, workshop) }
+                                disabled={ workshop.meta.registrationClosed }
                             />
                         ) )
                     ) }
@@ -212,7 +213,7 @@ export default (props) => {
                                 key={ ausflug.id }
                                 label={ HtmlEncode( `${ ausflug.meta.character }${ ausflug.meta.nr } - ${ ausflug.title.rendered }` ) }
                                 checked={ ausfluege.includes( ausflug.id ) }
-                                onChange={ isChecked => handleAusfluegeChange( isChecked, ausflug ) }
+                                onChange={ isChecked => handleAusfluegeChange( isChecked, ausflug ) }disabled={ ausflug.meta.registrationClosed }
                             />
                         ))  		
 				) }

@@ -29,7 +29,7 @@
 .gemeindetag-stats-widget .nr {
   display: inline-block;
   padding: 3px 5px;
-  background-color: var(--accent-color);
+  background-color: var(--c-accent);
   color: white;
   border-radius: 6px;
   min-width: 20px;
@@ -38,20 +38,20 @@
 }
 
 .gemeindetag-stats-widget {
-  --accent-color: #97b226;
+  --c-accent: #97b226;
 }
 .gemeindetag-stats-widget .workshops {
-  --accent-color: #3c964e;
+  --c-accent: #3c964e;
 }
 .gemeindetag-stats-widget .ausfluege {
-  --accent-color: #3c964e;
+  --c-accent: #3c964e;
 }
 
 #total-earnings-widget {
-  --accent-color: #3c964e;
+  --c-accent: #3c964e;
 }
 
 .gemeindetag-stats-widget .price {
   font-size: 2em !important;
-  color: var(--accent-color) !important;
+  color: var(--c-accent) !important;
 }

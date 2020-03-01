@@ -69,10 +69,10 @@ export default (props) => {
             Email: <a href={ `mailto:${ email }` }>{ email }</a>
 					</p>
 				</div>
-				{ !! teilnahmetage && !! teilnahmetage.length && (
+				{ !! teilnahmetage && !! teilnahmetage.length ? (
 					<div className={ 'teilnahmetage' }>
 						<h2>Teilnahmetage</h2>
-						{ isLoading ? (
+						{ ! Array.isArray( allTickets ) ? (
 							<Spinner />
 						) : (
 							<ul>
@@ -90,8 +90,8 @@ export default (props) => {
 							</ul>
 						) }
 					</div>
-				) }
-				{ !! mitarbeit && !! mitarbeit.length && (
+				): null }
+				{  ! Array.isArray( mitarbeit ) && mitarbeit.length ? (
 					<div className={ 'mitarbeit' }>
 						<h2>Mitarbeit</h2>
 						<ul>
@@ -100,11 +100,11 @@ export default (props) => {
 							) ) }
 						</ul>
 					</div>
-				) }
-				{ !! workshops && !! workshops.length && (
+				) : null }
+				{  Array.isArray( workshops ) && workshops.length ? (
 					<div className={ 'workshops' }>
 						<h2>Workshops</h2>
-						{ isLoading ? (
+						{  ! Array.isArray( allWorkshops ) ? (
 							<Spinner />
 						) : (
 							<ul>
@@ -122,11 +122,11 @@ export default (props) => {
 							</ul>
 						) }
 					</div>
-				) }
-				{ !! ausfluege && !! ausfluege.length && (
+				): null }
+				{  Array.isArray( ausfluege ) && ausfluege.length ? (
 					<div className={ 'ausfluege' }>
 						<h2>Ausflüge</h2>
-						{ isLoading ? (
+						{ ! Array.isArray( allAusfluege ) ? (
 							<Spinner />
 						) : (
 							<ul>
@@ -144,11 +144,11 @@ export default (props) => {
 							</ul>
 						) }
 					</div>
-				) }
-				{ !! verpflegung && !! verpflegung.length && (
+				):null }
+				{ Array.isArray( verpflegung ) && verpflegung.length ? (
 					<div className={ 'verpflegung' }>
 						<h2>Verpflegung</h2>
-						{ isLoading ? (
+						{ ! Array.isArray( allEssen ) ? (
 							<Spinner />
 						) : (
 							<ul>
@@ -165,12 +165,12 @@ export default (props) => {
 							</ul>
 						) }
 					</div>
-				) }
+				) : null }
 
-				{ !! kinderprogramm && !! kinderprogramm.length && (
+				{  Array.isArray( kinderprogramm ) && kinderprogramm.length ? (
 					<div className={ 'kinderprogramm' }>
 						<h2>Kinderprogramm</h2>
-						{ isLoading ? (
+						{ ! Array.isArray( allKinderprogramm ) ? (
 							<Spinner />
 						) : (
 							<>
@@ -201,7 +201,7 @@ export default (props) => {
 							</>
 						) }
 					</div>
-				) }
+				): null }
 				{ isLoading ? (
 					<Spinner />
 				) : (

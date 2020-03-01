@@ -4,15 +4,17 @@ import { formatPrice } from '../helper/format-price';
 
 const Card = ( props ) => {
 	const {
-		meta: { nr, startZeit, endZeit, leiter, preis, character },
+		meta: { nr, startZeit, endZeit, leiter, preis, character, registrationClosed },
 		fieldGroup,
 		id,
 		title,
 		description,
 	} = props;
 
+	const isDisabled = registrationClosed ? `is-disabled` : ``;
+
 	return (
-		<div className={ `${ fieldGroup } card` }>
+		<div className={ `${ fieldGroup } card ${ isDisabled }` }>
 			<label htmlFor={ id }>
 				<div className={ 'element-header' }>
 					<span className={ 'numerierung' }>{ `${ character }${ nr }` }</span>
@@ -42,6 +44,7 @@ const Card = ( props ) => {
 					type="checkbox"
 					id={ id }
 					value={ id }
+					disabled={ registrationClosed }
 				/>
 			</label>
 		</div>

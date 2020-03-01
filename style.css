@@ -43,7 +43,7 @@
   }
 }
 .wp-block-gemeindetag-anmeldeformular .page-heading {
-  color: var(--accent-color);
+  color: var(--c-accent);
   font-size: 2em;
   margin-top: 0;
   text-align: center;
@@ -51,7 +51,7 @@
 }
 .wp-block-gemeindetag-anmeldeformular .section-heading {
   font-size: 1.75em;
-  color: var(--accent-color);
+  color: var(--c-accent);
 }
 
 .wp-block-gemeindetag-anmeldeformular section {
@@ -77,10 +77,10 @@
 .wp-block-gemeindetag-anmeldeformular input[type="submit"],
 .wp-block-gemeindetag-anmeldeformular button,
 .wp-block-gemeindetag-anmeldeformular .button {
-  background-color: var(--accent-color);
+  background-color: var(--c-accent);
   padding: 15px 35px;
   border-radius: 8px;
-  border: 1px solid var(--accent-color);
+  border: 1px solid var(--c-accent);
   color: white;
   font-size: 1.2em;
   font-weight: bold;
@@ -93,8 +93,8 @@
 .wp-block-gemeindetag-anmeldeformular button .outline,
 .wp-block-gemeindetag-anmeldeformular .button .outline {
   background-color: white;
-  border: 1px solid var(--accent-color);
-  color: var(--accent-color);
+  border: 1px solid var(--c-accent);
+  color: var(--c-accent);
 }
 
 .wp-block-gemeindetag-anmeldeformular input[type="submit"]:hover,
@@ -127,6 +127,7 @@
 
 .wp-block-gemeindetag-anmeldeformular .workshops.card,
 .wp-block-gemeindetag-anmeldeformular .ausfluege.card {
+  position: relative;
   align-self: stretch;
 }
 
@@ -144,19 +145,19 @@
 }
 
 .wp-block-gemeindetag-anmeldeformular .workshops.card label .element-heading {
-  color: var(--workshops);
+  color: var(--c-workshops);
 }
 
 .wp-block-gemeindetag-anmeldeformular .ausfluege.card label .element-heading {
-  color: var(--ausfluege);
+  color: var(--c-ausfluege);
 }
 
 .wp-block-gemeindetag-anmeldeformular .workshops.card input:checked + label {
-  border-color: var(--workshops);
+  border-color: var(--c-workshops);
 }
 
 .wp-block-gemeindetag-anmeldeformular .ausfluege.card input:checked + label {
-  border-color: var(--ausfluege);
+  border-color: var(--c-ausfluege);
 }
 
 .wp-block-gemeindetag-anmeldeformular .workshops.card .numerierung,
@@ -164,12 +165,12 @@
   position: absolute;
   top: 15px;
   right: 15px;
-  color: var(--workshops);
+  color: var(--c-workshops);
   size: 2em;
 }
 
 .wp-block-gemeindetag-anmeldeformular .ausfluege.card .numerierung {
-  color: var(--ausfluege);
+  color: var(--c-ausfluege);
 }
 
 .wp-block-gemeindetag-anmeldeformular .card .bechreibung {
@@ -183,6 +184,23 @@
   position: absolute;
   right: 15px;
   bottom: 15px;
+}
+
+.wp-block-gemeindetag-anmeldeformular .is-disabled::before {
+  content: "Ausgebucht!";
+  position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	font-size: 2em;
+	color: var(--c-warnung);
+	z-index: 1;
+	font-weight: 800;
+
+}
+
+.wp-block-gemeindetag-anmeldeformular .is-disabled label {
+  opacity: 0.3;
 }
 
 .wp-block-gemeindetag-anmeldeformular .workshop-list,
@@ -229,6 +247,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 @media (min-width: 600px) {
@@ -238,13 +257,12 @@
 }
 
 .wp-block-gemeindetag-callout h2 {
-  margin-top: 0;
   margin-right: 2em;
   line-height: 1;
+  font-size: 2em;
 }
 
 .wp-block-gemeindetag-callout a {
   width: 300px;
   text-align: center;
-  line-height: 1.3;
 }

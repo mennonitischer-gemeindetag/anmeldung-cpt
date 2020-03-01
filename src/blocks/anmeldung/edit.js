@@ -24,39 +24,27 @@ export default ( props ) => {
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ isSendingInvoiceEmail, setIsSendingInvoiceEmail ] = useState( false );
 	const [ isSendingPaymentEmail, setIsSendingPaymentEmail ] = useState( false );
-	const [ allWorkshops, setWorkshops ] = useState( [] );
-	const [ allAusfluege, setAusfluege ] = useState( [] );
-	const [ allEssen, setEssen ] = useState( [] );
-	const [ allTickets, setTickets ] = useState( [ true ] );
-	const [ allKinderprogramm, setKinderprogramm ] = useState( [ true ] );
 	const [ invoice, setInvoice ] = useState( null );
-	const invoiceId = useSelect( ( select ) =>
-		select( 'core/editor' ).getCurrentPostId()
-	);
-	const isSaving = useSelect( select => select( 'core/editor' ).isSavingPost() )
+	
+	const invoiceId = useSelect( select => select( 'core/editor' ).getCurrentPostId() );
+	const isSaving = useSelect( select => select( 'core/editor' ).isSavingPost() );
+
+	const query = { per_page: -1 };
+	
+	const allAusfluege = useSelect( ( select ) => select( 'core' ).getEntityRecords( 'postType', 'ausfluege', query ) );
+	const allWorkshops = useSelect( ( select ) => select( 'core' ).getEntityRecords( 'postType', 'workshops', query ) );
+	const allEssen = useSelect( ( select ) => select( 'core' ).getEntityRecords( 'postType', 'essen', query ) );
+	const allTickets = useSelect( ( select ) => select( 'core' ).getEntityRecords( 'postType', 'tickets', query ) );
+	const allKinderprogramm = useSelect( ( select ) => select( 'core' ).getEntityRecords( 'postType', 'kinderprogramm', query ) );
 
 	useEffect( () => {
-		Promise.all( [
-			apiFetch( { path: 'wp/v2/workshops?per_page=100' } ),
-			apiFetch( { path: 'wp/v2/ausfluege?per_page=100' } ),
-			apiFetch( { path: 'wp/v2/essen?per_page=100' } ),
-			apiFetch( { path: 'wp/v2/tickets?per_page=100' } ),
-			apiFetch( { path: '/wp/v2/kinderprogramm?per_page=100' } ),
-			apiFetch( { path: `/gemeindetag/v1/invoice/${ invoiceId }` } ),
-		] )
-			.then(
-				( [ workshops, ausfleuege, essen, tickets, kinderprogramm, invoice ] ) => {
-					setWorkshops( workshops );
-					setAusfluege( ausfleuege );
-					setEssen( essen );
-					setTickets( tickets );
-					setKinderprogramm( kinderprogramm );
-					setInvoice( invoice );
-					setIsLoading( false );
-				}
-			)
-			.catch( ( error ) => console.error( error ) );
-	}, [] );
+		apiFetch( { path: `/gemeindetag/v1/invoice/${ invoiceId }` } )
+			.then( invoice => {
+				setInvoice( invoice );
+				setIsLoading( false );
+			})
+			.catch( error => console.error( error ) );
+	}, [invoiceId] );
 
 	useEffect( () => {
 		if (isSaving) {
@@ -92,7 +80,11 @@ export default ( props ) => {
 		<>
 			<BlockControls>
 				<Toolbar>
-					<ToolbarButton icon={ 'edit' } onClick={ toggleEditMode } isActive={isEditing} />
+					<ToolbarButton 
+						icon={ 'edit' }
+						onClick={ toggleEditMode }
+						isActive={ isEditing }
+					/>
 				</Toolbar>
 			</BlockControls>
 			<InspectorControls>
@@ -117,8 +109,8 @@ export default ( props ) => {
 						/>
 					<p><Button 
 						isPrimary
-						isBusy={isSendingInvoiceEmail} 
-						onClick={handleSendInvoice}
+						isBusy={ isSendingInvoiceEmail } 
+						onClick={ handleSendInvoice }
 						>
 						{ rechnung_versand ? 'Rechnung erneut versenden' : 'Rechnung versenden' }
 					</Button></p>
@@ -130,8 +122,8 @@ export default ( props ) => {
 						/>
 					<p><Button 
 						isPrimary
-						isBusy={isSendingPaymentEmail} 
-						onClick={handleSendPaymentConfirmation}
+						isBusy={ isSendingPaymentEmail } 
+						onClick={ handleSendPaymentConfirmation }
 						>
 						{ 
 						zahlungsbestaetigung_versand ? 
