@@ -216,7 +216,7 @@
 }
 
 .wp-block-gemeindetag-anmeldeformular .table-heading {
-  background-color: var(--allgemein);
+  background-color: var(--c-allgemein);
   color: white;
 }
 .wp-block-gemeindetag-anmeldeformular .table-row {
