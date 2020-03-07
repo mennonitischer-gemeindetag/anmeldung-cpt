@@ -80,3 +80,82 @@ register_post_meta( 'kinderprogramm', 'tageszeit', $string );
 
 
 
+
+/**
+ * A filter to add custom columns and remove built-in
+ * columns from the edit.php screen.
+ *
+ * @access public
+ * @param Array $columns The existing columns
+ * @return Array $filtered_columns The filtered columns
+ */
+function kinderprogramm_modify_columns( $columns ) {
+
+	// New columns to add to table
+	$new_columns = [
+		'anmeldungen' => 'Anmeldungen',
+	];
+
+	// Remove unwanted publish date column
+	unset( $columns['date'] );
+
+	// rename columns
+	$columns['title'] = 'Kinderprogramm';
+
+	// Combine existing columns with new columns
+	$filtered_columns = array_merge( $columns, $new_columns );
+
+	// Return our filtered array of columns
+	return $filtered_columns;
+}
+
+// Let WordPress know to use our filter
+add_filter( 'manage_kinderprogramm_posts_columns', __NAMESPACE__ . '\kinderprogramm_modify_columns' );
+
+
+/**
+ * Render custom column content within edit.php
+ * table on kinderprogramm post types.
+ *
+ * @access public
+ * @param String $column The name of the column being acted upon
+ * @return void
+ */
+function kinderprogramm_custom_column_content( $column ) {
+
+	// Get the post object for this row so we can output relevant data
+	global $post;
+
+	// Check to see if $column matches our custom column names
+	switch ( $column ) {
+
+		case 'anmeldungen':
+			$post_id = $post->ID;
+			$query   = new \WP_Query(
+				[
+					'post_type'      => 'anmeldung',
+					'posts_per_page' => -1,
+					'meta_query'     => [
+						'relation' => 'AND',
+						[
+							'key'     => 'kinderprogramm',
+							'value'   => $post_id,
+							'compare' => 'LIKE',
+						],
+						[
+							'key'     => 'status',
+							'value'   => 'storniert',
+							'compare' => '!=',
+						],
+					],
+				]
+			);
+
+			echo esc_attr( $query->found_posts );
+			break;
+
+	}
+}
+
+// Let WordPress know to use our action
+add_action( 'manage_kinderprogramm_posts_custom_column', __NAMESPACE__ . '\kinderprogramm_custom_column_content' );
