@@ -48,6 +48,7 @@ function custom_post_type_anmeldung() {
 		'publicly_queryable'  => false,
 		'template'            => [
 			[ 'gemeindetag/anmeldung', [ 'isEditing' => true ] ],
+			[ 'gemeindetag/send-email', [] ],
 		],
 		'template_lock'       => 'all', // or 'insert' to allow moving
 		'capability_type'     => 'post',

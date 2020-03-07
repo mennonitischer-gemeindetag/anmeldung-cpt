@@ -361,3 +361,29 @@ function set_payment_success( $post_id ) {
 	$updated = update_post_meta( $post_id, 'zahlungsbestaetigung_versand', 'true' );
 	return $updated;
 };
+
+
+add_action( 'send_email', __NAMESPACE__ . '\send_email', 15, 3 );
+
+/**
+ * send email
+ *
+ * @param Number $post_id ID of the anmeldung that the email should be send to
+ * @param String $subject Subject of the mail
+ * @param String $message Content of the mail
+ */
+function send_email( $post_id, $subject, $message ) {
+
+	$email   = get_post_meta( $post_id, 'email', true );
+	$vorname = get_post_meta( $post_id, 'vorname', true );
+
+	$to           = $email;
+	$headers[]    = 'Bcc: Gemeindetag 2020 <gemeindetag@mennoniten.de>';
+	$headers[]    = 'Content-Type: text/html; charset=UTF-8';
+	$headers[]    = 'From: Gemeindetag 2020 <gemeindetag@mennoniten.de>';
+	$mail_subject = "$subject - Mennonitischer Gemeindetag 2020";
+	$body         = "<p>Hallo $vorname,\n \n</p> <p>$message</p>";
+
+	return wp_mail( $to, $subject, $body, $headers );
+
+};

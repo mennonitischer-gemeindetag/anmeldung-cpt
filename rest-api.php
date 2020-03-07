@@ -245,3 +245,73 @@ function handle_send_invoice_request( $request ) {
 	return new WP_REST_Response( 'Invoice Email sent' );
 
 };
+
+
+
+
+add_action( 'rest_api_init', 'register_gemeindetag_send_registered_users_email' );
+/**
+ * Adding custom rest endpoint to send payment confirmation
+ */
+function register_gemeindetag_send_registered_users_email() {
+	register_rest_route(
+		'gemeindetag/v1',
+		'/send-mail/(?P<id>\d+)',
+		[
+			'methods'             => 'POST',
+			'callback'            => 'handle_send_registered_users_email_request',
+			'permission_callback' => function () {
+				return current_user_can( 'edit_others_posts' );
+			},
+			'args'                => [
+				'id' => [
+					'validate_callback' => function( $param, $request, $key ) {
+						return is_numeric( $param );
+					},
+				],
+			],
+		]
+	);
+};
+
+/**
+ * Handle payment success request
+ *
+ * @param WP_REST_Request $request request
+ */
+function handle_send_registered_users_email_request( $request ) {
+
+	$post_id = $request['id'];
+
+	$current_post = get_post( $post_id );
+	$post_type    = get_post_type( $current_post );
+
+	$subject = $request['subject'];
+	$message = $request->get_body();
+
+	if ( 'anmeldung' === $post_type ) {
+		do_action( 'send_email', $post_id, $subject, $message );
+		return new WP_REST_Response( 'Email sent' );
+	}
+
+	$query_args = [
+		'post_type'      => 'anmeldung',
+		'posts_per_page' => -1,
+		'meta_query'     => [
+			[
+				'key'     => $post_type,
+				'value'   => $post_id,
+				'compare' => 'LIKE',
+			],
+		],
+	];
+
+	$anmeldungen = new WP_Query( $query_args );
+
+	foreach ( $anmeldungen->posts as &$post ) {
+		do_action( 'send_email', $post->ID, $subject, $message );
+	}
+
+	return new WP_REST_Response( 'Email sent' );
+
+};
