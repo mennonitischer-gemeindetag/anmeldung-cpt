@@ -5,6 +5,13 @@
  * @package gemeindetage-anmeldung
  */
 
+/**
+ * checks wether user can edit posts
+ */
+function can_edit_posts() {
+	return current_user_can( 'edit_others_posts' );
+}
+
 add_action( 'rest_api_init', 'register_gemeindetag_signup_rest_route' );
 
 /**
@@ -123,9 +130,10 @@ function register_gemeindetag_get_invoice() {
 		'gemeindetag/v1',
 		'/invoice/(?P<id>\d+)',
 		[
-			'methods'  => 'GET',
-			'callback' => 'handle_get_invoice',
-			'args'     => [
+			'methods'             => 'GET',
+			'callback'            => 'handle_get_invoice',
+			'permission_callback' => 'can_edit_posts',
+			'args'                => [
 				'id' => [
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
@@ -142,10 +150,6 @@ function register_gemeindetag_get_invoice() {
  * @param WP_REST_Request $request request
  */
 function handle_get_invoice( $request ) {
-
-	if ( ! is_user_logged_in() ) {
-		return new WP_Error( 'not-authorized', 'You need to be logged in to access this file', [ 'status' => 401 ] );
-	}
 
 	$invoice_id = $request['id'];
 
@@ -172,9 +176,10 @@ function register_gemeindetag_payment_confirmation_rest_route() {
 		'gemeindetag/v1',
 		'/send-payment-confirmation/(?P<id>\d+)',
 		[
-			'methods'  => 'POST',
-			'callback' => 'handle_send_payment_confirmation_request',
-			'args'     => [
+			'methods'             => 'POST',
+			'callback'            => 'handle_send_payment_confirmation_request',
+			'permission_callback' => 'can_edit_posts',
+			'args'                => [
 				'id' => [
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
@@ -191,10 +196,6 @@ function register_gemeindetag_payment_confirmation_rest_route() {
  * @param WP_REST_Request $request request
  */
 function handle_send_payment_confirmation_request( $request ) {
-
-	if ( ! is_user_logged_in() ) {
-		return new WP_Error( 'not-authorized', 'You need to be logged in to access this file', [ 'status' => 401 ] );
-	};
 
 	$anmeldugs_id = $request['id'];
 
@@ -214,9 +215,10 @@ function register_gemeindetag_send_invoice_rest_route() {
 		'gemeindetag/v1',
 		'/send-invoice/(?P<id>\d+)',
 		[
-			'methods'  => 'POST',
-			'callback' => 'handle_send_invoice_request',
-			'args'     => [
+			'methods'             => 'POST',
+			'callback'            => 'handle_send_invoice_request',
+			'permission_callback' => 'can_edit_posts',
+			'args'                => [
 				'id' => [
 					'validate_callback' => function( $param, $request, $key ) {
 						return is_numeric( $param );
@@ -233,10 +235,6 @@ function register_gemeindetag_send_invoice_rest_route() {
  * @param WP_REST_Request $request request
  */
 function handle_send_invoice_request( $request ) {
-
-	if ( ! is_user_logged_in() ) {
-		return new WP_Error( 'not-authorized', 'You need to be logged in to access this file', [ 'status' => 401 ] );
-	};
 
 	$anmeldugs_id = $request['id'];
 
@@ -260,9 +258,7 @@ function register_gemeindetag_send_registered_users_email() {
 		[
 			'methods'             => 'POST',
 			'callback'            => 'handle_send_registered_users_email_request',
-			'permission_callback' => function () {
-				return current_user_can( 'edit_others_posts' );
-			},
+			'permission_callback' => 'can_edit_posts',
 			'args'                => [
 				'id' => [
 					'validate_callback' => function( $param, $request, $key ) {
