@@ -3,3 +3,4 @@ import './blocks/anmeldungen';
 import './blocks/anmeldeformular';
 import './blocks/callout';
 import './blocks/card';
+import './blocks/send-email';
