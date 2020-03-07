@@ -124,6 +124,21 @@
 			"source": "meta",
 			"meta": "gedrucktes_programmheft"
 		},
+		"uebernachtung_and_breakfast": {
+			"type": "string",
+			"source": "meta",
+			"meta": "uebernachtung_and_breakfast"
+		},
+		"uebernachtung_zelt_mit": {
+			"type": "string",
+			"source": "meta",
+			"meta": "uebernachtung_zelt_mit"
+		},
+		"uebernachtung": {
+			"type": "string",
+			"source": "meta",
+			"meta": "uebernachtung"
+		},
 		"daten_fuer_mitfahrgelegenheit_teilen": {
 			"type": "string",
 			"source": "meta",

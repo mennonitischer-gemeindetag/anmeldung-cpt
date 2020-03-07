@@ -1,4 +1,5 @@
 import { Spinner, TextControl, PanelBody, PanelRow, SelectControl, CheckboxControl, Button} from '@wordpress/components';
+import { useEffect } from '@wordpress/element';
 
 function HtmlEncode(string) {
   const element = document.createElement("div");
@@ -42,6 +43,13 @@ export default (props) => {
         allTickets,
         allKinderprogramm,
     } = props;
+
+    useEffect( () => {
+        if ( null === uebernachtung ) {
+            console.info('override uebernachtung');
+            setAttributes({ uebernachtung: '' });
+        }
+    }, [ uebernachtung ] )
     
     const handleTicketChange = (isChecked, ticket) => {
 
@@ -127,8 +135,6 @@ export default (props) => {
         setAttributes({kinderprogramm: newKinderprogramm});
     }
 
-
-
     return (
         <div className={ 'edit-anmeldung' }>
             <PanelBody title='Persönliche Infos' className={ 'personal-info' } icon="admin-users" >
@@ -162,7 +168,7 @@ export default (props) => {
                 </PanelRow>
             </PanelBody>
             <PanelBody title='Teilnahmetage' className={ 'teilnahmetage' } icon="tickets" >
-				{ isLoading ? <Spinner /> : (
+				{ ! Array.isArray( allTickets ) ? <Spinner /> : (
                     [...allTickets]
                         .reverse()
                         .map( ( ticket ) => (
@@ -176,7 +182,7 @@ export default (props) => {
                 )}
             </PanelBody>
             <PanelBody title='Mitarbeit' className={ 'mitarbeit' } icon="awards" >
-				{ isLoading ? <Spinner /> : (
+				{ ! Array.isArray( mitarbeit ) ? <Spinner /> : (
                     [ 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag' ].map( ( tag, key ) => (
                         <CheckboxControl 
                             key={ key } 
@@ -188,7 +194,7 @@ export default (props) => {
 				) }
             </PanelBody>
             <PanelBody title="Workshops" className="workshops" icon="clipboard" >
-                { isLoading ? <Spinner /> : (
+                { ! Array.isArray( allWorkshops ) ? <Spinner /> : (
                     [...allWorkshops]
                         .reverse()
                         .map( ( workshop ) => (
@@ -203,7 +209,7 @@ export default (props) => {
                     ) }
             </PanelBody>
 			<PanelBody title="Ausflüge" className="ausfluege" icon="location-alt" >
-                { isLoading ? (
+                { ! Array.isArray( allAusfluege ) ? (
                     <Spinner />
                 ) : ( 
                     [...allAusfluege]
@@ -219,7 +225,7 @@ export default (props) => {
 				) }
             </PanelBody>
 			<PanelBody title="Verpflegung" className="verplegung" icon="carrot">
-                { isLoading ? (
+                { ! Array.isArray( allEssen ) ? (
                     <Spinner />
                 ) : (
                         [...allEssen]
@@ -235,7 +241,7 @@ export default (props) => {
                 ) }
             </PanelBody>
             <PanelBody title="Kinderprogramm" className="kinderprogramm" icon="buddicons-activity">
-                { isLoading ? (
+                { ! Array.isArray( allKinderprogramm ) ? (
                     <Spinner />
                 ) : (
                     <>
@@ -277,9 +283,9 @@ export default (props) => {
                     <PanelRow>
                         <SelectControl 
                             label='Übernachtungsart'
-                            value={ uebernachtung }
+                            value={ uebernachtung ? uebernachtung : '' }
                             options={[
-                                { label: '', value: '' },
+                                { label: '', value: 'none' },
                                 { label: 'Turnhalle', value: 'Turnhalle' },
                                 { label: 'Eigenes Zelt', value: 'Eigenes Zelt' },
                                 { label: 'Im Zelt mit:', value: 'Im Zelt mit...' },

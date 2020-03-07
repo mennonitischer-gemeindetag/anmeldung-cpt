@@ -1,4 +1,5 @@
-import { Spinner, ToggleControl } from "@wordpress/components";
+import { Spinner, ToggleControl, Button, PanelBody } from "@wordpress/components";
+import { InspectorControls } from "@wordpress/block-editor";
 import { useState, useEffect } from "@wordpress/element";
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch'
@@ -9,73 +10,72 @@ export default props => {
 	} = props;
 
 	const currentId = useSelect( select => select( 'core/editor' ).getCurrentPostId() );
-	const postType = useSelect( select => select('core/editor').getCurrentPostType() ) 
+	const postType = useSelect( select => select('core/editor').getCurrentPostType() );
+	const site = useSelect( select => select('core').getSite() );
 
-	const [anmeldungen, setAnmeldungen] = useState( [] );
+
+	const anmeldungen = useSelect( select => select('core').getEntityRecords('postType', 'anmeldung', { per_page: -1 }) );
+	
+
 	const [ isShowingAll, setIsShowingAll ] = useState( false );
-		
-	useEffect( () => {
-		apiFetch( { path: `wp/v2/anmeldung?per_page=999` } ).then( anmeldungen => {
-		
-			const filtered = anmeldungen.filter( anmeldung => {
 
-				const { meta } = anmeldung;
+	const filtered = Array.isArray( anmeldungen ) && anmeldungen.filter( anmeldung => {
 
-				if ( !meta[ postType ] || !Array.isArray( meta[ postType ] )) {
-					return false;
-				}
+		const { meta } = anmeldung;
 
-				if ( "storniert" === anmeldung.meta.status ) {
-					return false;
-				}
+		if ( !meta[ postType ] || !Array.isArray( meta[ postType ] )) {
+			return false;
+		}
 
-				return meta[ postType ].includes( currentId );
+		if ( "storniert" === anmeldung.meta.status ) {
+			return false;
+		}
 
-			} )
-			setAnmeldungen( filtered )
-		
-		} );
-	}, [] );
+		return meta[ postType ].includes( currentId );
+
+	} )
 
 	return (
-		<div className={ className }>
-			<h2>Anmeldungen: { anmeldungen.length ? anmeldungen.length : '' }</h2>
-			<ToggleControl 
-				checked={isShowingAll}
-				label="Alle anzeigen"
-				help={ isShowingAll ? 'Ziegt alle Anmeldungen.' : 'Zeigt bezahlte Anmeldungen.' }
-				onChange={ () => { setIsShowingAll( !isShowingAll )} }
-			/>
-			{ anmeldungen.length ? (
-			<table className={ 'wp-list-table widefat striped tickets' }>
-				<thead>
-					<tr>
-						<th className={ 'column-title' }>Name</th>
-						<th className={ 'column-title' }>Geb. Datum</th>
-						<th className={ 'column-title' }>Status</th>
-					</tr>
-				</thead>
-				<tbody id="the-list">
-				{ anmeldungen
-					.filter( anmeldung => {
-						if ( isShowingAll ) {
-							return true;
-						}
-						return "bezahlt" === anmeldung.meta.status;
-					})
-					.map( anmeldung => { 
-					const { meta: { vorname, nachname, geb_datum, status }, id } = anmeldung;
-					return (
-					<tr>
-						<td><a href={ `http://gemeindetag.test/wp-admin/post.php?post=${id}&action=edit` } target="_blank">{ `${ vorname } ${ nachname }` }</a></td>
-						<td>{ geb_datum }</td>
-						<td>{ status }</td>
-					</tr>
-					) 
-				} ) }
-				</tbody>
-			</table>
-			) : <Spinner /> }
-		</div>
+		<>
+			<div className={ className }>
+				<h2>Anmeldungen: { filtered.length ? filtered.length : '' }</h2>
+				<ToggleControl 
+					checked={isShowingAll}
+					label="Alle anzeigen"
+					help={ isShowingAll ? 'Ziegt alle Anmeldungen.' : 'Zeigt bezahlte Anmeldungen.' }
+					onChange={ () => { setIsShowingAll( !isShowingAll )} }
+				/>
+				{ filtered.length ? (
+				<table className={ 'wp-list-table widefat striped tickets' }>
+					<thead>
+						<tr>
+							<th className={ 'column-title' }>Name</th>
+							<th className={ 'column-title' }>Geb. Datum</th>
+							<th className={ 'column-title' }>Status</th>
+						</tr>
+					</thead>
+					<tbody id="the-list">
+					{ filtered
+						.filter( anmeldung => {
+							if ( isShowingAll ) {
+								return true;
+							}
+							return "bezahlt" === anmeldung.meta.status;
+						})
+						.map( anmeldung => { 
+						const { meta: { vorname, nachname, geb_datum, status }, id } = anmeldung;
+						return (
+						<tr>
+							<td><a href={ `${site && site.url}/wp-admin/post.php?post=${id}&action=edit` } target="_blank">{ `${ vorname } ${ nachname }` }</a></td>
+							<td>{ geb_datum }</td>
+							<td>{ status }</td>
+						</tr>
+						) 
+					} ) }
+					</tbody>
+				</table>
+				) : <Spinner /> }
+			</div>
+		</>
 	);
 };
