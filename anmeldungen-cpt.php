@@ -72,7 +72,7 @@ $string           = [
 	'single'       => true,
 	'show_in_rest' => true,
 ];
-$boolean = [
+$boolean          = [
 	'type'         => 'boolean',
 	'single'       => true,
 	'show_in_rest' => true,
