@@ -38,7 +38,7 @@ function handle_signup_request( $request ) {
 	$post    = [
 		'post_type'    => 'anmeldung',
 		'post_title'   => sprintf( '%s %s', sanitize_text_field( $request['vorname'] ), sanitize_text_field( $request['nachname'] ) ),
-		'post_content' => '<!-- wp:gemeindetag/anmeldung /-->',
+		'post_content' => '<!-- wp:gemeindetag/anmeldung /--><!-- wp:gemeindetag/send-email /-->',
 		'post_status'  => 'publish',
 		'meta_input'   => [
 			'nachname'                             => sanitize_text_field( $request['nachname'] ),
