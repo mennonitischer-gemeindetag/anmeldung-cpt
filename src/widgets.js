@@ -7,3 +7,4 @@ import './widgets/print-stats';
 import './widgets/alter-stats';
 import './widgets/total-earnings';
 import './widgets/jugend-uebernachtungen';
+import './widgets/kinderprogramm';

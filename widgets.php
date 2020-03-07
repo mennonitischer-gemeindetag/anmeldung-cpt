@@ -18,15 +18,16 @@ add_action( 'wp_dashboard_setup', __NAMESPACE__ . '\create_dashboard_widgets', 1
 function create_dashboard_widgets() {
 
 	$widgets = [
-		'anmeldungen-stats-widget' => 'Anmeldungen',
-		'workshops-stats-widget'   => 'Workshop Anmeldungen',
-		'ausfluege-stats-widget'   => 'Ausflug Anmeldungen',
-		'essen-stats-widget'       => 'Essen Anmeldungen',
-		'tickets-stats-widget'     => 'Anmeldungen pro Tag',
-		'printed-stats-widget'     => 'Druckprodukte',
-		'age-stats-widget'         => 'Alter der Anmeldungen',
-		'total-earnings-widget'    => 'Einnahmen',
-		'jugend-uebernachtungen'   => 'Jugend Übernachtungen',
+		'anmeldungen-stats-widget'   => 'Anmeldungen',
+		'workshops-stats-widget'     => 'Workshop Anmeldungen',
+		'ausfluege-stats-widget'     => 'Ausflug Anmeldungen',
+		'essen-stats-widget'         => 'Essen Anmeldungen',
+		'tickets-stats-widget'       => 'Anmeldungen pro Tag',
+		'printed-stats-widget'       => 'Druckprodukte',
+		'age-stats-widget'           => 'Alter der Anmeldungen',
+		'total-earnings-widget'      => 'Einnahmen',
+		'jugend-uebernachtungen'     => 'Jugend Übernachtungen',
+		'anmeldungen-kinderprogramm' => 'Anmeldungen Kinderprogramm',
 	];
 
 	foreach ( $widgets as $widget_slug => $widget_title ) {
