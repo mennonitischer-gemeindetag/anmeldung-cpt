@@ -2,9 +2,9 @@ import { render, useState, useEffect } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { Spinner } from '@wordpress/components';
-import { formatPrice } from '../../blocks/anmeldeformular/helper/format-price';
+import { formatPrice } from '../blocks/anmeldeformular/helper/format-price';
 
-import { transformAnmeldungen } from '../helper';
+import { transformAnmeldungen } from './helper';
 
 const TotelEarningsWidget = () => {
 	const [ anmeldungen, setAnmeldungen ] = useState( [] );

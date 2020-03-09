@@ -3,7 +3,7 @@ import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { Spinner } from '@wordpress/components';
 
-import { transformAnmeldungen, transformWp, getAnmeldungen } from '../helper';
+import { transformAnmeldungen, transformWp, getAnmeldungen } from './helper';
 
 const TicketAnmeldeStatWidget = () => {
 	const [ anmeldungen, setAnmeldungen ] = useState( [] );

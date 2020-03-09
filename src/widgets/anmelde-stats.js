@@ -4,7 +4,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { Spinner } from '@wordpress/components';
 import Chart from 'react-google-charts';
 
-import { transformAnmeldungen, isStatus, Status } from '../helper';
+import { transformAnmeldungen, isStatus, Status } from './helper';
 
 const AnmeldeStatWidget = () => {
 	const [ anmeldungen, setAnmeldungen ] = useState( [] );

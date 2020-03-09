@@ -28,6 +28,7 @@ function create_dashboard_widgets() {
 		'total-earnings-widget'      => 'Einnahmen',
 		'jugend-uebernachtungen'     => 'Jugend Übernachtungen',
 		'anmeldungen-kinderprogramm' => 'Anmeldungen Kinderprogramm',
+		'countdown-timer'            => 'Countdown',
 	];
 
 	foreach ( $widgets as $widget_slug => $widget_title ) {

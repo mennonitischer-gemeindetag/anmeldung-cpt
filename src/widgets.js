@@ -8,3 +8,4 @@ import './widgets/alter-stats';
 import './widgets/total-earnings';
 import './widgets/jugend-uebernachtungen';
 import './widgets/kinderprogramm';
+import './widgets/countdown';

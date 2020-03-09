@@ -55,3 +55,8 @@
   font-size: 2em !important;
   color: var(--c-accent) !important;
 }
+
+#countdown-timer h3 {
+  font-size: 2em;
+  font-weight: bold;
+}
