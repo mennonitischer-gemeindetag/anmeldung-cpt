@@ -52,6 +52,8 @@ export default props => {
 							<th className={ 'column-title' }>Name</th>
 							<th className={ 'column-title' }>Geb. Datum</th>
 							<th className={ 'column-title' }>Status</th>
+							{ 'kinderprogramm' === postType ? <th className={ 'column-title' }>Notfall Nummer:</th> : null }
+							{ 'kinderprogramm' === postType ? <th className={ 'column-title' }>Bemerkung:</th> : null }
 						</tr>
 					</thead>
 					<tbody id="the-list">
@@ -63,12 +65,14 @@ export default props => {
 							return "bezahlt" === anmeldung.meta.status;
 						})
 						.map( anmeldung => { 
-						const { meta: { vorname, nachname, geb_datum, status }, id } = anmeldung;
+						const { meta: { vorname, nachname, geb_datum, status, kinderprogramm_bemerkung, kinderprogramm_notfall_nummer }, id } = anmeldung;
 						return (
 						<tr>
 							<td><a href={ `${site && site.url}/wp-admin/post.php?post=${id}&action=edit` } target="_blank">{ `${ vorname } ${ nachname }` }</a></td>
 							<td>{ geb_datum }</td>
 							<td>{ status }</td>
+							{ 'kinderprogramm' === postType ? <td>{ kinderprogramm_notfall_nummer }</td> : null }
+							{ 'kinderprogramm' === postType ? <td>{ kinderprogramm_bemerkung }</td> : null }
 						</tr>
 						) 
 					} ) }
