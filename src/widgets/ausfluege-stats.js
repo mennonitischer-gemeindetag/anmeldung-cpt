@@ -2,6 +2,7 @@ import { render, useState, useEffect } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { Spinner, FormToggle } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 
 import { transformAnmeldungen, transformWp, getAnmeldungen } from './helper';
 
@@ -9,7 +10,8 @@ const AusflugAnmeldeStatWidget = () => {
 	const [ anmeldungen, setAnmeldungen ] = useState( [] );
 	const [ ausfluege, setAusfluege ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( true );
-	const [ isHidingEmpty, setIsHidingEmpty ] = useState( true );
+
+	const site = useSelect( select => select('core').getSite() );
 
 	useEffect( () => {
 		Promise.all( [
@@ -30,14 +32,6 @@ const AusflugAnmeldeStatWidget = () => {
 				<Spinner />
 			) : (
 				<>
-					<label htmlFor="hide-empty-workshops" className="hide-empty">
-            Leere verbergen
-					</label>
-					<FormToggle
-						id={ 'hide-empty-workshops' }
-						checked={ isHidingEmpty }
-						onChange={ () => setIsHidingEmpty( ! isHidingEmpty ) }
-					/>
 					<table className={ 'wp-list-table widefat striped ausfluege' }>
 						<thead>
 							<tr>
@@ -48,16 +42,8 @@ const AusflugAnmeldeStatWidget = () => {
 						</thead>
 						<tbody id="the-list">
 							{ ausfluege
-								.filter( ( ausflug ) => {
-									const ausflugAnmeldungen = getAnmeldungen(
-										anmeldungen,
-										'ausfluege',
-										ausflug.id
-									);
-
-									return isHidingEmpty ? ausflugAnmeldungen : true;
-								} )
 								.sort( ( a, b ) => a.character > b.character && a.nr < b.character )
+								.filter( ausflug => 'storniert' != ausflug.status )
 								.map( ( ausflug ) => {
 									const ausflugAnmeldungen = getAnmeldungen(
 										anmeldungen,
@@ -67,7 +53,7 @@ const AusflugAnmeldeStatWidget = () => {
 
 									const ausflugLimit = ausflug.beschraenkt && ausflug.maxPlaetze;
 
-									const { nr, character, title, id } = ausflug;
+									const { nr, character, title, id, registrationClosed } = ausflug;
 
 									const anmeldungenAndLimit = `${ !! ausflugLimit &&
                     					ausflugLimit + '/' }${ ausflugAnmeldungen }`;
@@ -76,11 +62,11 @@ const AusflugAnmeldeStatWidget = () => {
 											<td>
 												<span className="nr">{ `${ character }${ nr }` }</span>
 											</td>
-											<td
-												dangerouslySetInnerHTML={ {
-													__html: title,
-												} }
-											/>
+											<td>
+												<a href={ `${site && site.url}/wp-admin/post.php?post=${id}&action=edit` } target="_blank" dangerouslySetInnerHTML={ {
+													__html: `${title}${ registrationClosed ? '<span class="ausgebucht">Ausgebucht!</span>' : '' }`,
+												} } />
+											</td>
 											<td>
 												{ ausflugAnmeldungen ? (
 													<b>{ anmeldungenAndLimit }</b>

@@ -2,6 +2,7 @@ import { render, useState, useEffect } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
 import apiFetch from '@wordpress/api-fetch';
 import { Spinner } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 
 import { transformAnmeldungen, transformWp, getAnmeldungen } from './helper';
 
@@ -9,6 +10,8 @@ const KinderprogrammAnmeldungen = () => {
 	const [ anmeldungen, setAnmeldungen ] = useState( [] );
 	const [ kinderprogramm, setKinderprogramm ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( true );
+    
+    const site = useSelect( select => select('core').getSite() );
 
 	useEffect( () => {
 		Promise.all( [ 
@@ -39,11 +42,17 @@ const KinderprogrammAnmeldungen = () => {
                     <tbody id="the-list">
                         { kinderprogramm.map( programm => { 
 
-                            const programmAnmeldungen = getAnmeldungen( anmeldungen, 'kinderprogramm', programm.id);
+                            const { title, id } = programm;
+
+                            const programmAnmeldungen = getAnmeldungen( anmeldungen, 'kinderprogramm', id);
                             
                             return (
                                 <tr>
-                                    <td dangerouslySetInnerHTML={{__html: programm.title}}></td>
+                                    <td>
+												<a href={ `${site && site.url}/wp-admin/post.php?post=${id}&action=edit` } target="_blank" dangerouslySetInnerHTML={ {
+													__html: title,
+												} } />
+											</td>
                                     <td>{ programmAnmeldungen }</td>
                                 </tr>
                             )
