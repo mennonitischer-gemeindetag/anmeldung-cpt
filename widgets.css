@@ -1,3 +1,37 @@
+/*
+ * Colors
+ */
+:root {
+	--c-black: #000;
+	--c-black-hover: #333;
+	--c-light-grey: #eee;
+	--c-dark-grey: #5e5d5d;
+	--c-white: #fff;
+	--c-eggshell: #f8f8f8;
+	--c-eggshell-hover: #e0e0e0;
+	--c-accent: #97b226;
+	--c-primary: #41a62a;
+	--c-allgemein: var(--c-accent);
+	--c-news: #c4407d;
+	--c-light-news: rgba(188, 3, 89, 0.05);
+	--c-mennoconnect: #803473;
+	--c-kinderprogramm: #dd4b99;
+	--c-teenprogramm: #af0e74;
+	--c-jugendprogramm: #803473;
+	--c-morgenlob: #be9e1b;
+	--c-bibelarbeiten: #5c4432;
+	--c-essen: #3a5c34;
+	--c-gottesdienst: #58b5dd;
+	--c-abendprogramm: #4a6aac;
+	--c-nachtgebet: #163760;
+	--c-workshops: #3c964e;
+	--c-ausfluege: #3c964e;
+	--c-anmeldung: #de7930;
+	--c-anmeldung-hover: #ce7230;
+	--c-warnung: #de4430;
+}
+
+
 .gemeindetag-stats-widget {
   position: relative;
 }
@@ -43,6 +77,15 @@
 .gemeindetag-stats-widget .workshops {
   --c-accent: #3c964e;
 }
+
+.gemeindetag-stats-widget .ausgebucht {
+  color: var(--c-white);
+  background: var(--c-warnung);
+  padding: 2px 10px;
+  border-radius: 8px;
+  margin-left: 1em;
+}
+
 .gemeindetag-stats-widget .ausfluege {
   --c-accent: #3c964e;
 }
@@ -57,6 +100,54 @@
 }
 
 #countdown-timer h3 {
-  font-size: 2em;
+  font-size: 1.25em;
   font-weight: bold;
+}
+
+#mennoconnect-wrapper > h2 {
+  background: var(--c-mennoconnect);
+  color: var(--c-white);
+}
+
+#mennoconnect-wrapper .toggle-indicator {
+  color: var(--c-white);
+}
+
+.postbox > h2 {
+  background: var(--c-accent);
+  color: var(--c-white);
+}
+
+.postbox .toggle-indicator {
+  color: var(--c-white);
+}
+
+#ausfluege-stats-widget-wrapper > h2 {
+  background: var(--c-ausfluege);
+}
+
+#workshops-stats-widget-wrapper > h2 {
+  background: var(--c-workshops);
+}
+
+#anmeldungen-stats-widget-wrapper > h2,
+#tickets-stats-widget-wrapper > h2,
+#age-stats-widget-wrapper > h2 {
+  background: var(--c-anmeldung);
+}
+
+#anmeldungen-kinderprogramm-wrapper > h2 {
+  background: var(--c-kinderprogramm);
+}
+
+#jugend-uebernachtungen-wrapper > h2 {
+  background: var(--c-jugendprogramm);
+}
+
+#essen-stats-widget-wrapper > h2 {
+  background: var(--c-essen);
+}
+
+#printed-stats-widget-wrapper > h2 {
+  background: var(--c-nachtgebet);
 }
