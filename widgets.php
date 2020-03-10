@@ -29,6 +29,7 @@ function create_dashboard_widgets() {
 		'jugend-uebernachtungen'     => 'Jugend Übernachtungen',
 		'anmeldungen-kinderprogramm' => 'Anmeldungen Kinderprogramm',
 		'countdown-timer'            => 'Countdown',
+		'mennoconnect'               => 'Mennoconnect',
 	];
 
 	foreach ( $widgets as $widget_slug => $widget_title ) {
