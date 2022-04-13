@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ master ]
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build_and_deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    environment:
+      name: gemeindetag.mennoniten.de
+      url: https://gemeindetag.mennoniten.de
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build Files
+        run: npm run build
+
+      - name: ssh deploy
+        uses: easingthemes/ssh-deploy@v2.1.6
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SERVER_IP }}
+          REMOTE_USER: ${{ secrets.SERVER_USERNAME }}
+          TARGET: '~/html/wordpress/wp-content/plugins/anmeldung-cpt/'
+          EXCLUDE: node_modules, .git
