@@ -1,0 +1,7 @@
+{
+	"name": "gemeindetag/send-email",
+	"apiVersion": 2,
+	"title": "Email",
+	"category": "common",
+	"icon": "email"
+}

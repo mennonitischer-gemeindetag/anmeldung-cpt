@@ -1,0 +1,13 @@
+{
+	"name": "gemeindetag/anmeldeformular",
+	"apiVersion": 2,
+	"title": "Anmeldeformular",
+	"description": "Anmeldung",
+	"category": "common",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"multiple": false
+	},
+	"editorScript": "file:./index.js",
+	"viewScript": "file:./view.js"
+}
