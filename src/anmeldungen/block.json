@@ -1,6 +1,8 @@
 {
+	"name": "gemeindetag/anmeldungen",
 	"title": "Anmeldungen",
 	"icon": "tickets",
+	"apiVersion": 2,
 	"description": "Zeigt eine liste aller Anmeldungen für den aktuellen Ausflug / Workshop",
 	"category": "common"
 }

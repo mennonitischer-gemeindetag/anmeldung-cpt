@@ -25,7 +25,7 @@ export default ( props ) => {
 					style={ { color: textColor } }
 					tagName="h2"
 					value={ titel }
-					onChange={ ( titel ) => setAttributes( { titel } ) }
+					onChange={ ( value ) => setAttributes( { titel: value } ) }
 				/>
 				<RichText
 					style={ {
@@ -35,9 +35,14 @@ export default ( props ) => {
 					tagName="a"
 					className="button"
 					value={ linkText }
-					onChange={ ( linkText ) => setAttributes( { linkText } ) }
+					onChange={ ( value ) =>
+						setAttributes( { linkText: value } )
+					}
 				/>
-				<URLInput value={ link } onChange={ ( link ) => setAttributes( { link } ) } />
+				<URLInput
+					value={ link }
+					onChange={ ( value ) => setAttributes( { link: value } ) }
+				/>
 			</div>
 		</Fragment>
 	);

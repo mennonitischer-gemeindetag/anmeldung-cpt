@@ -1,5 +1,5 @@
 import { Form } from 'react-final-form';
-import { Component } from '@wordpress/element';
+import { Component, createRef, Children } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
 
 const scrollToRef = ( ref ) => {
@@ -21,7 +21,7 @@ export default class Wizard extends Component {
 		this.previous = this.previous.bind( this );
 		this.validate = this.validate.bind( this );
 		this.handleSubmit = this.handleSubmit.bind( this );
-		this.currentActivePage = React.createRef();
+		this.currentActivePage = createRef();
 	}
 
 	next( values ) {
@@ -46,16 +46,18 @@ export default class Wizard extends Component {
 	 */
 
 	validate( values ) {
-		const activePage = React.Children.toArray( this.props.children )[
+		const activePage = Children.toArray( this.props.children )[
 			this.state.page
 		];
-		return activePage.props.validate ? activePage.props.validate( values ) : {};
+		return activePage.props.validate
+			? activePage.props.validate( values )
+			: {};
 	}
 
 	handleSubmit( values ) {
 		const { children, onSubmit } = this.props;
 		const { page } = this.state;
-		const isLastPage = page === React.Children.count( children ) - 1;
+		const isLastPage = page === Children.count( children ) - 1;
 		if ( isLastPage ) {
 			return onSubmit( values );
 		}
@@ -65,28 +67,30 @@ export default class Wizard extends Component {
 	render() {
 		const { children } = this.props;
 		const { page, values } = this.state;
-		const activePage = React.Children.toArray( children )[ page ];
-		const isLastPage = page === React.Children.count( children ) - 1;
+		const activePage = Children.toArray( children )[ page ];
+		const isLastPage = page === Children.count( children ) - 1;
 		return (
 			<Form
 				initialValues={ values }
 				validate={ this.validate }
 				onSubmit={ this.handleSubmit }
 			>
-				{ ( { handleSubmit, submitting, values, submitError } ) => (
+				{ ( { handleSubmit, submitting } ) => (
 					<form onSubmit={ handleSubmit }>
 						{ submitting && <Spinner /> }
 						<div ref={ this.currentActivePage }>{ activePage }</div>
 						<div className="buttons">
 							{ page > 0 && (
 								<button type="button" onClick={ this.previous }>
-                  « Zurück
+									« Zurück
 								</button>
 							) }
-							{ ! isLastPage && <button type="submit">Weiter »</button> }
+							{ ! isLastPage && (
+								<button type="submit">Weiter »</button>
+							) }
 							{ isLastPage && (
 								<button type="submit" disabled={ submitting }>
-                  Absenden
+									Absenden
 								</button>
 							) }
 						</div>

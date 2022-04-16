@@ -1,4 +1,6 @@
 {
+	"name": "gemeindetag/anmeldung",
+	"apiVersion": 2,
 	"title": "Anmeldung",
 	"icon": "money",
 	"description": "Anmeldung",
@@ -151,5 +153,6 @@
 	},
 	"supports": {
 		"html": false
-	}
+	},
+	"editorScript": "file:./index.js"
 }

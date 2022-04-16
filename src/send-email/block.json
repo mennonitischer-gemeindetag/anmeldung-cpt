@@ -3,5 +3,6 @@
 	"apiVersion": 2,
 	"title": "Email",
 	"category": "common",
-	"icon": "email"
+	"icon": "email",
+	"editorScript": "file:./index.js"
 }

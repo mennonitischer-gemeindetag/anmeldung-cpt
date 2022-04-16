@@ -1,13 +1,13 @@
 import { render } from '@wordpress/element';
-import Anmeldeformular from './Anmeldeformular';
+import Anmeldeformular from './Anmeldeformular.tsx';
 import domReady from '@wordpress/dom-ready';
 import ErrorBoundary from './components/ErrorBoundary';
 
-domReady(function () {
+domReady( function () {
 	const root = document.querySelector(
 		'.wp-block-gemeindetag-anmeldeformular'
 	);
-	if (root) {
+	if ( root ) {
 		render(
 			<ErrorBoundary>
 				<Anmeldeformular />
@@ -16,4 +16,4 @@ domReady(function () {
 			null
 		);
 	}
-});
+} );

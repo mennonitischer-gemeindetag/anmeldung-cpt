@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from '@wordpress/element';
 import * as Sentry from '@sentry/browser';
 
 Sentry.init( {
@@ -11,7 +11,7 @@ class ErrorBoundary extends Component {
 		this.state = { eventId: null };
 	}
 
-	static getDerivedStateFromError( error ) {
+	static getDerivedStateFromError() {
 		return { hasError: true };
 	}
 
@@ -29,23 +29,25 @@ class ErrorBoundary extends Component {
 			return (
 				<>
 					<h2 className={ 'section-heading' }>
-            Leider ist ein Fehler aufgetreten.
+						Leider ist ein Fehler aufgetreten.
 					</h2>
 					<div>
-            Bitte versuche es in einigen Minuten erneut. Sollte der Fehler
-            mehrfach auftreten, melde dich bitte unter folgender E-Mail-Adresse
-            bei uns:{ ' ' }
+						Bitte versuche es in einigen Minuten erneut. Sollte der
+						Fehler mehrfach auftreten, melde dich bitte unter
+						folgender E-Mail-Adresse bei uns:{ ' ' }
 						<a href="mailto:gemeindetag@mennoniten.de">
-              gemeindetag@mennoniten.de
+							gemeindetag@mennoniten.de
 						</a>
-            . Danke für dein Verständnis!
+						. Danke für dein Verständnis!
 					</div>
 					<button
 						onClick={ () =>
-							Sentry.showReportDialog( { eventId: this.state.eventId } )
+							Sentry.showReportDialog( {
+								eventId: this.state.eventId,
+							} )
 						}
 					>
-            Report feedback
+						Report feedback
 					</button>
 				</>
 			);

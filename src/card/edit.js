@@ -6,7 +6,7 @@ import {
 	PanelColorSettings,
 } from '@wordpress/block-editor';
 
-export default ( props ) => {
+export default function BlockEdit( props ) {
 	const {
 		attributes: { image, color },
 		className,
@@ -39,8 +39,8 @@ export default ( props ) => {
 					<img src={ image.url } alt={ image.alt } />
 				) : (
 					<MediaPlaceholder
-						onSelect={ ( image ) => {
-							setAttributes( { image } );
+						onSelect={ ( value ) => {
+							setAttributes( { image: value } );
 						} }
 						allowedTypes={ [ 'image' ] }
 						multiple={ false }
@@ -53,4 +53,4 @@ export default ( props ) => {
 			</div>
 		</>
 	);
-};
+}

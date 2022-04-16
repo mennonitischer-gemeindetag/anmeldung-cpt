@@ -1,4 +1,5 @@
 import moment from 'moment';
+import type { WP_REST_API_Workshop } from '../types';
 
 export const transformKinderprogramm = ( kinderprogramm ) => {
 	return kinderprogramm.reduce( ( accumulator, programm ) => {
@@ -35,17 +36,19 @@ export const transformEssen = ( essenInput ) => {
 	}, {} );
 };
 
-export const transformWorkshops = ( workshopsInput ) => {
+export function groupEntitiesByDay( workshopsInput: Array<WP_REST_API_Workshop> ): {
+	[key: string]: Array<WP_REST_API_Workshop>
+} {
 	return workshopsInput.reduce( ( accumulator, workshop ) => {
 		const newWorkshops = { ...accumulator };
-		const { startZeit, endZeit } = workshop.meta;
+		const { startZeit } = workshop.meta;
 
-		const tag = moment( startZeit ).format( 'dddd' );
+		const day = moment( startZeit ).format( 'dddd' );
 
-		if ( ! ( newWorkshops[ tag ] && newWorkshops[ tag ].length ) ) {
-			newWorkshops[ tag ] = [];
+		if ( ! ( newWorkshops[ day ] && newWorkshops[ day ].length ) ) {
+			newWorkshops[ day ] = [];
 		}
-		newWorkshops[ tag ].push( workshop );
+		newWorkshops[ day ].push( workshop );
 		return newWorkshops;
 	}, {} );
 };
