@@ -4,5 +4,8 @@
 	"title": "Email",
 	"category": "common",
 	"icon": "email",
+	"supports": {
+		"inserter": false
+	},
 	"editorScript": "file:./index.js"
 }

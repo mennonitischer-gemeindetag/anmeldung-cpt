@@ -152,7 +152,8 @@
 		}
 	},
 	"supports": {
-		"html": false
+		"html": false,
+		"inserter": false
 	},
 	"editorScript": "file:./index.js"
 }
