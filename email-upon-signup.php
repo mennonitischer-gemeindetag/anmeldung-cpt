@@ -210,7 +210,7 @@ function get_invoice( $post_id ) {
 
 	$json_data = wp_json_encode( $data );
 
-	$url = 'http://gemeindetag-rechnungen.fabian-kaegy.de/invoice';
+	$url = 'https://invoice-generator.fabian-kaegy.com/invoice';
 
 	$post_request_options = [
 		'method'   => 'POST',
