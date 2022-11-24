@@ -50,6 +50,10 @@ function custom_post_type_tickets() {
 		'capability_type'     => 'post',
 		'show_in_rest'        => true,
 		'rest_base'           => 'tickets',
+		'template'            => [
+			[ 'gemeindetag/ticket' ]
+		],
+		'template_lock'       => 'all',
 	];
 	register_post_type( 'tickets', $args );
 }

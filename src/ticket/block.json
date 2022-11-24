@@ -1,0 +1,14 @@
+{
+	"name": "gemeindetag/ticket",
+	"apiVersion": 2,
+	"title": "TIcket",
+	"icon": "money",
+	"description": "Anmeldung",
+	"category": "common",
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"lock": false
+	},
+	"editorScript": "file:./index.js"
+}
