@@ -19,14 +19,14 @@ import Success from './wizard-pages/Success';
 import Failure from './wizard-pages/Failure';
 
 type AnmeldungProps = {
-	age: Number,
-	workshops: Array<Number>,
-	tickets: Array<Number>,
-	ausfluege: Array<Number>,
-	kinderprogramm: Array<Number>,
-}
+	age: Number;
+	workshops: Array< Number >;
+	tickets: Array< Number >;
+	ausfluege: Array< Number >;
+	kinderprogramm: Array< Number >;
+};
 
-export const AnmeldungKontext = createContext<AnmeldungProps>( {
+export const AnmeldungKontext = createContext< AnmeldungProps >( {
 	age: 18,
 	tickets: [] as Number[],
 	workshops: [] as Number[],
@@ -57,15 +57,13 @@ export default () => {
 			try {
 				setWorkshops(
 					await apiFetch( {
-						path:
-							'/wp/v2/workshops?per_page=100&filter[orderby]=meta_value&meta_key=nr',
+						path: '/wp/v2/workshops?per_page=100&filter[orderby]=meta_value&meta_key=nr',
 					} )
 				);
 
 				setAusfluege(
 					await apiFetch( {
-						path:
-							'/wp/v2/ausfluege?per_page=100&filter[orderby]=meta_value&meta_key=nr',
+						path: '/wp/v2/ausfluege?per_page=100&filter[orderby]=meta_value&meta_key=nr',
 					} )
 				);
 				setTickets(

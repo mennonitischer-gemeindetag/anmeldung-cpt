@@ -53,4 +53,4 @@ export default function Food( { essen } ) {
 			</div>
 		</Wizard.Page>
 	);
-};
+}

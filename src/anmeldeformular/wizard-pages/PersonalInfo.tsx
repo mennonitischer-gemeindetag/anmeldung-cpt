@@ -1,4 +1,4 @@
-import { Field } from 'react-final-form-html5-validation';
+import { Field } from 'react-final-form';
 import Wizard from '../Wizard';
 import { useContext } from '@wordpress/element';
 import { OnChange } from 'react-final-form-listeners';
@@ -140,4 +140,4 @@ export default function PersonalInfo( { setAge } ) {
 			</div>
 		</Wizard.Page>
 	);
-};
+}

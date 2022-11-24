@@ -28,4 +28,4 @@ export default function Success( props ) {
 			</div>
 		</div>
 	);
-};
+}

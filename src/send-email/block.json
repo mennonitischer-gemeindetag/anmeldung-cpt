@@ -5,7 +5,8 @@
 	"category": "common",
 	"icon": "email",
 	"supports": {
-		"inserter": false
+		"inserter": false,
+		"lock": false
 	},
 	"editorScript": "file:./index.js"
 }

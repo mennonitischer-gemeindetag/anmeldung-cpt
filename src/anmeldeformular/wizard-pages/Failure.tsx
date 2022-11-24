@@ -17,4 +17,4 @@ export default function Failure( props ) {
 			<pre>{ props.error }</pre>
 		</div>
 	);
-};
+}

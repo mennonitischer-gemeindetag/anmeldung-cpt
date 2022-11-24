@@ -1,6 +1,11 @@
 import Wizard from '../Wizard';
 import Card from '../components/Card';
 import { groupEntitiesByDay } from '../helper/transform-data';
+import { WP_REST_API_Ausfluege } from '../types';
+
+interface AusfluegeProps {
+	ausfluege: Array<WP_REST_API_Ausfluege>
+}
 
 export default function Ausfluege( { ausfluege } ) {
 	const transformedAusfluege = groupEntitiesByDay( ausfluege );

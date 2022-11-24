@@ -30,7 +30,7 @@ type SignUpFormState = {
 	telefonnummer: string,
 }
 
-const isIdInList = ( list ) => ( item ) => list.some( ( id ) => id == item.id )
+const isIdInList = ( list ) => ( item ) => Array.isArray(list) ? list.some( ( id ) => id == item.id ) : [];
 
 export default function Overview( props: OverviewProps ) {
 	const { workshops, ausfluege, tickets, essen } = props;

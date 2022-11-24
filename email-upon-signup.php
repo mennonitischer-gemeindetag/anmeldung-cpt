@@ -58,16 +58,16 @@ add_action( 'send_signup_mail', __NAMESPACE__ . '\send_signup_mail', 10, 1 );
  */
 function send_signup_mail( $post_id ) {
 
-	$incoive = get_invoice( $post_id );
+	$invoice = get_invoice( $post_id );
 
-	$email        = get_post_meta( $post_id, 'email', true );
-	$rechnungs_id = $post_id;
-	$vorname      = get_post_meta( $post_id, 'vorname', true );
-	$nachname     = get_post_meta( $post_id, 'nachname', true );
+	$email      = get_post_meta( $post_id, 'email', true );
+	$invoice_id = $post_id;
+	$vorname    = get_post_meta( $post_id, 'vorname', true );
+	$nachname   = get_post_meta( $post_id, 'nachname', true );
 
 	$to          = $email;
-	$subject     = "Rechnung $rechnungs_id - Mennonitischer Gemeindetag 2020";
-	$attachments = [ $incoive ];
+	$subject     = "Rechnung $invoice_id - Mennonitischer Gemeindetag 2020";
+	$attachments = [ $invoice ];
 	$body        = "<p>Hallo $vorname,\n \n</p>
 
 	<p>herzlichen Dank für deine Anmeldung zum Gemeindetag 2020 auf dem Weierhof. Im Anhang findest du die Rechnung mit der Auflistung aller von dir ausgewählten Veranstaltungen, an denen du teilnehmen möchtest. Bitte überweise den Betrag auf das in der Rechnung angegebene Konto. Deine Anmeldung wird mit Eingang des Rechnungsbetrages abgeschlossen. Hierüber erhältst du erneut eine Information.\n \n</p>
@@ -84,131 +84,206 @@ function send_signup_mail( $post_id ) {
 }
 
 /**
- * get the invoice from API
+ * get registration object
  *
- * @param Integer $post_id ID of Post
+ * @param int $registration_id registration post id
  */
-function get_invoice( $post_id ) {
+function get_registration( $registration_id ) {
+	$day_ids                     = get_post_meta( $registration_id, 'teilnahmetage', true );
+	$workshops_ids               = get_post_meta( $registration_id, 'workshops', true );
+	$trip_ids                    = get_post_meta( $registration_id, 'ausfluege', true );
+	$food_ids                    = get_post_meta( $registration_id, 'verpflegung', true );
+	$geb_datum                   = get_post_meta( $registration_id, 'geb_datum', true );
+	$ermaessigt_adult            = get_post_meta( $registration_id, 'ermaessigt_adult', true );
+	$vorname                     = get_post_meta( $registration_id, 'vorname', true );
+	$nachname                    = get_post_meta( $registration_id, 'nachname', true );
+	$street                      = get_post_meta( $registration_id, 'adresse_straße', true );
+	$adresse_ort                 = get_post_meta( $registration_id, 'adresse_ort', true );
+	$adresse_plz                 = get_post_meta( $registration_id, 'adresse_plz', true );
+	$uebernachtung_and_breakfast = get_post_meta( $registration_id, 'uebernachtung_and_breakfast', true );
 
-	$teilnahmetage_ids = get_post_meta( $post_id, 'teilnahmetage', true );
-	$workshops_ids     = get_post_meta( $post_id, 'workshops', true );
-	$ausfluege_ids     = get_post_meta( $post_id, 'ausfluege', true );
-	$verpflegung_ids   = get_post_meta( $post_id, 'verpflegung', true );
-	$age               = get_age( get_post_meta( $post_id, 'geb_datum', true ) );
-	$ermaessigt_adult  = get_post_meta( $post_id, 'ermaessigt_adult', true );
 	$is_free_kids_meal = $age <= 9;
+	$age               = get_age( $geb_datum );
+	$days              = get_days_by_ids( $day_ids, $age, $ermaessigt_adult );
+	$workshops         = get_workshops_by_ids( $workshops_ids );
+	$ausfluege         = get_trips_by_ids( $trip_ids );
+	$food              = get_food_by_ids( $food_ids );
+	$late_payment      = get_late_payment_fee_amount();
 
-	$teilnametage = $teilnahmetage_ids ? array_map(
-		function( $teilnahmetag_id ) use ( $age, $ermaessigt_adult ) {
+	return [
+		'id'                          => $registration_id,
+		'day_ids'                     => $day_ids,
+		'workshops_ids'               => $workshops_ids,
+		'trip_ids'                    => $trip_ids,
+		'food_ids'                    => $food_ids,
+		'geb_datum'                   => $geb_datum,
+		'ermaessigt_adult'            => $ermaessigt_adult,
+		'vorname'                     => $vorname,
+		'nachname'                    => $nachname,
+		'street'                      => $street,
+		'adresse_ort'                 => $adresse_ort,
+		'adresse_plz'                 => $adresse_plz,
+		'uebernachtung_and_breakfast' => $uebernachtung_and_breakfast,
+		'is_free_kids_meal'           => $is_free_kids_meal,
+		'age'                         => $age,
+		'days'                        => $days,
+		'workshops'                   => $workshops,
+		'ausfluege'                   => $ausfluege,
+		'food'                        => $food,
+		'late_payment'                => $late_payment,
+	];
+}
+
+/**
+ * get days by ids
+ *
+ * @param array   $ids              array of ids
+ * @param int     $age              age of the person
+ * @param boolean $ermaessigt_adult whether the person gets a reduced price
+ */
+function get_days_by_ids( $ids, $age, $ermaessigt_adult ) {
+	return $ids ? array_map(
+		function( $id ) use ( $age, $ermaessigt_adult ) {
 			return [
-				'id'    => $teilnahmetag_id,
-				'title' => get_the_title( $teilnahmetag_id ),
+				'id'    => $id,
+				'title' => get_the_title( $id ),
 				'price' => get_price(
-					$teilnahmetag_id,
+					$id,
 					$age,
 					$ermaessigt_adult
 				),
 			];
 		},
-		$teilnahmetage_ids
+		$ids
 	) : [];
+}
 
-	$workshops = $workshops_ids ? array_map(
-		function( $workshop_id ) {
-			$title     = get_the_title( $workshop_id );
-			$meta_char = get_post_meta( $workshop_id, 'character', true );
+/**
+ * get workshops by ids
+ *
+ * @param array $ids ids
+ */
+function get_workshops_by_ids( $ids ) {
+	return $ids ? array_map(
+		function( $id ) {
+			$title     = get_the_title( $id );
+			$meta_char = get_post_meta( $id, 'character', true );
 			$character = $meta_char ? $meta_char : 'W';
-			$number    = get_post_meta( $workshop_id, 'nr', true );
+			$number    = get_post_meta( $id, 'nr', true );
 
 			return [
-				'id'    => $workshop_id,
+				'id'    => $id,
 				'title' => "$character$number - $title",
-				'price' => get_post_meta( $workshop_id, 'preis', true ),
+				'price' => get_post_meta( $id, 'preis', true ),
 			];
 		},
-		$workshops_ids
+		$ids
 	) : [];
+}
 
-	$ausfluege = $ausfluege_ids ? array_map(
-		function( $ausflug_id ) {
-			$title     = get_the_title( $ausflug_id );
-			$meta_char = get_post_meta( $ausflug_id, 'character', true );
+/**
+ * get trips by ids
+ *
+ * @param array $ids ids
+ */
+function get_trips_by_ids( $ids ) {
+	return $ids ? array_map(
+		function( $id ) {
+			$title     = get_the_title( $id );
+			$meta_char = get_post_meta( $id, 'character', true );
 			$character = $meta_char ? $meta_char : 'A';
-			$number    = get_post_meta( $ausflug_id, 'nr', true );
+			$number    = get_post_meta( $id, 'nr', true );
 
 			return [
-				'id'    => $ausflug_id,
+				'id'    => $id,
 				'title' => "$character$number - $title",
-				'price' => get_post_meta( $ausflug_id, 'preis', true ),
+				'price' => get_post_meta( $id, 'preis', true ),
 			];
 		},
-		$ausfluege_ids
+		$ids
 	) : [];
+}
 
-	$verpflegung = $verpflegung_ids ? array_map(
-		function( $verpflegung_id ) use ( $is_free_kids_meal ) {
+/**
+ * get food by ids
+ *
+ * @param array $ids ids
+ */
+function get_food_by_ids( $ids ) {
+	return $ids ? array_map(
+		function( $id ) use ( $is_free_kids_meal ) {
 			return [
-				'id'    => $verpflegung_id,
-				'nr'    => get_post_meta( $verpflegung_id, 'nr', true ),
-				'title' => get_the_title( $verpflegung_id ),
-				'price' => $is_free_kids_meal ? 0 : get_post_meta( $verpflegung_id, 'price', true ),
+				'id'    => $id,
+				'nr'    => get_post_meta( $id, 'nr', true ),
+				'title' => get_the_title( $id ),
+				'price' => $is_free_kids_meal ? 0 : get_post_meta( $id, 'price', true ),
 			];
 		},
-		$verpflegung_ids
+		$ids
 	) : [];
+}
 
-	$vorname                     = get_post_meta( $post_id, 'vorname', true );
-	$nachname                    = get_post_meta( $post_id, 'nachname', true );
-	$adresse_strasse             = get_post_meta( $post_id, 'adresse_straße', true );
-	$adresse_ort                 = get_post_meta( $post_id, 'adresse_ort', true );
-	$adresse_plz                 = get_post_meta( $post_id, 'adresse_plz', true );
-	$uebernachtung_and_breakfast = get_post_meta( $post_id, 'uebernachtung_and_breakfast', true );
+/**
+ * add prices together
+ *
+ * @param Integer $carry carry
+ * @param Integer $item item
+ */
+function sum( $carry, $item ) {
+	$carry += \floatval( $item['price'] );
+	return $carry;
+}
 
-	$late_payment = calculate_late_payment();
+/**
+ * get total price of registration
+ *
+ * @param array $registration registration object
+ */
+function get_total_price( $registration ) {
+	$workshops_total = array_reduce( $registration['workshops'], 'sum', 0 );
+	$trips_total     = array_reduce( $registration['ausfluege'], 'sum', 0 );
+	$food_total      = $registration_id['is_free_kids_meal'] ? 0 : array_reduce( $registration_id['food'], 'sum', 0 );
+	$days_total      = array_reduce( $registration_id['days'], 'sum', 0 );
+	$sleeping_total  = $registration_id['uebernachtung_and_breakfast'] ? 15 : 0;
+	$late_payment    = get_late_payment_fee_amount();
 
-	/**
-	 * add prices together
-	 *
-	 * @param Integer $carry carry
-	 * @param Integer $item item
-	 */
-	function sum( $carry, $item ) {
-		$carry += \floatval( $item['price'] );
-		return $carry;
-	}
+	return $workshops_total + $trips_total + $food_total + $days_total + $sleeping_total + $late_payment;
+}
 
-	$is_free_kids_meal = $age <= 9;
-
-	$betrag =
-		array_reduce( $workshops, __NAMESPACE__ . '\sum', 0 ) +
-		array_reduce( $ausfluege, __NAMESPACE__ . '\sum', 0 ) +
-		( $is_free_kids_meal ? 0 : array_reduce( $verpflegung, __NAMESPACE__ . '\sum', 0 ) ) +
-		array_reduce( $teilnametage, __NAMESPACE__ . '\sum', 0 ) +
-		( $uebernachtung_and_breakfast ? 15 : 0 ) +
-		$late_payment;
-
-	add_post_meta( $post_id, 'betrag', $betrag, true );
-
+/**
+ * get json data to send to pdf generator api
+ *
+ * @param array $registration registration object
+ */
+function get_registration_data_for_api( $registration ) {
 	$data = [
-		'id'                          => $post_id,
-		'vorname'                     => $vorname,
-		'nachname'                    => $nachname,
-		'late_payment_aufschlag'      => $late_payment,
-		'adresse_straße'              => $adresse_strasse,
-		'adresse_ort'                 => $adresse_ort,
-		'adresse_plz'                 => $adresse_plz,
-		'teilnahmetage'               => $teilnametage,
-		'workshops'                   => $workshops,
-		'ausfluege'                   => $ausfluege,
-		'verpflegung'                 => $verpflegung,
-		'uebernachtung_and_breakfast' => $uebernachtung_and_breakfast ? [
+		'id'                          => $registration['id'],
+		'vorname'                     => $registration['vorname'],
+		'nachname'                    => $registration['nachname'],
+		'late_payment_aufschlag'      => $registration['late_payment'],
+		'adresse_straße'              => $registration['street'],
+		'adresse_ort'                 => $registration['adresse_ort'],
+		'adresse_plz'                 => $registration['adresse_plz'],
+		'teilnahmetage'               => $registration['days'],
+		'workshops'                   => $registration['workshops'],
+		'ausfluege'                   => $registration['ausfluege'],
+		'verpflegung'                 => $registration['food'],
+		'uebernachtung_and_breakfast' => $registration['uebernachtung_and_breakfast'] ? [
 			'title' => 'Jugend-Übernachtung & Frühstück',
 			'price' => 15,
 		] : null,
-		'betrag'                      => $betrag,
+		'betrag'                      => get_total_price( $registration ),
 	];
 
-	$json_data = wp_json_encode( $data );
+	return wp_json_encode( $data );
+}
+
+/**
+ * get invoice pdf from api
+ *
+ * @param array $registration registration object
+ */
+function get_invoice_pdf_from_api( $registration ) {
 
 	$url = 'https://invoice-generator.fabian-kaegy.com/invoice';
 
@@ -217,7 +292,7 @@ function get_invoice( $post_id ) {
 		'timeout'  => 100,
 		'blocking' => true,
 		'headers'  => [ 'Content-Type' => 'application/json' ],
-		'body'     => $json_data,
+		'body'     => get_registration_data_for_api( $registration ),
 	];
 
 	$response = wp_remote_post( $url, $post_request_options );
@@ -240,13 +315,34 @@ function get_invoice( $post_id ) {
 
 	header( 'Content-type: application/pdf' );
 
-	$file_path = ABSPATH . "/invoices/rechnung-$post_id.pdf";
+	$file_path = ABSPATH . "/invoices/rechnung-$registration_id.pdf";
 
 	$file          = \fopen( $file_path, 'w' );
 	$bites_written = file_put_contents( $file_path, $pdf_data );
 
 	return $file_path;
+}
 
+/**
+ * adds total price to registration post meta
+ *
+ * @param array $registration registration
+ */
+function add_total_price_to_registration( $registration ) {
+	$total_price = get_total_price( $registration );
+	add_post_meta( $registration['id'], 'betrag', $total_price, true );
+}
+
+/**
+ * get the invoice from API
+ *
+ * @param Integer $registration_id ID of Post
+ */
+function get_invoice( $registration_id ) {
+	$registration = get_registration( $registration_id );
+
+	add_total_price_to_registration( $registration );
+	get_invoice_pdf_from_api( $registration );
 }
 
 /**
@@ -307,19 +403,19 @@ function get_price( $post_id, $age, $ermaessigt_adult = false ) {
 }
 
 /**
- * calculate amout of late payment
+ * calculate amount of late payment
  */
-function calculate_late_payment() {
-	$first_stage   = new \DateTime( '01-03-2020' );
-	$seccond_stage = new \DateTime( '15-04-2020' );
-	$now           = new \DateTime();
+function get_late_payment_fee_amount() {
+	$first_stage  = new \DateTime( '01-03-2020' );
+	$second_stage = new \DateTime( '15-04-2020' );
+	$now          = new \DateTime();
 
 	$fee = 0;
 
 	if ( $first_stage < $now ) {
 		$fee = 10;
 	}
-	if ( $seccond_stage < $now ) {
+	if ( $second_stage < $now ) {
 		$fee = 20;
 	}
 
@@ -335,16 +431,16 @@ add_action( 'send_payment_success_email', __NAMESPACE__ . '\send_payment_success
  */
 function send_payment_success_email( $post_id ) {
 
-	$email        = get_post_meta( $post_id, 'email', true );
-	$rechnungs_id = $post_id;
-	$vorname      = get_post_meta( $post_id, 'vorname', true );
-	$to           = $email;
-	$headers[]    = 'Content-Type: text/html; charset=UTF-8';
-	$headers[]    = 'From: Gemeindetag 2020 <gemeindetag@mennoniten.de>';
-	$subject      = 'Zahlungsbestätigung - Mennonitischer Gemeindetag 2020';
-	$body         = "<p>Hallo $vorname,\n \n</p>
+	$email      = get_post_meta( $post_id, 'email', true );
+	$invoice_id = $post_id;
+	$vorname    = get_post_meta( $post_id, 'vorname', true );
+	$to         = $email;
+	$headers[]  = 'Content-Type: text/html; charset=UTF-8';
+	$headers[]  = 'From: Gemeindetag 2020 <gemeindetag@mennoniten.de>';
+	$subject    = 'Zahlungsbestätigung - Mennonitischer Gemeindetag 2020';
+	$body       = "<p>Hallo $vorname,\n \n</p>
 
-	<p>vielen Dank für die Überweisung von Rechnung $rechnungs_id\n \n</p>
+	<p>vielen Dank für die Überweisung von Rechnung $invoice_id\n \n</p>
 
 	<p>Hiermit ist die Anmeldung zum Gemeindetag 2020 bestätigt. Wir freuen uns, Dich zum Gemeindetag auf dem Weierhof begrüßen zu dürfen.</p>";
 
@@ -353,7 +449,7 @@ function send_payment_success_email( $post_id ) {
 
 add_action( 'send_payment_success_email', __NAMESPACE__ . '\set_payment_success', 15, 1 );
 /**
- * set payent success meta field
+ * set payment success meta field
  *
  * @param Integer $post_id ID of the post to update
  */

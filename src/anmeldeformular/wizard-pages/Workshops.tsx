@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
 import Card from '../components/Card';
 import Wizard from '../Wizard';
 import { groupEntitiesByDay } from '../helper/transform-data';
 import type { WP_REST_API_Workshop } from '../types';
 
 interface WorkshopsProps {
-	workshops: Array<WP_REST_API_Workshop>
+	workshops: Array< WP_REST_API_Workshop >;
 }
 
 export default function Workshops( { workshops }: WorkshopsProps ) {
@@ -22,11 +23,11 @@ export default function Workshops( { workshops }: WorkshopsProps ) {
 			{ hasWorkshops &&
 				Object.entries( workshopsByDay )
 					.reverse()
-					.map( ( [ day, workshops ] ) => (
+					.map( ( [ day, innerWorkshops ] ) => (
 						<div className={ `Workshops-${ day }` } key={ day }>
 							<h3>{ day }</h3>
 							<div className={ `workshop-list` }>
-								{ workshops
+								{ innerWorkshops
 									.reverse()
 									.map( ( workshop ) => (
 										<Card
@@ -43,4 +44,4 @@ export default function Workshops( { workshops }: WorkshopsProps ) {
 					) ) }
 		</Wizard.Page>
 	);
-};
+}

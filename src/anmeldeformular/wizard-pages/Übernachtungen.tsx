@@ -3,7 +3,7 @@ import Wizard from '../Wizard';
 
 export default function Uebernachtungen() {
 	const {
-		values: { uebernachtung_and_breakfast },
+		values: { uebernachtung_and_breakfast: hasUebernachtungAndBreakfast },
 	} = useFormState();
 
 	return (
@@ -26,7 +26,7 @@ export default function Uebernachtungen() {
 					Jugend Übernachtung mit Frühstück - 15€
 				</label>
 			</div>
-			{ uebernachtung_and_breakfast && (
+			{ hasUebernachtungAndBreakfast && (
 				<section>
 					<div>
 						<Field
@@ -38,7 +38,7 @@ export default function Uebernachtungen() {
 						/>
 						<label htmlFor={ 'uebernachtung-turnhalle' }>
 							Übernachtung in der Turnhalle des Gymnasium Weierhof
-							mit Frühstück (08:00 – 9:00 Uhr) von Donnerstag
+							mit Frühstück (08:00 - 9:00 Uhr) von Donnerstag
 							(21.05.2020) bis Sonntag (24.05.2020)
 						</label>
 					</div>
@@ -76,4 +76,4 @@ export default function Uebernachtungen() {
 			) }
 		</Wizard.Page>
 	);
-};
+}
