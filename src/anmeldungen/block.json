@@ -8,5 +8,6 @@
 		"inserter": false,
 		"lock": false
 	},
-	"category": "common"
+	"category": "common",
+	"editorScript": "file:./index.js"
 }
