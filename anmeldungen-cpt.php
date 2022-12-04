@@ -309,6 +309,7 @@ add_filter( 'bulk_actions-edit-anmeldung', __NAMESPACE__ . '\register_anmeldung_
  * @param {} $bulk_actions bulk actions
  */
 function register_anmeldung_actions( $bulk_actions ) {
+	$bulk_actions['regenerate_invoice'] = 'Rechnung neu Generieren';
 	$bulk_actions['set_status_payed'] = 'Status auf Bezahlt setzen';
 	return $bulk_actions;
 }
@@ -335,6 +336,17 @@ function anmeldung_actions_handler( $redirect_to, $doaction, $post_ids ) {
 		$redirect_to = add_query_arg( 'bulk_set_status_to_payed_posts', count( $post_ids ), $redirect_to );
 		return $redirect_to;
 	}
+
+	if ( 'regenerate_invoice' === $doaction ) {
+		foreach ( $post_ids as $post_id ) {
+			// Perform action for each post.
+			$registration = get_registration( $post_id );
+			get_invoice_pdf_from_api( $registration );
+		}
+
+		$redirect_to = add_query_arg( 'bulk_regenerated_invoices', count( $post_ids ), $redirect_to );
+		return $redirect_to;
+	}
 }
 
 
@@ -350,6 +362,23 @@ function anmeldung_actions_admin_notice() {
 				_n(
 					'Status von %s Anmeldung in Bezahlt geändert.',
 					'Status von %s Anmeldungen in Bezahlt geändert.',
+					$updated_posts_count
+				) . '</p>
+				<button type="button" class="notice-dismiss">
+					<span class="screen-reader-text">Dismiss this notice.</span>
+				</button>
+			</div>',
+			1 === $updated_posts_count ? 'einer' : esc_attr( $updated_posts_count )
+		);
+	}
+
+	if ( ! empty( $_REQUEST['bulk_bulk_regenerated_invoice'] ) ) {
+		$updated_posts_count = intval( $_REQUEST['bulk_regenerated_invoices'] );
+		printf(
+			'<div class="notice notice-success is-dismissible"><p>' .
+				_n(
+					'Rechnung von %s Anmeldung neu generiert.',
+					'Rechnung von %s Anmeldungen neu generiert.',
 					$updated_posts_count
 				) . '</p>
 				<button type="button" class="notice-dismiss">
