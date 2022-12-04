@@ -370,11 +370,12 @@ function get_age( $geb_date ) {
 	$is_valid_date = is_date( $geb_date );
 
 	if ( ! $is_valid_date ) {
+		error_log('Fehler im Geburtsdatum');
 		return 'Fehler im Geburtsdatum';
 	}
 
 	$d1 = new \DateTime( $geb_date );
-	$d2 = new \DateTime( '25.05.2020' );
+	$d2 = new \DateTime( '28.02.2023' );
 
 	$diff = $d2->diff( $d1 );
 
