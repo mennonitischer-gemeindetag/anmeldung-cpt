@@ -45,7 +45,7 @@ export default () => {
 	const [ signUpError, setSignUpError ] = useState( null );
 
 	const updateAge = ( birthdayDate ) => {
-		const newAge = moment( '24.05.2020', 'DD.MM.YYYY' ).diff(
+		const newAge = moment( '28.04.2023', 'DD.MM.YYYY' ).diff(
 			moment( birthdayDate, 'DD.MM.YYYY' ),
 			'years'
 		);

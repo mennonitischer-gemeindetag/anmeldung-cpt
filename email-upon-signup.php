@@ -66,18 +66,18 @@ function send_signup_mail( $post_id ) {
 	$nachname   = get_post_meta( $post_id, 'nachname', true );
 
 	$to          = $email;
-	$subject     = "Rechnung $invoice_id - Mennonitischer Gemeindetag 2020";
+	$subject     = "Rechnung $invoice_id - Mennonitischer Gemeindetag 2023";
 	$attachments = [ $invoice ];
 	$body        = "<p>Hallo $vorname,\n \n</p>
 
-	<p>herzlichen Dank für deine Anmeldung zum Gemeindetag 2020 auf dem Weierhof. Im Anhang findest du die Rechnung mit der Auflistung aller von dir ausgewählten Veranstaltungen, an denen du teilnehmen möchtest. Bitte überweise den Betrag auf das in der Rechnung angegebene Konto. Deine Anmeldung wird mit Eingang des Rechnungsbetrages abgeschlossen. Hierüber erhältst du erneut eine Information.\n \n</p>
+	<p>herzlichen Dank für deine Anmeldung zum Gemeindetag 2023 in Neuwied. Im Anhang findest du die Rechnung mit der Auflistung aller von dir ausgewählten Veranstaltungen, an denen du teilnehmen möchtest. Bitte überweise den Betrag auf das in der Rechnung angegebene Konto. Deine Anmeldung wird mit Eingang des Rechnungsbetrages abgeschlossen. Hierüber erhältst du erneut eine Information.\n \n</p>
 
 	<p>Bitte wende dich bei Rückfragen an folgende E.Mail-Adresse: <a href='mailto:gemeindetag@mennoniten.de'>gemeindetag@mennoniten.de</a> oder an 0 152 29388940.</p> 
 	\n \n
-	<p>Das AMG Gemeindetag 2020-Team wünscht viel Spaß.</p>";
+	<p>Das AMG Gemeindetag 2023-Team wünscht viel Spaß.</p>";
 
 	$headers[] = 'Content-Type: text/html; charset=UTF-8';
-	$headers[] = 'From: Gemeindetag 2020 <gemeindetag@mennoniten.de>';
+	$headers[] = 'From: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
 
 	return wp_mail( $to, $subject, $body, $headers, $attachments );
 
@@ -443,13 +443,13 @@ function send_payment_success_email( $post_id ) {
 	$vorname    = get_post_meta( $post_id, 'vorname', true );
 	$to         = $email;
 	$headers[]  = 'Content-Type: text/html; charset=UTF-8';
-	$headers[]  = 'From: Gemeindetag 2020 <gemeindetag@mennoniten.de>';
-	$subject    = 'Zahlungsbestätigung - Mennonitischer Gemeindetag 2020';
+	$headers[]  = 'From: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
+	$subject    = 'Zahlungsbestätigung - Mennonitischer Gemeindetag 2023';
 	$body       = "<p>Hallo $vorname,\n \n</p>
 
 	<p>vielen Dank für die Überweisung von Rechnung $invoice_id\n \n</p>
 
-	<p>Hiermit ist die Anmeldung zum Gemeindetag 2020 bestätigt. Wir freuen uns, Dich zum Gemeindetag auf dem Weierhof begrüßen zu dürfen.</p>";
+	<p>Hiermit ist die Anmeldung zum Gemeindetag 2023 bestätigt. Wir freuen uns, Dich zum Gemeindetag in Neuwied begrüßen zu dürfen.</p>";
 
 	return wp_mail( $to, $subject, $body, $headers );
 }
@@ -481,10 +481,10 @@ function send_email( $post_id, $subject, $message ) {
 	$vorname = get_post_meta( $post_id, 'vorname', true );
 
 	$to           = $email;
-	$headers[]    = 'Bcc: Gemeindetag 2020 <gemeindetag@mennoniten.de>';
+	$headers[]    = 'Bcc: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
 	$headers[]    = 'Content-Type: text/html; charset=UTF-8';
-	$headers[]    = 'From: Gemeindetag 2020 <gemeindetag@mennoniten.de>';
-	$mail_subject = "$subject - Mennonitischer Gemeindetag 2020";
+	$headers[]    = 'From: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
+	$mail_subject = "$subject - Mennonitischer Gemeindetag 2023";
 	$body         = "<p>Hallo $vorname,\n \n</p> <p>$message</p>";
 
 	return wp_mail( $to, $subject, $body, $headers );

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Gemeindetage Anmeldung
- * Description: Anmeldung für den Mennonitischen Gemeindetag Weierhof 2020.
+ * Description: Anmeldung für den Mennonitischen Gemeindetag Weierhof 2023.
  * Author: Fabian Kägy
  * Author URI: fabian-kaegy.de
  * Version: 1.0.0

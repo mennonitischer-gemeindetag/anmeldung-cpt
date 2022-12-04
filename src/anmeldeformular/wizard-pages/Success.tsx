@@ -3,9 +3,9 @@ export default function Success( props ) {
 		<div>
 			<h2 className={ 'section-heading' }>Vielen Dank!</h2>
 			<div>
-				Deine Anmeldung ({ props.signUpID }) zum AMG-Gemeindetag 2020
-				auf dem Weierhof ist eingegangen. Du solltest in den nächsten
-				Minuten eine E-Mail von{ ' ' }
+				Deine Anmeldung ({ props.signUpID }) zum AMG-Gemeindetag 2023 in
+				Neuwied ist eingegangen. Du solltest in den nächsten Minuten
+				eine E-Mail von{ ' ' }
 				<a href="mailto:gemeindetag@mennoniten.de">
 					gemeindetag@mennoniten.de
 				</a>{ ' ' }
