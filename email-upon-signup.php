@@ -285,7 +285,7 @@ function get_registration_data_for_api( $registration ) {
  */
 function get_invoice_pdf_from_api( $registration ) {
 
-	$url = 'https://invoice-generator.fabian-kaegy.com/invoice';
+	$url = 'http://invoice-generator.fabian-kaegy.com/invoice';
 
 	$post_request_options = [
 		'method'   => 'POST',
@@ -314,6 +314,8 @@ function get_invoice_pdf_from_api( $registration ) {
 	$pdf_data = wp_remote_retrieve_body( $response );
 
 	header( 'Content-type: application/pdf' );
+
+	$registration_id = $registration['id'];
 
 	$file_path = ABSPATH . "/invoices/rechnung-$registration_id.pdf";
 
