@@ -409,8 +409,12 @@ function get_price( $post_id, $age, $ermaessigt_adult = false ) {
  * calculate amount of late payment
  */
 function get_late_payment_fee_amount() {
-	$first_stage  = new \DateTime( '01-03-2020' );
-	$second_stage = new \DateTime( '15-04-2020' );
+
+	// 2023 there is no late payment fee
+	return 0;
+
+	$first_stage  = new \DateTime( '01-03-2022' );
+	$second_stage = new \DateTime( '15-04-2022' );
 	$now          = new \DateTime();
 
 	$fee = 0;
