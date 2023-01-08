@@ -240,10 +240,10 @@ function sum( $carry, $item ) {
  * @param array $registration registration object
  */
 function get_total_price( $registration ) {
-	$workshops_total = array_reduce( $registration['workshops'], 'sum', 0 );
-	$trips_total     = array_reduce( $registration['ausfluege'], 'sum', 0 );
-	$food_total      = $registration_id['is_free_kids_meal'] ? 0 : array_reduce( $registration_id['food'], 'sum', 0 );
-	$days_total      = array_reduce( $registration_id['days'], 'sum', 0 );
+	$workshops_total = array_reduce( $registration['workshops'], __NAMESPACE__ . '\sum', 0 );
+	$trips_total     = array_reduce( $registration['ausfluege'], __NAMESPACE__ . '\sum', 0 );
+	$food_total      = $registration_id['is_free_kids_meal'] ? 0 : array_reduce( $registration_id['food'], __NAMESPACE__ . '\sum', 0 );
+	$days_total      = array_reduce( $registration_id['days'], __NAMESPACE__ . '\sum', 0 );
 	$sleeping_total  = $registration_id['uebernachtung_and_breakfast'] ? 15 : 0;
 	$late_payment    = get_late_payment_fee_amount();
 
