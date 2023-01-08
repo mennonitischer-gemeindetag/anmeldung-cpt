@@ -77,7 +77,7 @@ function handle_signup_request( $request ) {
 		// Create the response object
 		return new WP_REST_Response( $post_id );
 	} else {
-		return new WP_Error( 'signup-failed', 'signup-failed', [ 'status' => 404 ] );
+		return new WP_Error( 'signup-failed', 'signup-failed', [ 'status' => 500 ] );
 	}
 };
 
