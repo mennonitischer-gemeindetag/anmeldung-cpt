@@ -46,7 +46,7 @@ export default () => {
 					placeholder="Email Betreff"
 					keepPlaceholderOnFocus={ true }
 				/>
-				<p>Hallo Vorname,</p>
+				<p>Hallo [[Vorname]],</p>
 				<RichText
 					tagName="p"
 					value={ content }
