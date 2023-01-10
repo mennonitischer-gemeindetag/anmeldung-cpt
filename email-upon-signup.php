@@ -102,13 +102,11 @@ function get_registration( $registration_id ) {
 	$adresse_plz                 = get_post_meta( $registration_id, 'adresse_plz', true );
 	$uebernachtung_and_breakfast = get_post_meta( $registration_id, 'uebernachtung_and_breakfast', true );
 
-	$is_free_kids_meal = $age <= 9;
 	$age               = get_age( $geb_datum );
 	$days              = get_days_by_ids( $day_ids, $age, $ermaessigt_adult );
 	$workshops         = get_workshops_by_ids( $workshops_ids );
 	$ausfluege         = get_trips_by_ids( $trip_ids );
 	$food              = get_food_by_ids( $food_ids );
-	$late_payment      = get_late_payment_fee_amount();
 
 	return [
 		'id'                          => $registration_id,
@@ -124,13 +122,11 @@ function get_registration( $registration_id ) {
 		'adresse_ort'                 => $adresse_ort,
 		'adresse_plz'                 => $adresse_plz,
 		'uebernachtung_and_breakfast' => $uebernachtung_and_breakfast,
-		'is_free_kids_meal'           => $is_free_kids_meal,
 		'age'                         => $age,
 		'days'                        => $days,
 		'workshops'                   => $workshops,
 		'ausfluege'                   => $ausfluege,
 		'food'                        => $food,
-		'late_payment'                => $late_payment,
 	];
 }
 
