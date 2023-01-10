@@ -342,7 +342,7 @@ function get_invoice( $registration_id ) {
 	$registration = get_registration( $registration_id );
 
 	add_total_price_to_registration( $registration );
-	get_invoice_pdf_from_api( $registration );
+	return get_invoice_pdf_from_api( $registration );
 }
 
 /**
