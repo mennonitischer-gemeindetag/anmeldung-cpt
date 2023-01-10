@@ -244,10 +244,8 @@ function get_total_price( $registration ) {
 	$trips_total     = array_reduce( $registration['ausfluege'], __NAMESPACE__ . '\sum', 0 );
 	$food_total      = $registration_id['is_free_kids_meal'] ? 0 : array_reduce( $registration_id['food'], __NAMESPACE__ . '\sum', 0 );
 	$days_total      = array_reduce( $registration_id['days'], __NAMESPACE__ . '\sum', 0 );
-	$sleeping_total  = $registration_id['uebernachtung_and_breakfast'] ? 15 : 0;
-	$late_payment    = get_late_payment_fee_amount();
 
-	return $workshops_total + $trips_total + $food_total + $days_total + $sleeping_total + $late_payment;
+	return $workshops_total + $trips_total + $food_total + $days_total;
 }
 
 /**
@@ -260,7 +258,6 @@ function get_registration_data_for_api( $registration ) {
 		'id'                          => $registration['id'],
 		'vorname'                     => $registration['vorname'],
 		'nachname'                    => $registration['nachname'],
-		'late_payment_aufschlag'      => $registration['late_payment'],
 		'adresse_straße'              => $registration['street'],
 		'adresse_ort'                 => $registration['adresse_ort'],
 		'adresse_plz'                 => $registration['adresse_plz'],
@@ -269,8 +266,9 @@ function get_registration_data_for_api( $registration ) {
 		'ausfluege'                   => $registration['ausfluege'],
 		'verpflegung'                 => $registration['food'],
 		'uebernachtung_and_breakfast' => $registration['uebernachtung_and_breakfast'] ? [
-			'title' => 'Jugend-Übernachtung & Frühstück',
-			'price' => 15,
+			'title' => 'Massenlager inkl. Frühstück von Freitag (28.04.2023) bis
+			Montag (01.05.2023)',
+			'price' => 0,
 		] : null,
 		'betrag'                      => get_total_price( $registration ),
 	];

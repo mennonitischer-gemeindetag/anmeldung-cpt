@@ -1,31 +1,29 @@
-import calculateLatePayment from "./calculate-late-payment";
-import getTicketPrice from "./get-ticket-price";
+import calculateLatePayment from './calculate-late-payment';
+import getTicketPrice from './get-ticket-price';
 
-function add(accumulator, a) {
-  return accumulator + a;
+function add( accumulator, a ) {
+	return accumulator + a;
 }
 
-const addValueOfKey = ( key = 'price' ) => ( summe, item ) => {
-	if ( ! item.meta[ key ] && ! isNaN( item.meta[ key ] ) ) {
-		return summe;
-	}
-	return summe + parseInt( item.meta[ key ] );
-};
+const addValueOfKey =
+	( key = 'price' ) =>
+	( summe, item ) => {
+		if ( ! item.meta[ key ] && ! isNaN( item.meta[ key ] ) ) {
+			return summe;
+		}
+		return summe + parseInt( item.meta[ key ] );
+	};
 
-function getWorkshopsTotalPrice(workshops) {
+function getWorkshopsTotalPrice( workshops ) {
 	return workshops.reduce( addValueOfKey( 'preis' ), 0 );
 }
 
-function getTripsTotalPrice(trips) {
+function getTripsTotalPrice( trips ) {
 	return trips.reduce( addValueOfKey( 'preis' ), 0 );
 }
 
-function getFoodTotalPrice( food, age ) {
-	const isFreeKidMeal = age <= 9;
-
-	return isFreeKidMeal
-		? 0
-		: food.reduce( addValueOfKey( 'price' ), 0 )
+function getFoodTotalPrice( food ) {
+	return food.reduce( addValueOfKey( 'price' ), 0 );
 }
 
 function getTicketTotalPrice( tickets, age ) {
@@ -40,16 +38,13 @@ export default function calculateTotalPrice( {
 	age,
 	food,
 	tickets,
-	sleepingOnSite
 } ) {
-
 	const prices = [
 		getWorkshopsTotalPrice( workshops ),
 		getTripsTotalPrice( trips ),
-		getFoodTotalPrice( food, age ),
+		getFoodTotalPrice( food ),
 		getTicketTotalPrice( tickets, age ),
-		sleepingOnSite ? 15 : 0,
-		calculateLatePayment()
+		calculateLatePayment(),
 	];
 
 	return prices.reduce( add, 0 );

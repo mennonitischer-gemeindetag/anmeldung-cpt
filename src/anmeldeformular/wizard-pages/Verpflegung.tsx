@@ -1,13 +1,8 @@
 import { Field } from 'react-final-form';
 import Wizard from '../Wizard';
 import { formatPrice } from '../helper/format-price';
-import { AnmeldungKontext } from '../Anmeldeformular';
-import { useContext } from '@wordpress/element';
 
 export default function Food( { essen } ) {
-	const { age } = useContext( AnmeldungKontext );
-	const isFreeKidMeal = age <= 9;
-
 	return (
 		<Wizard.Page>
 			<h2 className={ 'section-heading' }>Verpflegung</h2>
@@ -40,9 +35,7 @@ export default function Food( { essen } ) {
 													>{ `${
 														speise.speise
 													} - ${ formatPrice(
-														isFreeKidMeal
-															? 0
-															: speise.price
+														speise.price
 													) }` }</label>
 												</div>
 											) ) }

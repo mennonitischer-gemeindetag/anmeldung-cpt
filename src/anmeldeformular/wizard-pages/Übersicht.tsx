@@ -1,10 +1,10 @@
+/* eslint-disable camelcase */
 import Wizard from '../Wizard';
 import { Field, useFormState } from 'react-final-form';
 import Table, { TableRow, TableHeader, TableFooter } from '../components/Table';
 import { getTicketPrice } from './TeilnameTage';
 import { useContext } from '@wordpress/element';
 import { AnmeldungKontext } from '../Anmeldeformular';
-import calculateLatePayment from '../helper/calculate-late-payment';
 import calculateTotalPrice from '../helper/calculate-total-price';
 import {
 	WP_REST_API_Workshop,
@@ -36,7 +36,9 @@ type SignUpFormState = {
 };
 
 const isIdInList = ( list ) => ( item ) =>
-	Array.isArray( list ) ? list.some( ( id ) => id == item.id ) : [];
+	Array.isArray( list )
+		? list.some( ( id ) => Number( id ) === Number( item.id ) )
+		: false;
 
 export default function Overview( props: OverviewProps ) {
 	const { workshops, ausfluege, tickets, essen } = props;
@@ -63,9 +65,6 @@ export default function Overview( props: OverviewProps ) {
 	const selectedTrips = ausfluege.filter( isIdInList( tripIds ) );
 	const selectedFood = essen.filter( isIdInList( foodIds ) );
 	const selectedTickets = tickets.filter( isIdInList( ticketIds ) );
-
-	const latePaymentPrice = calculateLatePayment();
-	const isFreeKidMeal = age <= 9;
 
 	const totalPrice = calculateTotalPrice( {
 		workshops: selectedWorkshops,
@@ -114,25 +113,18 @@ export default function Overview( props: OverviewProps ) {
 						price={ ausflug.meta.preis }
 					/>
 				) ) }
-				{ selectedFood.map( ( essen ) => (
+				{ selectedFood.map( ( selectedEssen ) => (
 					<TableRow
-						key={ essen.id }
-						title={ `${ essen.title.rendered }` }
-						price={ isFreeKidMeal ? 0 : essen.meta.price }
+						key={ selectedEssen.id }
+						title={ `${ selectedEssen.title.rendered }` }
+						price={ selectedEssen.meta.price }
 					/>
 				) ) }
 				{ !! isSleepingOnSite && (
 					<TableRow
 						key={ 'youth-breakfast' }
-						title={ `Jugend-Übernachtung & Frühstück` }
-						price={ 15 }
-					/>
-				) }
-				{ !! latePaymentPrice && (
-					<TableRow
-						key={ 'late-payment-cost' }
-						title={ `Spätbucher Aufschlag` }
-						price={ latePaymentPrice }
+						title={ `Massenlager inkl. Frühstück von Freitag (28.04.2023) bis Montag (01.05.2023)` }
+						price={ 0 }
 					/>
 				) }
 				<TableFooter title="Summe" price={ totalPrice } />
