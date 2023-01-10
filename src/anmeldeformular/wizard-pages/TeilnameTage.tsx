@@ -85,7 +85,7 @@ export default ( { tickets, kinderprogramm } ) => {
 						Ich möchte gerne freiwillig und ehrenamtlich beim
 						Gemeindetag mithelfen:
 					</p>
-					{ [ 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag' ].map(
+					{ [ 'Freitag', 'Samstag', 'Sonntag', 'Montag' ].map(
 						( tag, key ) => (
 							<div key={ key }>
 								<Field
