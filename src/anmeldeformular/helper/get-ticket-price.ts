@@ -1,11 +1,11 @@
 export type WP_Ticket = {
-	title: Object,
+	title: Object;
 	meta: {
-		price_adult: Number,
-		price_teen: Number,
-		price_kid: Number,
-	}
-}
+		price_adult: Number;
+		price_teen: Number;
+		price_kid: Number;
+	};
+};
 
 /**
  * get price for the ticket
@@ -35,4 +35,4 @@ export default function getTicketPrice( ticket, age, hasReducedPrice = false ) {
 	}
 
 	return priceAdult;
-};
+}
