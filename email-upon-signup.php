@@ -207,12 +207,12 @@ function get_trips_by_ids( $ids ) {
  */
 function get_food_by_ids( $ids ) {
 	return $ids ? array_map(
-		function( $id ) use ( $is_free_kids_meal ) {
+		function( $id ) {
 			return [
 				'id'    => $id,
 				'nr'    => get_post_meta( $id, 'nr', true ),
 				'title' => get_the_title( $id ),
-				'price' => $is_free_kids_meal ? 0 : get_post_meta( $id, 'price', true ),
+				'price' => get_post_meta( $id, 'price', true ),
 			];
 		},
 		$ids
@@ -238,7 +238,7 @@ function sum( $carry, $item ) {
 function get_total_price( $registration ) {
 	$workshops_total = array_reduce( $registration['workshops'] ?? [], __NAMESPACE__ . '\sum', 0 );
 	$trips_total     = array_reduce( $registration['ausfluege'] ?? [], __NAMESPACE__ . '\sum', 0 );
-	$food_total      = $registration_id['is_free_kids_meal'] ? 0 : array_reduce( $registration_id['food'], __NAMESPACE__ . '\sum', 0 );
+	$food_total      = array_reduce( $registration_id['food'] ?? [], __NAMESPACE__ . '\sum', 0 );
 	$days_total      = array_reduce( $registration_id['days'] ?? [], __NAMESPACE__ . '\sum', 0 );
 
 	return $workshops_total + $trips_total + $food_total + $days_total;
