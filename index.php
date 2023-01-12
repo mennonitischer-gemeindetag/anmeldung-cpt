@@ -68,5 +68,3 @@ require _get_plugin_directory() . '/tickets-cpt.php';
 require _get_plugin_directory() . '/essen-cpt.php';
 require _get_plugin_directory() . '/kinderprogramm-cpt.php';
 require _get_plugin_directory() . '/rest-api.php';
-require _get_plugin_directory() . '/widgets.php';
-
