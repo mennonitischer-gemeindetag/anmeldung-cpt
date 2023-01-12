@@ -46,16 +46,27 @@ export function groupEntitiesByDay(
 ): {
 	[ key: string ]: Array< WP_REST_API_Workshop >;
 } {
-	return workshopsInput.reduce( ( accumulator, workshop ) => {
-		const newWorkshops = { ...accumulator };
-		const { startZeit } = workshop.meta;
+	return workshopsInput.reduce(
+		( accumulator, workshop ) => {
+			const newWorkshops = { ...accumulator };
+			const { startZeit } = workshop.meta;
 
-		const day = moment( startZeit ).format( 'dddd' );
+			const day = moment( startZeit ).format( 'dddd' );
 
-		if ( ! ( newWorkshops[ day ] && newWorkshops[ day ].length ) ) {
-			newWorkshops[ day ] = [];
+			if ( ! ( newWorkshops[ day ] && newWorkshops[ day ].length ) ) {
+				newWorkshops[ day ] = [];
+			}
+			newWorkshops[ day ].push( workshop );
+			return newWorkshops;
+		},
+		{
+			Montag: [],
+			Dienstag: [],
+			Mittwoch: [],
+			Donnerstag: [],
+			Freitag: [],
+			Samstag: [],
+			Sonntag: [],
 		}
-		newWorkshops[ day ].push( workshop );
-		return newWorkshops;
-	}, {} );
+	);
 }

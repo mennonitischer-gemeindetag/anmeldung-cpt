@@ -22,13 +22,15 @@ export default function Workshops( { workshops }: WorkshopsProps ) {
 			</p>
 			{ hasWorkshops &&
 				Object.entries( workshopsByDay )
-					.reverse()
+					.filter(
+						( [ _, innerWorkshops ] ) => innerWorkshops.length
+					)
 					.map( ( [ day, innerWorkshops ] ) => (
 						<div className={ `Workshops-${ day }` } key={ day }>
 							<h3>{ day }</h3>
 							<div className={ `workshop-list` }>
 								{ innerWorkshops
-									.reverse()
+									.sort( ( a, b ) => a.meta.nr - b.meta.nr )
 									.map( ( workshop ) => (
 										<Card
 											key={ workshop.id }

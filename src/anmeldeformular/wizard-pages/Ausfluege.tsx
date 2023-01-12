@@ -4,7 +4,7 @@ import { groupEntitiesByDay } from '../helper/transform-data';
 import { WP_REST_API_Ausfluege } from '../types';
 
 interface AusfluegeProps {
-	ausfluege: Array<WP_REST_API_Ausfluege>
+	ausfluege: Array< WP_REST_API_Ausfluege >;
 }
 
 export default function Ausfluege( { ausfluege } ) {
@@ -19,17 +19,19 @@ export default function Ausfluege( { ausfluege } ) {
 				überschneiden.
 			</p>
 			{ transformedAusfluege &&
-				Object.keys( transformedAusfluege )
-					.reverse()
-					.map( ( tag ) => (
+				Object.entries( transformedAusfluege )
+					.filter(
+						( [ _, innerAusfluege ] ) => innerAusfluege.length
+					)
+					.map( ( [ tag, innerAusfluege ] ) => (
 						<div
 							key={ `Ausfluege-${ tag }` }
 							className={ `Ausfluege-${ tag }` }
 						>
 							<h3>{ tag }</h3>
 							<div className="ausfluege-list">
-								{ transformedAusfluege[ tag ]
-									.reverse()
+								{ innerAusfluege
+									.sort( ( a, b ) => a.meta.nr - b.meta.nr )
 									.map( ( ausflug ) => (
 										<Card
 											key={ ausflug.id }
@@ -42,4 +44,4 @@ export default function Ausfluege( { ausfluege } ) {
 					) ) }
 		</Wizard.Page>
 	);
-};
+}
