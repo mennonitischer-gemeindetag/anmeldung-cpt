@@ -3,7 +3,7 @@ import Wizard from '../Wizard';
 import { Field, useFormState } from 'react-final-form';
 import Table, { TableRow, TableHeader, TableFooter } from '../components/Table';
 import { getTicketPrice } from './TeilnameTage';
-import { useContext } from '@wordpress/element';
+import { useContext, useRef, useEffect } from '@wordpress/element';
 import { AnmeldungKontext } from '../Anmeldeformular';
 import calculateTotalPrice from '../helper/calculate-total-price';
 import {
@@ -71,13 +71,21 @@ export default function Overview( props: OverviewProps ) {
 		trips: selectedTrips,
 		food: selectedFood,
 		tickets: selectedTickets,
-		sleepingOnSite: isSleepingOnSite,
 		age,
 	} );
 
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
+
 	return (
 		<Wizard.Page>
-			<h2 className={ 'section-heading' }>Übersicht</h2>
+			<h2 ref={ headingRef } className={ 'section-heading' }>
+				Übersicht
+			</h2>
 			<p>
 				{ name } { surname }
 				<br />

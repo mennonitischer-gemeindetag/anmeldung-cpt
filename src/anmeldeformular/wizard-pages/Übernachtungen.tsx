@@ -1,4 +1,5 @@
 import { Field, useFormState } from 'react-final-form';
+import { useRef, useEffect } from '@wordpress/element';
 import Wizard from '../Wizard';
 
 export default function Uebernachtungen() {
@@ -6,9 +7,18 @@ export default function Uebernachtungen() {
 		values: { uebernachtung_and_breakfast: hasUebernachtungAndBreakfast },
 	} = useFormState();
 
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
+
 	return (
 		<Wizard.Page>
-			<h2 className={ 'section-heading' }>Übernachtung</h2>
+			<h2 ref={ headingRef } className={ 'section-heading' }>
+				Übernachtung
+			</h2>
 			<p>
 				Hotels bitte selbständig buchen. Für Jugendliche, und junge
 				Erwachsene steht eine Gruppenunterkunft in einem Massenlager zur

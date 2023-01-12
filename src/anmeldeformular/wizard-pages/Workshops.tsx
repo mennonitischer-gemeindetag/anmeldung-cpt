@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import Card from '../components/Card';
 import Wizard from '../Wizard';
+import { useRef, useEffect } from '@wordpress/element';
 import { groupEntitiesByDay } from '../helper/transform-data';
 import type { WP_REST_API_Workshop } from '../types';
 
@@ -11,9 +12,17 @@ interface WorkshopsProps {
 export default function Workshops( { workshops }: WorkshopsProps ) {
 	const workshopsByDay = groupEntitiesByDay( workshops );
 	const hasWorkshops = !! workshops.length;
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
 	return (
 		<Wizard.Page>
-			<h2 className={ 'section-heading' }>Workshops</h2>
+			<h2 ref={ headingRef } className={ 'section-heading' }>
+				Workshops
+			</h2>
 			<p>
 				Deine Anmeldung ist verbindlich, aber das Anmeldeteam behält
 				sich vor kurzfristig Änderungen vorzunehmen. Bitte achte darauf,

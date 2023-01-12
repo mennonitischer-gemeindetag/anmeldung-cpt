@@ -1,6 +1,7 @@
 import Wizard from '../Wizard';
 import Card from '../components/Card';
 import { groupEntitiesByDay } from '../helper/transform-data';
+import { useRef, useEffect } from '@wordpress/element';
 import { WP_REST_API_Ausfluege } from '../types';
 
 interface AusfluegeProps {
@@ -9,9 +10,17 @@ interface AusfluegeProps {
 
 export default function Ausfluege( { ausfluege } ) {
 	const transformedAusfluege = groupEntitiesByDay( ausfluege );
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
 	return (
 		<Wizard.Page>
-			<h2 className={ 'section-heading' }>Ausflüge</h2>
+			<h2 className={ 'section-heading' } ref={ headingRef }>
+				Ausflüge
+			</h2>
 			<p>
 				Deine Anmeldung ist verbindlich, aber das Anmeldeteam behält
 				sich vor kurzfristig Änderungen vorzunehmen. Bitte achte darauf,

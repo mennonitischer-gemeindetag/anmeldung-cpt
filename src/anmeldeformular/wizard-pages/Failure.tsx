@@ -1,7 +1,15 @@
+import { useRef, useEffect } from '@wordpress/element';
+
 export default function Failure( props ) {
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
 	return (
 		<div>
-			<h2 className={ 'section-heading' }>
+			<h2 ref={ headingRef } className={ 'section-heading' }>
 				Leider ist ein Fehler aufgetreten.
 			</h2>
 			<div>

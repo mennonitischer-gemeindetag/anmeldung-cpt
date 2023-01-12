@@ -1,6 +1,7 @@
 import { Field, useFormState } from 'react-final-form';
 import Wizard from '../Wizard';
-import { useContext } from '@wordpress/element';
+import { useContext, useRef, useEffect } from '@wordpress/element';
+
 import { AnmeldungKontext } from '../Anmeldeformular';
 
 import { formatPrice } from '../helper/format-price';
@@ -49,11 +50,20 @@ export default ( { tickets, kinderprogramm } ) => {
 	const { values } = useFormState();
 	const hasReducedPrice = values.ermaessigt_adult;
 
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
+
 	const isKid = age <= 13;
 
 	return (
 		<Wizard.Page>
-			<h2 className={ 'section-heading' }>Teilnahmetage</h2>
+			<h2 ref={ headingRef } className={ 'section-heading' }>
+				Teilnahmetage
+			</h2>
 			<section className="teilnametage">
 				{ tickets
 					.sort( ( a, b ) => a.id > b.id )

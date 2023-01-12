@@ -1,7 +1,17 @@
+import { useRef, useEffect } from '@wordpress/element';
+
 export default function Success( props ) {
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
 	return (
 		<div>
-			<h2 className={ 'section-heading' }>Vielen Dank!</h2>
+			<h2 ref={ headingRef } className={ 'section-heading' }>
+				Vielen Dank!
+			</h2>
 			<div>
 				Deine Anmeldung ({ props.signUpID }) zum AMG-Gemeindetag 2023 in
 				Neuwied ist eingegangen. Du solltest in den nächsten Minuten

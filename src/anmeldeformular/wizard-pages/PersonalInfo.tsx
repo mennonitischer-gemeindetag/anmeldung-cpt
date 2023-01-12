@@ -1,16 +1,26 @@
 import { Field } from 'react-final-form';
 import Wizard from '../Wizard';
-import { useContext } from '@wordpress/element';
+import { useContext, useRef, useEffect } from '@wordpress/element';
 import { OnChange } from 'react-final-form-listeners';
+
 import { AnmeldungKontext } from '../Anmeldeformular';
 
 export default function PersonalInfo( { setAge } ) {
 	const { age } = useContext( AnmeldungKontext );
 	const isAdult = age >= 18;
 
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
+
 	return (
 		<Wizard.Page>
-			<h2 className={ 'section-heading' }>Anmeldung</h2>
+			<h2 ref={ headingRef } className={ 'section-heading' }>
+				Anmeldung
+			</h2>
 			<div className="vorname">
 				<label htmlFor="vorname">Vorname</label>
 				<Field

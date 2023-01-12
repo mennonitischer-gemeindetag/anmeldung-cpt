@@ -1,11 +1,20 @@
 import { Field } from 'react-final-form';
 import Wizard from '../Wizard';
+import { useRef, useEffect } from '@wordpress/element';
 import { formatPrice } from '../helper/format-price';
 
 export default function Food( { essen } ) {
+	const headingRef = useRef( null );
+	useEffect( () => {
+		if ( headingRef.current ) {
+			headingRef.current.scrollIntoView();
+		}
+	}, [] );
 	return (
 		<Wizard.Page>
-			<h2 className={ 'section-heading' }>Verpflegung</h2>
+			<h2 ref={ headingRef } className={ 'section-heading' }>
+				Verpflegung
+			</h2>
 			<div>
 				{ Object.keys( essen )
 					.reverse()
