@@ -42,6 +42,7 @@ export default () => {
 	const [ tickets, setTickets ] = useState( [] );
 	const [ essen, setEssen ] = useState( [] );
 	const [ successfulSignUp, setSuccessfulSignUp ] = useState( false );
+	const [ signUpId, setSignUpId ] = useState( null );
 	const [ signUpError, setSignUpError ] = useState( null );
 
 	const updateAge = ( birthdayDate ) => {
@@ -100,6 +101,7 @@ export default () => {
 			} );
 
 			if ( ! isNaN( parseInt( response ) ) ) {
+				setSignUpId( parseInt( response ) );
 				setSuccessfulSignUp( true );
 			}
 			// eslint-disable-next-line no-console
@@ -116,7 +118,7 @@ export default () => {
 			value={ { age, workshops, tickets, ausfluege, kinderprogramm } }
 		>
 			{ !! signUpError && <Failure error={ signUpError } /> }
-			{ !! successfulSignUp && <Success signUpID={ successfulSignUp } /> }
+			{ !! successfulSignUp && <Success signUpID={ signUpId } /> }
 			{ ! signUpError && ! successfulSignUp && (
 				<Wizard onSubmit={ onSubmit }>
 					<PersonalInfo setAge={ updateAge } />
