@@ -84,7 +84,7 @@ export default ( { tickets, kinderprogramm } ) => {
 						</div>
 					) ) }
 				<p>
-					Für die Teilnahme am Donnerstag und am Sonntag werden keine
+					Für die Teilnahme am Freitag und am Montag werden keine
 					Tagungsgebühren erhoben.
 				</p>
 			</section>
