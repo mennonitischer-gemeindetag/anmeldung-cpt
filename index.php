@@ -71,3 +71,4 @@ require _get_plugin_directory() . '/essen-cpt.php';
 require _get_plugin_directory() . '/kinderprogramm-cpt.php';
 require _get_plugin_directory() . '/rest-api.php';
 require _get_plugin_directory() . '/jugendherberge-rest-api.php';
+require _get_plugin_directory() . '/jugendherberge-email-upon-signup.php';
