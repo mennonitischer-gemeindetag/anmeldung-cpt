@@ -71,6 +71,7 @@ export default function Overview( props: OverviewProps ) {
 		trips: selectedTrips,
 		food: selectedFood,
 		tickets: selectedTickets,
+		isSleepingOnSite,
 		age,
 	} );
 
