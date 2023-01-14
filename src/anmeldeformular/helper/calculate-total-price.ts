@@ -1,34 +1,44 @@
+/* eslint-disable camelcase */
 import calculateLatePayment from './calculate-late-payment';
-import getTicketPrice from './get-ticket-price';
+import { getTicketPrice } from './get-ticket-price';
+import {
+	WP_REST_API_Ausfluege,
+	WP_REST_API_Essen,
+	WP_REST_API_Tickets,
+	WP_REST_API_Workshop,
+} from '../types';
 
-function add( accumulator, a ) {
+export function add( accumulator, a ) {
 	return accumulator + a;
 }
 
-const addValueOfKey =
-	( key = 'price' ) =>
-	( summe, item ) => {
+export const addValueOfKey =
+	( key: string = 'price' ) =>
+	( summe: number, item ) => {
 		if ( ! item.meta[ key ] && ! isNaN( item.meta[ key ] ) ) {
 			return summe;
 		}
-		return summe + parseInt( item.meta[ key ] );
+		return summe + Number( item.meta[ key ] );
 	};
 
-function getWorkshopsTotalPrice( workshops ) {
+export function getWorkshopsTotalPrice( workshops: WP_REST_API_Workshop[] ) {
 	return workshops.reduce( addValueOfKey( 'preis' ), 0 );
 }
 
-function getTripsTotalPrice( trips ) {
+export function getTripsTotalPrice( trips: WP_REST_API_Ausfluege[] ) {
 	return trips.reduce( addValueOfKey( 'preis' ), 0 );
 }
 
-function getFoodTotalPrice( food ) {
+export function getFoodTotalPrice( food: WP_REST_API_Essen[] ) {
 	return food.reduce( addValueOfKey( 'price' ), 0 );
 }
 
-function getTicketTotalPrice( tickets, age ) {
+export function getTicketTotalPrice(
+	tickets: WP_REST_API_Tickets[],
+	age: number
+): number {
 	return tickets.reduce( ( summe, ticket ) => {
-		return summe + parseInt( getTicketPrice( ticket, age ) );
+		return summe + Number( getTicketPrice( ticket, age ) );
 	}, 0 );
 }
 
@@ -38,6 +48,12 @@ export default function calculateTotalPrice( {
 	age,
 	food,
 	tickets,
+}: {
+	workshops: Array< WP_REST_API_Workshop >;
+	trips: Array< WP_REST_API_Ausfluege >;
+	age: number;
+	food: Array< WP_REST_API_Essen >;
+	tickets: Array< WP_REST_API_Tickets >;
 } ) {
 	const prices = [
 		getWorkshopsTotalPrice( workshops ),

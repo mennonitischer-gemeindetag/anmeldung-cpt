@@ -2,7 +2,7 @@
 import Wizard from '../Wizard';
 import { Field, useFormState } from 'react-final-form';
 import Table, { TableRow, TableHeader, TableFooter } from '../components/Table';
-import { getTicketPrice } from './TeilnameTage';
+import { getTicketPrice } from '../helper/get-ticket-price';
 import { useContext, useRef, useEffect } from '@wordpress/element';
 import { AnmeldungKontext } from '../Anmeldeformular';
 import calculateTotalPrice from '../helper/calculate-total-price';

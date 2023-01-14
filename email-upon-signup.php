@@ -402,6 +402,10 @@ function get_price( $post_id, $age, $ermaessigt_adult = false ) {
 		$key = 'price_kid';
 	}
 
+	if ( $age < 3 ) {
+		return 0;
+	}
+
 	return get_post_meta( $post_id, $key, true );
 }
 

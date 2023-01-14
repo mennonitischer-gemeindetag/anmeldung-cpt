@@ -19,7 +19,7 @@ import Success from './wizard-pages/Success';
 import Failure from './wizard-pages/Failure';
 
 type AnmeldungProps = {
-	age: Number;
+	age: number;
 	workshops: Array< Number >;
 	tickets: Array< Number >;
 	ausfluege: Array< Number >;

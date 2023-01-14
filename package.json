@@ -30,6 +30,7 @@
 	"homepage": "https://github.com/mennonitischer-gemeindetag/anmeldung-cpt#readme",
 	"main": "src/index.js",
 	"dependencies": {
+		"@jest/globals": "^29.3.1",
 		"@sentry/browser": "^5.12.1",
 		"@wordpress/scripts": "^24.6.0",
 		"final-form": "^4.20.7",

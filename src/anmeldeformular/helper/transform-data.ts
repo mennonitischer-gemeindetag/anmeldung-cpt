@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 import moment from 'moment';
-import type { WP_REST_API_Workshop } from '../types';
+import type { WP_REST_API_Ausfluege, WP_REST_API_Workshop } from '../types';
 
 export const transformKinderprogramm = ( kinderprogramm ) => {
 	return kinderprogramm.reduce( ( accumulator, programm ) => {
@@ -42,9 +43,9 @@ export const transformEssen = ( essenInput ) => {
 };
 
 export function groupEntitiesByDay(
-	workshopsInput: Array< WP_REST_API_Workshop >
+	workshopsInput: Array< WP_REST_API_Workshop | WP_REST_API_Ausfluege >
 ): {
-	[ key: string ]: Array< WP_REST_API_Workshop >;
+	[ key: string ]: Array< WP_REST_API_Workshop | WP_REST_API_Ausfluege >;
 } {
 	return workshopsInput.reduce(
 		( accumulator, workshop ) => {

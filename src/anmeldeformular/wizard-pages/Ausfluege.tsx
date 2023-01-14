@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Wizard from '../Wizard';
 import Card from '../components/Card';
 import { groupEntitiesByDay } from '../helper/transform-data';
@@ -8,7 +9,7 @@ interface AusfluegeProps {
 	ausfluege: Array< WP_REST_API_Ausfluege >;
 }
 
-export default function Ausfluege( { ausfluege } ) {
+export default function Ausfluege( { ausfluege }: AusfluegeProps ) {
 	const transformedAusfluege = groupEntitiesByDay( ausfluege );
 	const headingRef = useRef( null );
 	useEffect( () => {
