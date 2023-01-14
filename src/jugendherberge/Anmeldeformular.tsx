@@ -37,7 +37,7 @@ export const Success = ( props ) => {
 						window.location.reload();
 					} }
 				>
-					Weitere Anmeldung ausfüllen
+					Weitere Anfrage ausfüllen
 				</button>
 			</div>
 		</div>
