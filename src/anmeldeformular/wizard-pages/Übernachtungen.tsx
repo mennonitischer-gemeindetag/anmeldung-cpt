@@ -33,7 +33,7 @@ export default function Uebernachtungen() {
 				/>
 				<label htmlFor={ 'uebernachtung_and_breakfast' }>
 					Massenlager inkl. Frühstück von Freitag (28.04.2023) bis
-					Montag (01.05.2023)
+					Montag (01.05.2023) (15€)
 				</label>
 			</div>
 			<p>

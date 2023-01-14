@@ -132,7 +132,7 @@ export default function Overview( props: OverviewProps ) {
 					<TableRow
 						key={ 'youth-breakfast' }
 						title={ `Massenlager inkl. Frühstück von Freitag (28.04.2023) bis Montag (01.05.2023)` }
-						price={ 0 }
+						price={ 15 }
 					/>
 				) }
 				<TableFooter title="Summe" price={ totalPrice } />

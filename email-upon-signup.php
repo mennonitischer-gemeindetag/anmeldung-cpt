@@ -241,6 +241,12 @@ function get_total_price( $registration ) {
 	$food_total      = array_reduce( $registration['food'] ?? [], __NAMESPACE__ . '\sum', 0 );
 	$days_total      = array_reduce( $registration['days'] ?? [], __NAMESPACE__ . '\sum', 0 );
 
+	$is_sleeping_on_site = $registration['uebernachtung_and_breakfast'] ?? false;
+
+	if ( $is_sleeping_on_site ) {
+		$days_total += 15;
+	}
+
 	return $workshops_total + $trips_total + $food_total + $days_total;
 }
 
@@ -264,7 +270,7 @@ function get_registration_data_for_api( $registration ) {
 		'uebernachtung_and_breakfast' => $registration['uebernachtung_and_breakfast'] ? [
 			'title' => 'Massenlager inkl. Frühstück von Freitag (28.04.2023) bis
 			Montag (01.05.2023)',
-			'price' => 0,
+			'price' => 15,
 		] : null,
 		'betrag'                      => get_total_price( $registration ),
 	];
