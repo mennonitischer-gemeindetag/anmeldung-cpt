@@ -247,6 +247,10 @@
 	font-weight: bold;
 }
 
+.wp-block-gemeindetag-anmeldeformular textarea {
+	width: 100%;
+}
+
 .wp-block-gemeindetag-callout {
 	box-sizing: border-box;
 	padding: 4em 2em;

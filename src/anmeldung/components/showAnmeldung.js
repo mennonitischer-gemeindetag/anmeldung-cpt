@@ -28,6 +28,7 @@ export default ( props ) => {
 			mitarbeit,
 			kinderprogramm,
 			kinderprogramm_bemerkung,
+			bemerkung,
 			kinderprogramm_notfall_nummer,
 			workshops,
 			ausfluege,
@@ -70,6 +71,12 @@ export default ( props ) => {
 					) }
 					Email: <a href={ `mailto:${ email }` }>{ email }</a>
 				</p>
+				{ !! bemerkung && (
+					<>
+						<h3>Bemerkung</h3>
+						<p>{ bemerkung }</p>
+					</>
+				) }
 			</div>
 			{ !! teilnahmetage && !! teilnahmetage.length ? (
 				<div className={ 'teilnahmetage' }>

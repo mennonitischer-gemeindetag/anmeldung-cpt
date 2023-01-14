@@ -66,6 +66,11 @@
 			"source": "meta",
 			"meta": "kinderprogramm"
 		},
+		"bemerkung": {
+			"type": "string",
+			"source": "meta",
+			"meta": "bemerkung"
+		},
 		"kinderprogramm_bemerkung": {
 			"type": "string",
 			"source": "meta",

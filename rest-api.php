@@ -55,6 +55,7 @@ function handle_signup_request( $request ) {
 			'mitarbeit'                            => $request['mitarbeit'] ? $request['mitarbeit'] : [],
 			'kinderprogramm'                       => $request['kinderprogramm'] ? $request['kinderprogramm'] : [],
 			'kinderprogramm_bemerkung'             => sanitize_text_field( $request['kinderprogramm_bemerkung'] ),
+			'bemerkung'                            => sanitize_text_field( $request['bemerkung'] ),
 			'kinderprogramm_notfall_nummer'        => sanitize_text_field( $request['kinderprogramm_notfall_nummer'] ),
 			'ausfluege'                            => $request['ausfluege'] ? $request['ausfluege'] : [],
 			'workshops'                            => $request['workshops'] ? $request['workshops'] : [],

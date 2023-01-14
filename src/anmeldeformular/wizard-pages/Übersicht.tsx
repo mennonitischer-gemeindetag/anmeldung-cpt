@@ -138,6 +138,15 @@ export default function Overview( props: OverviewProps ) {
 				<TableFooter title="Summe" price={ totalPrice } />
 			</Table>
 			<div>
+				<label htmlFor="bemerkung">Bemerkung</label>
+				<Field
+					id="bemerkung"
+					name="bemerkung"
+					component="textarea"
+					placeholder="Bemerkung"
+				/>
+			</div>
+			<div>
 				<Field
 					id="datenschutz"
 					name="datenschutz_akzeptiert"
