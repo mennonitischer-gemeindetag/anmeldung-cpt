@@ -97,7 +97,7 @@
 }
 
 .wp-block-gemeindetag-jugendherberge-anmeldeformular .components-number-control button {
-	background-color: transparent;
+	background-color: var(--wp--preset--color--orange);
 	padding: 0.5rem;
 	line-height: 1;
 }

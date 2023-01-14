@@ -208,6 +208,7 @@ export const Anmeldeformular = () => {
 
 			<h3>Anzahl der Personen ({ totalNumberOfPeople })</h3>
 			<NumberControl
+				isDragEnabled={ false }
 				label="Erwachsene"
 				onChange={ setAdults }
 				size="__unstable-large"
@@ -216,6 +217,7 @@ export const Anmeldeformular = () => {
 				min={ 0 }
 			/>
 			<NumberControl
+				isDragEnabled={ false }
 				label="Jugendliche ab 15 Jahre"
 				onChange={ setTeenager }
 				size="__unstable-large"
@@ -224,6 +226,7 @@ export const Anmeldeformular = () => {
 				min={ 0 }
 			/>
 			<NumberControl
+				isDragEnabled={ false }
 				label="Kinder 4-14 Jahre"
 				onChange={ setChildren }
 				size="__unstable-large"
@@ -232,6 +235,7 @@ export const Anmeldeformular = () => {
 				min={ 0 }
 			/>
 			<NumberControl
+				isDragEnabled={ false }
 				label="Kinder bis 3 Jahre"
 				onChange={ setToddlers }
 				size="__unstable-large"
