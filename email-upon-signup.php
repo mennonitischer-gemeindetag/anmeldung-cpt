@@ -475,7 +475,7 @@ function send_email( $post_id, $subject, $message ) {
 	$vorname = get_post_meta( $post_id, 'vorname', true );
 
 	$to           = $email;
-	$headers[]    = 'Bcc: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
+	$headers[]    = 'Bcc: gemeindetag@mennoniten.de';
 	$headers[]    = 'Content-Type: text/html; charset=UTF-8';
 	$headers[]    = 'From: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
 	$mail_subject = "$subject - Mennonitischer Gemeindetag 2023";
