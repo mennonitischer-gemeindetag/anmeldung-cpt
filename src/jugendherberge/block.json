@@ -1,0 +1,14 @@
+{
+	"name": "gemeindetag/jugendherberge-anmeldeformular",
+	"apiVersion": 2,
+	"title": "Jugendherberge Anmeldeformular",
+	"description": "Anmeldeformular für die Jugendherberge",
+	"category": "common",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"multiple": false
+	},
+	"editorScript": "file:./index.js",
+	"viewScript": "file:./view.js",
+	"style": "file:./style-index.css"
+}
