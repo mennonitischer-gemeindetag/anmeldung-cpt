@@ -31,6 +31,7 @@ export const Success = ( props ) => {
 				</a>
 				.
 				<button
+					className="submit-button"
 					type="button"
 					onClick={ () => {
 						window.location.reload();
