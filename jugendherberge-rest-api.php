@@ -51,7 +51,7 @@ function handle_jugendherberge_signup_request( $request ) {
 	$post    = [
 		'post_type'    => 'jugendherberge',
 		'post_title'   => sprintf( '%s - %s Personen', $room_types[$request['room_type']], $number_of_people ),
-		'post_content' => '<!-- wp:gemeindetag/anmeldung /--><!-- wp:gemeindetag/send-email /-->',
+		'post_content' => '<!-- wp:gemeindetag/jugendherberge-anmeldung /--><!-- wp:gemeindetag/send-email /-->',
 		'post_status'  => 'publish',
 		'meta_input'   => [
 			'room_type'                            => sanitize_text_field( $request['room_type'] ),

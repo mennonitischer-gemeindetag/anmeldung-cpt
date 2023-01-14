@@ -1,0 +1,23 @@
+{
+	"name": "gemeindetag/jugendherberge-anmeldung",
+	"apiVersion": 2,
+	"title": "Jugendherberge Anmeldung",
+	"icon": "money",
+	"category": "common",
+	"attributes": {
+		"isEditing": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"lock": false
+	},
+	"usesContext": [
+		"postType",
+		"postId"
+	],
+	"editorScript": "file:./index.js"
+}

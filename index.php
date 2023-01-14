@@ -61,6 +61,7 @@ function register_blocks() {
 	register_block_type( _get_plugin_directory() . '/build/card' );
 	register_block_type( _get_plugin_directory() . '/build/anmeldungen' );
 	register_block_type( _get_plugin_directory() . '/build/ticket' );
+	register_block_type( _get_plugin_directory() . '/build/jugendherberge-anmeldung' );
 }
 
 require _get_plugin_directory() . '/anmeldungen-cpt.php';
