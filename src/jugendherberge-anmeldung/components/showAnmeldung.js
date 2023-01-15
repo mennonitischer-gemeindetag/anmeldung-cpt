@@ -23,6 +23,8 @@ export default ( props ) => {
 			number_of_toddlers,
 			names,
 			email,
+			start_date,
+			end_date,
 		},
 		isLoading,
 		invoice,
@@ -45,6 +47,12 @@ export default ( props ) => {
 					<br />
 					{ `Zimmerart: ${ room_type }` }
 					<br />
+				</p>
+				<h3>Reise Daten</h3>
+				<p>
+					{ `Anreise: ${ start_date }` }
+					<br />
+					{ `Abreise: ${ end_date }` }
 				</p>
 				<h3>Namen</h3>
 				<p>{ names }</p>

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @wordpress/no-unsafe-wp-apis */
 import { useState, useReducer, useEffect } from '@wordpress/element';
+import moment from 'moment';
 import {
 	Spinner,
 	__experimentalNumberControl as NumberControl,
@@ -8,8 +9,12 @@ import {
 	TextareaControl,
 	RadioControl,
 	CheckboxControl,
+	Flex,
+	FlexItem,
 } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
+import { calculatePrice, RoomType } from './helper';
+import { formatPrice } from '../anmeldeformular/helper/format-price';
 
 export const Success = ( props ) => {
 	return (
@@ -66,13 +71,15 @@ export const Failure = ( props ) => {
 };
 
 export const Anmeldeformular = () => {
-	const [ roomType, setRoomType ] = useState( 'einzelzimmer' );
+	const [ roomType, setRoomType ] = useState( RoomType.einzelzimmer );
 	const [ adults, setAdults ] = useState( 0 );
 	const [ teenager, setTeenager ] = useState( 0 );
 	const [ children, setChildren ] = useState( 0 );
 	const [ toddlers, setToddlers ] = useState( 0 );
 	const [ datenschutzAkzeptiert, setDatenschutzAkzeptiert ] =
 		useState( false );
+	const [ startDate, setStartDate ] = useState( '2023-04-28' );
+	const [ endDate, setEndDate ] = useState( '2023-05-01' );
 	const [ bemerkung, setBemerkung ] = useState( '' );
 	const [ email, setEmail ] = useState( '' );
 	const [ namen, setNamen ] = useState( '' );
@@ -128,10 +135,10 @@ export const Anmeldeformular = () => {
 				dispatch( { type: 'SUBMIT_SUCCESS' } );
 				setSignUpID( parseInt( response, 10 ) );
 			}
-		} catch ( error ) {
+		} catch ( fetchError ) {
 			dispatch( { type: 'SUBMIT_FAILURE' } );
-			console.error( error );
-			setError( error.message );
+			console.error( fetchError );
+			setError( fetchError.message );
 		}
 	};
 
@@ -145,12 +152,11 @@ export const Anmeldeformular = () => {
 		Number( children ) +
 		Number( toddlers );
 
-	const hasKids =
-		Number( teenager ) + Number( children ) + Number( toddlers ) > 0;
+	const hasKids = Number( children ) + Number( toddlers ) > 0;
 
 	useEffect( () => {
 		if ( hasKids ) {
-			setRoomType( 'mehrbettzimmer' );
+			setRoomType( RoomType.mehrbettzimmer );
 		}
 	}, [ hasKids, setRoomType ] );
 
@@ -161,6 +167,17 @@ export const Anmeldeformular = () => {
 	if ( hasSubmitFailed ) {
 		return <Failure error={ error } />;
 	}
+
+	const numberOfNights = moment( endDate ).diff( startDate, 'days' );
+
+	const price = calculatePrice( {
+		adults,
+		teenager,
+		children,
+		toddlers,
+		roomType,
+		numberOfNights,
+	} );
 
 	return (
 		<form onSubmit={ handleFormSubmit }>
@@ -186,15 +203,15 @@ export const Anmeldeformular = () => {
 				options={ [
 					{
 						label: 'Einzelbelegung 41,90 €/Nacht',
-						value: 'einzelzimmer',
+						value: RoomType.einzelzimmer,
 					},
 					{
 						label: 'Doppelzimmer 33,90 €/Nacht/Person',
-						value: 'doppelzimmer',
+						value: RoomType.doppelzimmer,
 					},
 					{
 						label: 'Mehrbettzimmer 27,10 €/Nacht/Person',
-						value: 'mehrbettzimmer',
+						value: RoomType.mehrbettzimmer,
 					},
 				] }
 				onChange={ ( value ) =>
@@ -206,8 +223,30 @@ export const Anmeldeformular = () => {
 						: ''
 				}
 			/>
-
-			<h3>Anzahl der Personen ({ totalNumberOfPeople })</h3>
+			<h3>Anzahl der Übernachtungen: { numberOfNights }</h3>
+			<Flex direction="row" justify="start">
+				<FlexItem style={ { width: '50%' } }>
+					<InputControl
+						label="Anreise Datum"
+						value={ startDate }
+						onChange={ setStartDate }
+						min="2023-04-28"
+						max="2023-05-01"
+						type="date"
+					/>
+				</FlexItem>
+				<FlexItem style={ { width: '50%' } }>
+					<InputControl
+						label="Abreise Datum"
+						value={ endDate }
+						onChange={ setEndDate }
+						min="2023-04-28"
+						max="2023-05-01"
+						type="date"
+					/>
+				</FlexItem>
+			</Flex>
+			<h3>Anzahl der Personen: { totalNumberOfPeople }</h3>
 			<NumberControl
 				isDragEnabled={ false }
 				label="Erwachsene"
@@ -252,6 +291,8 @@ export const Anmeldeformular = () => {
 				required
 			/>
 			<br />
+			<h3>Preis</h3>
+			<p>Der voraussichtliche Preis beträgt { formatPrice( price ) }</p>
 			<TextareaControl
 				label="Bemerkungen"
 				value={ bemerkung }

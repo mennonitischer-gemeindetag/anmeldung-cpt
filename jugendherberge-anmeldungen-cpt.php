@@ -120,6 +120,8 @@ register_post_meta( 'jugendherberge', 'number_of_kids', $string );
 register_post_meta( 'jugendherberge', 'number_of_toddlers', $string );
 register_post_meta( 'jugendherberge', 'names', $string );
 register_post_meta( 'jugendherberge', 'email', $string );
+register_post_meta( 'jugendherberge', 'start_date', $string );
+register_post_meta( 'jugendherberge', 'end_date', $string );
 register_post_meta( 'jugendherberge', 'rechnung_versand', $boolean );
 register_post_meta( 'jugendherberge', 'zahlungsbestaetigung_versand', $boolean );
 register_post_meta( 'jugendherberge', 'betrag', $number );

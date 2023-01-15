@@ -61,6 +61,8 @@ function handle_jugendherberge_signup_request( $request ) {
 			'number_of_toddlers'                   => sanitize_text_field( $request['number_of_toddlers'] ),
 			'names'                                => sanitize_text_field( $request['names'] ),
 			'email'                                => sanitize_email( $request['email'] ),
+			'start_date'                           => sanitize_email( $request['start_date'] ),
+			'end_date'                             => sanitize_email( $request['end_date'] ),
 			'bemerkung'                            => sanitize_text_field( $request['bemerkung'] ),
 			'datenschutz_akzeptiert'               => $request['datenschutz_akzeptiert'] ? true : false,
 			'status'                               => 'wartet auf bestätigung',
