@@ -75,6 +75,8 @@ export default function Overview( props: OverviewProps ) {
 		age,
 	} );
 
+	const isKid = age < 13;
+
 	const headingRef = useRef( null );
 	useEffect( () => {
 		if ( headingRef.current ) {
@@ -126,7 +128,11 @@ export default function Overview( props: OverviewProps ) {
 					<TableRow
 						key={ selectedEssen.id }
 						title={ `${ selectedEssen.title.rendered }` }
-						price={ selectedEssen.meta.price }
+						price={
+							isKid
+								? Number( selectedEssen.meta.price ) / 2
+								: selectedEssen.meta.price
+						}
 					/>
 				) ) }
 				{ !! isSleepingOnSite && (

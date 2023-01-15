@@ -1,7 +1,9 @@
-import { Field } from 'react-final-form';
+import { Field, useFormState } from 'react-final-form';
 import Wizard from '../Wizard';
-import { useRef, useEffect } from '@wordpress/element';
+import { useRef, useEffect, useContext } from '@wordpress/element';
 import { formatPrice } from '../helper/format-price';
+
+import { AnmeldungKontext } from '../Anmeldeformular';
 
 export default function Food( { essen } ) {
 	const headingRef = useRef( null );
@@ -10,6 +12,11 @@ export default function Food( { essen } ) {
 			headingRef.current.scrollIntoView();
 		}
 	}, [] );
+
+	const { age } = useContext( AnmeldungKontext );
+
+	const isKid = age <= 13;
+
 	return (
 		<Wizard.Page>
 			<h2 ref={ headingRef } className={ 'section-heading' }>
@@ -44,7 +51,11 @@ export default function Food( { essen } ) {
 													>{ `${
 														speise.speise
 													} - ${ formatPrice(
-														speise.price
+														isKid
+															? Number(
+																	speise.price
+															  ) / 2
+															: speise.price
 													) }` }</label>
 												</div>
 											) ) }

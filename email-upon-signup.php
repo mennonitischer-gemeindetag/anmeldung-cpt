@@ -103,11 +103,11 @@ function get_registration( $registration_id ) {
 	$adresse_plz                 = get_post_meta( $registration_id, 'adresse_plz', true );
 	$uebernachtung_and_breakfast = get_post_meta( $registration_id, 'uebernachtung_and_breakfast', true );
 
-	$age               = get_age( $geb_datum );
+	$age               = intval( get_age( $geb_datum ) );
 	$days              = get_days_by_ids( $day_ids, $age, $ermaessigt_adult );
 	$workshops         = get_workshops_by_ids( $workshops_ids );
 	$ausfluege         = get_trips_by_ids( $trip_ids );
-	$food              = get_food_by_ids( $food_ids );
+	$food              = get_food_by_ids( $food_ids, $age );
 
 	return [
 		'id'                          => $registration_id,
@@ -201,19 +201,29 @@ function get_trips_by_ids( $ids ) {
 	) : [];
 }
 
+function get_food_price( $id, $age ) {
+	$price = get_post_meta( $id, 'price', true );
+
+	if ( $age < 13) {
+		return intval( $price ) / 2;
+	}
+
+	return $price;
+}
+
 /**
  * get food by ids
  *
  * @param array $ids ids
  */
-function get_food_by_ids( $ids ) {
+function get_food_by_ids( $ids, $age = 0 ) {
 	return $ids ? array_map(
 		function( $id ) {
 			return [
 				'id'    => $id,
 				'nr'    => get_post_meta( $id, 'nr', true ),
 				'title' => get_the_title( $id ),
-				'price' => get_post_meta( $id, 'price', true ),
+				'price' => get_food_price( $id, $age ),
 			];
 		},
 		$ids

@@ -29,8 +29,12 @@ export function getTripsTotalPrice( trips: WP_REST_API_Ausfluege[] ) {
 	return trips.reduce( addValueOfKey( 'preis' ), 0 );
 }
 
-export function getFoodTotalPrice( food: WP_REST_API_Essen[] ) {
-	return food.reduce( addValueOfKey( 'price' ), 0 );
+export function getFoodTotalPrice( food: WP_REST_API_Essen[], age ) {
+	const isKid = age < 13;
+
+	const totalPrice = food.reduce( addValueOfKey( 'price' ), 0 );
+
+	return isKid ? totalPrice / 2 : totalPrice;
 }
 
 export function getTicketTotalPrice(
@@ -60,7 +64,7 @@ export default function calculateTotalPrice( {
 	const prices = [
 		getWorkshopsTotalPrice( workshops ),
 		getTripsTotalPrice( trips ),
-		getFoodTotalPrice( food ),
+		getFoodTotalPrice( food, age ),
 		getTicketTotalPrice( tickets, age ),
 		calculateLatePayment(),
 		isSleepingOnSite ? 15 : 0,
