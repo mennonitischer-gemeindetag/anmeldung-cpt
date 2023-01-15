@@ -60,6 +60,7 @@ function send_jugendherberge_signup_mail( $post_id ) {
 
 	$headers[] = 'Content-Type: text/html; charset=UTF-8';
 	$headers[] = 'From: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
+	$headers[] = 'Bcc: gemeindetag@mennoniten.de';
 
 	return wp_mail( $to, $subject, $body, $headers );
 
