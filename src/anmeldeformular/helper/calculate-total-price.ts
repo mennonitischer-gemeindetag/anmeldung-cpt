@@ -59,7 +59,7 @@ export default function calculateTotalPrice( {
 	age: number;
 	food: Array< WP_REST_API_Essen >;
 	tickets: Array< WP_REST_API_Tickets >;
-	isSleepingOnSite: boolean;
+	isSleepingOnSite: Boolean;
 } ) {
 	const prices = [
 		getWorkshopsTotalPrice( workshops ),
