@@ -20,7 +20,7 @@ export default ( { tickets, kinderprogramm } ) => {
 		}
 	}, [] );
 
-	const isKid = age <= 13;
+	const isKid = age < 12;
 
 	return (
 		<Wizard.Page>
