@@ -35,7 +35,8 @@ export default ( { tickets, kinderprogramm } ) => {
 				style={ { marginBottom: '1rem' } }
 			/>
 			<label htmlFor="mitarbeit-verguenstigung">
-				Ich bin Mitarbeiter*in des Gemeindetags
+				Ich bin vom Programmkomitee von der Teilnahmegebühren befreit
+				worden.
 			</label>
 
 			<br />
