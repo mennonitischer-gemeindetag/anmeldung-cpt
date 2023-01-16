@@ -15,7 +15,7 @@ export default function Food( { essen } ) {
 
 	const { age } = useContext( AnmeldungKontext );
 
-	const isKid = age <= 13;
+	const isKid = age <= 12;
 
 	return (
 		<Wizard.Page>

@@ -204,7 +204,7 @@ function get_trips_by_ids( $ids ) {
 function get_food_price( $id, $age ) {
 	$price = get_post_meta( $id, 'price', true );
 
-	if ( $age < 13) {
+	if ( $age < 12) {
 		return intval( $price ) / 2;
 	}
 

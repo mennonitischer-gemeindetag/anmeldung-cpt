@@ -75,7 +75,7 @@ export default function Overview( props: OverviewProps ) {
 		age,
 	} );
 
-	const isKid = age < 13;
+	const isKid = age < 12;
 
 	const headingRef = useRef( null );
 	useEffect( () => {

@@ -30,7 +30,7 @@ export function getTripsTotalPrice( trips: WP_REST_API_Ausfluege[] ) {
 }
 
 export function getFoodTotalPrice( food: WP_REST_API_Essen[], age ) {
-	const isKid = age < 13;
+	const isKid = age < 12;
 
 	const totalPrice = food.reduce( addValueOfKey( 'price' ), 0 );
 
