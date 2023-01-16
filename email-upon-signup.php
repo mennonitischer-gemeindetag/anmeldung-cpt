@@ -77,7 +77,7 @@ function send_signup_mail( $post_id ) {
 	<p>Das AMG Gemeindetag 2023-Team wünscht viel Spaß.</p>";
 
 	$headers[] = 'Content-Type: text/html; charset=UTF-8';
-	$headers[] = 'Bcc: gemeindetag@mennoniten.de';
+	$headers[] = 'Bcc: anmeldung.gemeindetag@mennoniten.de';
 	$headers[] = 'From: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
 
 	return wp_mail( $to, $subject, $body, $headers, $attachments );
@@ -457,7 +457,7 @@ function send_payment_success_email( $post_id ) {
 	$invoice_id = $post_id;
 	$vorname    = get_post_meta( $post_id, 'vorname', true );
 	$to         = $email;
-	$headers[]  = 'Bcc: gemeindetag@mennoniten.de';
+	$headers[]  = 'Bcc: anmeldung.gemeindetag@mennoniten.de';
 	$headers[]  = 'Content-Type: text/html; charset=UTF-8';
 	$headers[]  = 'From: Gemeindetag 2023 <gemeindetag@mennoniten.de>';
 	$subject    = 'Zahlungsbestätigung - Mennonitischer Gemeindetag 2023';
