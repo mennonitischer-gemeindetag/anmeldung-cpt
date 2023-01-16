@@ -33,6 +33,7 @@ type SignUpFormState = {
 	adresse_ort: string;
 	email: string;
 	telefonnummer: string;
+	ermaessigt_mitarbeiter: Boolean;
 };
 
 const isIdInList = ( list ) => ( item ) =>
@@ -59,6 +60,7 @@ export default function Overview( props: OverviewProps ) {
 		adresse_ort: town,
 		email: email,
 		telefonnummer: phone,
+		ermaessigt_mitarbeiter: isHelper,
 	} = values;
 
 	const selectedWorkshops = workshops.filter( isIdInList( workshopIds ) );
@@ -73,6 +75,7 @@ export default function Overview( props: OverviewProps ) {
 		tickets: selectedTickets,
 		isSleepingOnSite,
 		age,
+		isHelper,
 	} );
 
 	const isKid = age < 12;
@@ -107,7 +110,7 @@ export default function Overview( props: OverviewProps ) {
 					<TableRow
 						key={ ticket.id }
 						title={ ticket.title.rendered }
-						price={ getTicketPrice( ticket, age ) }
+						price={ getTicketPrice( ticket, age, false, isHelper ) }
 					/>
 				) ) }
 				{ selectedWorkshops.map( ( workshop ) => (

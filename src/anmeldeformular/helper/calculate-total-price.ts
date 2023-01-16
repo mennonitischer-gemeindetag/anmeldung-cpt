@@ -53,6 +53,7 @@ export default function calculateTotalPrice( {
 	isSleepingOnSite,
 	food,
 	tickets,
+	isHelper = false,
 }: {
 	workshops: Array< WP_REST_API_Workshop >;
 	trips: Array< WP_REST_API_Ausfluege >;
@@ -60,12 +61,13 @@ export default function calculateTotalPrice( {
 	food: Array< WP_REST_API_Essen >;
 	tickets: Array< WP_REST_API_Tickets >;
 	isSleepingOnSite: Boolean;
+	isHelper?: Boolean;
 } ) {
 	const prices = [
 		getWorkshopsTotalPrice( workshops ),
 		getTripsTotalPrice( trips ),
 		getFoodTotalPrice( food, age ),
-		getTicketTotalPrice( tickets, age ),
+		isHelper ? 0 : getTicketTotalPrice( tickets, age ),
 		calculateLatePayment(),
 		isSleepingOnSite ? 15 : 0,
 	];

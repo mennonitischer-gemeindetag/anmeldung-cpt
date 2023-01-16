@@ -11,6 +11,7 @@ export default ( { tickets, kinderprogramm } ) => {
 	const { age } = useContext( AnmeldungKontext );
 	const { values } = useFormState();
 	const hasReducedPrice = values.ermaessigt_adult;
+	const isHelper = values.ermaessigt_mitarbeiter;
 
 	const headingRef = useRef( null );
 	useEffect( () => {
@@ -26,6 +27,19 @@ export default ( { tickets, kinderprogramm } ) => {
 			<h2 ref={ headingRef } className={ 'section-heading' }>
 				Teilnahmetage
 			</h2>
+			<Field
+				id="mitarbeit-verguenstigung"
+				name="ermaessigt_mitarbeiter"
+				component="input"
+				type="checkbox"
+				style={ { marginBottom: '1rem' } }
+			/>
+			<label htmlFor="mitarbeit-verguenstigung">
+				Ich bin Mitarbeiter*in des Gemeindetags
+			</label>
+
+			<br />
+
 			<section className="teilnametage">
 				{ tickets
 					.sort( ( a, b ) => a.id > b.id )
@@ -41,7 +55,12 @@ export default ( { tickets, kinderprogramm } ) => {
 							<label htmlFor={ `ticket-${ ticket.id }` }>{ `${
 								ticket.title.rendered
 							} - ${ formatPrice(
-								getTicketPrice( ticket, age, hasReducedPrice )
+								getTicketPrice(
+									ticket,
+									age,
+									hasReducedPrice,
+									isHelper
+								)
 							) }` }</label>
 						</div>
 					) ) }

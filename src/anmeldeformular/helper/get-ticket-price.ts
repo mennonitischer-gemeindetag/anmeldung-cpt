@@ -7,13 +7,19 @@ import { WP_REST_API_Tickets } from '../types';
  * @param {WP_REST_API_Tickets} ticket          wordpress ticket object
  * @param {number}              age             the age of the user
  * @param {boolean}             hasReducedPrice whether or not the ticket has a reduced price
+ * @param {boolean}             isHelper        whether or not the ticket has a reduced price because of a helper
  * @return {number} the price of the ticket
  */
 export const getTicketPrice = (
 	ticket: WP_REST_API_Tickets,
 	age: number,
-	hasReducedPrice: boolean = false
+	hasReducedPrice: boolean = false,
+	isHelper: Boolean = false
 ) => {
+	if ( isHelper ) {
+		return 0;
+	}
+
 	const {
 		price_adult: priceAdult,
 		price_teen: priceTeen,

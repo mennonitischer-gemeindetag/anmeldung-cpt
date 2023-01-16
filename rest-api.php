@@ -49,6 +49,7 @@ function handle_signup_request( $request ) {
 			'adresse_ort'                          => sanitize_text_field( $request['adresse_ort'] ),
 			'geb_datum'                            => sanitize_text_field( $request['geb_datum'] ),
 			'ermaessigt_adult'                     => $request['ermaessigt_adult'] ? true : false,
+			'ermaessigt_mitarbeiter'               => $request['ermaessigt_mitarbeiter'] ? true : false,
 			'telefonnummer'                        => sanitize_text_field( $request['telefonnummer'] ),
 			'email'                                => sanitize_email( $request['email'] ),
 			'teilnahmetage'                        => $request['teilnahmetage'] ? $request['teilnahmetage'] : [],

@@ -119,6 +119,7 @@ register_post_meta( 'anmeldung', 'adresse_plz', $number );
 register_post_meta( 'anmeldung', 'adresse_ort', $string );
 register_post_meta( 'anmeldung', 'geb_datum', $string );
 register_post_meta( 'anmeldung', 'ermaessigt_adult', $boolean );
+register_post_meta( 'anmeldung', 'ermaessigt_mitarbeiter', $boolean );
 register_post_meta( 'anmeldung', 'telefonnummer', $string );
 register_post_meta( 'anmeldung', 'email', $string );
 register_post_meta( 'anmeldung', 'teilnahmetage', $multiple_numbers );

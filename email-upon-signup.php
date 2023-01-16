@@ -102,9 +102,10 @@ function get_registration( $registration_id ) {
 	$adresse_ort                 = get_post_meta( $registration_id, 'adresse_ort', true );
 	$adresse_plz                 = get_post_meta( $registration_id, 'adresse_plz', true );
 	$uebernachtung_and_breakfast = get_post_meta( $registration_id, 'uebernachtung_and_breakfast', true );
+	$ermaessigt_mitarbeiter      = get_post_meta( $registration_id, 'ermaessigt_mitarbeiter', true );
 
 	$age               = intval( get_age( $geb_datum ) );
-	$days              = get_days_by_ids( $day_ids, $age, $ermaessigt_adult );
+	$days              = get_days_by_ids( $day_ids, $age, $ermaessigt_adult, $ermaessigt_mitarbeiter );
 	$workshops         = get_workshops_by_ids( $workshops_ids );
 	$ausfluege         = get_trips_by_ids( $trip_ids );
 	$food              = get_food_by_ids( $food_ids, $age );
@@ -138,16 +139,17 @@ function get_registration( $registration_id ) {
  * @param int     $age              age of the person
  * @param boolean $ermaessigt_adult whether the person gets a reduced price
  */
-function get_days_by_ids( $ids, $age, $ermaessigt_adult ) {
+function get_days_by_ids( $ids, $age, $ermaessigt_adult, $ermaessigt_mitarbeiter ) {
 	return $ids ? array_map(
-		function( $id ) use ( $age, $ermaessigt_adult ) {
+		function( $id ) use ( $age, $ermaessigt_adult, $ermaessigt_mitarbeiter ) {
 			return [
 				'id'    => $id,
 				'title' => get_the_title( $id ),
 				'price' => get_price(
 					$id,
 					$age,
-					$ermaessigt_adult
+					$ermaessigt_adult,
+					$ermaessigt_mitarbeiter
 				),
 			];
 		},
@@ -401,9 +403,13 @@ function get_age( $geb_date ) {
  * @param Integer $age Age
  * @param Boolean $ermaessigt_adult lower rate
  */
-function get_price( $post_id, $age, $ermaessigt_adult = false ) {
+function get_price( $post_id, $age, $ermaessigt_adult = false, $ermaessigt_mitarbeiter = false ) {
 	$key         = 'price_adult';
 	$meta_values = get_post_meta( $post_id );
+
+	if ( $ermaessigt_mitarbeiter ) {
+		return 0;
+	}
 
 	if ( $age <= 18 || $ermaessigt_adult ) {
 		$key = 'price_teen';
