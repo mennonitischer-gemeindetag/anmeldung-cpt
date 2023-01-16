@@ -13,7 +13,7 @@ import { WP_REST_API_Tickets } from '../types';
 export const getTicketPrice = (
 	ticket: WP_REST_API_Tickets,
 	age: number,
-	hasReducedPrice: boolean = false,
+	hasReducedPrice: Boolean = false,
 	isHelper: Boolean = false
 ) => {
 	if ( isHelper ) {

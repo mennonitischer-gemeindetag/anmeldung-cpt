@@ -39,10 +39,11 @@ export function getFoodTotalPrice( food: WP_REST_API_Essen[], age ) {
 
 export function getTicketTotalPrice(
 	tickets: WP_REST_API_Tickets[],
-	age: number
+	age: number,
+	hasReducedPrice: Boolean = false
 ): number {
 	return tickets.reduce( ( summe, ticket ) => {
-		return summe + Number( getTicketPrice( ticket, age ) );
+		return summe + Number( getTicketPrice( ticket, age, hasReducedPrice ) );
 	}, 0 );
 }
 
@@ -54,6 +55,7 @@ export default function calculateTotalPrice( {
 	food,
 	tickets,
 	isHelper = false,
+	hasReducedPrice = false,
 }: {
 	workshops: Array< WP_REST_API_Workshop >;
 	trips: Array< WP_REST_API_Ausfluege >;
@@ -62,12 +64,13 @@ export default function calculateTotalPrice( {
 	tickets: Array< WP_REST_API_Tickets >;
 	isSleepingOnSite: Boolean;
 	isHelper?: Boolean;
+	hasReducedPrice?: Boolean;
 } ) {
 	const prices = [
 		getWorkshopsTotalPrice( workshops ),
 		getTripsTotalPrice( trips ),
 		getFoodTotalPrice( food, age ),
-		isHelper ? 0 : getTicketTotalPrice( tickets, age ),
+		isHelper ? 0 : getTicketTotalPrice( tickets, age, hasReducedPrice ),
 		calculateLatePayment(),
 		isSleepingOnSite ? 15 : 0,
 	];
