@@ -38,7 +38,13 @@ export default function Uebernachtungen() {
 			</div>
 			<p>
 				Anmeldungen für die Jugendherberge Leutesdorf erfolgen auf einer
-				extra Anmeldeseite
+				<a
+					href="https://gemeindetag.mennoniten.de/jugendherberge-leutesdorf/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					extra Anmeldeseite
+				</a>
 			</p>
 		</Wizard.Page>
 	);
