@@ -415,7 +415,7 @@ function get_price( $post_id, $age, $ermaessigt_adult = false, $ermaessigt_mitar
 		$key = 'price_teen';
 	}
 
-	if ( $age <= 13 && $age >= 3 ) {
+	if ( $age < 12 && $age >= 3 ) {
 		$key = 'price_kid';
 	}
 

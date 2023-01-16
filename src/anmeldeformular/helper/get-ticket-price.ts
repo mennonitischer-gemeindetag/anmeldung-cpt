@@ -36,7 +36,7 @@ export const getTicketPrice = (
 	}
 
 	// if age is between 3 and 13, the ticket for kids
-	if ( age <= 13 ) {
+	if ( age < 12 ) {
 		return Number( priceKid );
 	}
 
