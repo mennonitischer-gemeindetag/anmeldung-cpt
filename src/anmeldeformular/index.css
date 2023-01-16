@@ -236,6 +236,7 @@
 .wp-block-gemeindetag-anmeldeformular td.price,
 .wp-block-gemeindetag-anmeldeformular th.price {
 	text-align: right;
+	white-space: nowrap;
 }
 
 .wp-block-gemeindetag-anmeldeformular .table-row:nth-child(odd) {
