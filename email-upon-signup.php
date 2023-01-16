@@ -203,7 +203,7 @@ function get_trips_by_ids( $ids ) {
 	) : [];
 }
 
-function get_food_price( $id, $age ) {
+function get_food_price( $id, $age = 99 ) {
 	$price = get_post_meta( $id, 'price', true );
 
 	if ( $age < 12) {
@@ -220,7 +220,7 @@ function get_food_price( $id, $age ) {
  */
 function get_food_by_ids( $ids, $age = 0 ) {
 	return $ids ? array_map(
-		function( $id ) {
+		function( $id ) use ( $age ) {
 			return [
 				'id'    => $id,
 				'nr'    => get_post_meta( $id, 'nr', true ),
