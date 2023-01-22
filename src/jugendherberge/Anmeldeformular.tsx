@@ -184,10 +184,10 @@ export const Anmeldeformular = () => {
 			{ isSubmitting && <Spinner /> }
 			<h2 className={ 'section-heading' }>Anfrage Formular:</h2>
 			<p>
-				Die anmeldung für die Jugendherberge ist nur über dieses
-				Formular möglich. Alle anfragen werden von uns bearbeitet und
+				Die Anmeldung für die Jugendherberge ist nur über dieses
+				Formular möglich. Alle Anfragen werden von uns bearbeitet und
 				dann per E-Mail bestätigt. Die Anmeldung ist erst gültig, wenn
-				Sie eine Bestätigung erhalten haben.
+				du eine Bestätigung erhalten hast.
 			</p>
 			<InputControl
 				label="E-Mail Adresse"
@@ -195,7 +195,7 @@ export const Anmeldeformular = () => {
 				onChange={ setEmail }
 				required
 				type="email"
-				help="Bitte geben Sie Ihre E-Mail Adresse an, damit wir Ihnen die Rechnung zukommen lassen können."
+				help="Bitte gib deine E-Mail Adresse an, damit wir dir die Rechnung zukommen lassen können."
 			/>
 			<h3>Zimmer Art</h3>
 			<RadioControl
@@ -307,7 +307,7 @@ export const Anmeldeformular = () => {
 			/>
 			<div className="buttons">
 				<button type="submit" disabled={ isSubmitting }>
-					Anfrage Absenden
+					Anfrage absenden
 				</button>
 			</div>
 		</form>
