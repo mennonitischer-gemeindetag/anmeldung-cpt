@@ -14,9 +14,9 @@ export interface CalculatePriceParams {
 }
 
 export enum RoomPrice {
-	'einzelzimmer' = 41.9,
-	'doppelzimmer' = 33.9,
-	'mehrbettzimmer' = 27.1,
+	'einzelzimmer' = 42.8,
+	'doppelzimmer' = 34.8,
+	'mehrbettzimmer' = 28.0,
 }
 
 export function calculatePrice( {

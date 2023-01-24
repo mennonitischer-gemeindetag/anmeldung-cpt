@@ -202,15 +202,15 @@ export const Anmeldeformular = () => {
 				selected={ hasKids ? 'mehrbettzimmer' : roomType }
 				options={ [
 					{
-						label: 'Einzelbelegung 41,90 €/Nacht',
+						label: 'Einzelbelegung 42,80 €/Nacht',
 						value: RoomType.einzelzimmer,
 					},
 					{
-						label: 'Doppelzimmer 33,90 €/Nacht/Person',
+						label: 'Doppelzimmer 34,80 €/Nacht/Person',
 						value: RoomType.doppelzimmer,
 					},
 					{
-						label: 'Mehrbettzimmer 27,10 €/Nacht/Person',
+						label: 'Mehrbettzimmer 28,00 €/Nacht/Person',
 						value: RoomType.mehrbettzimmer,
 					},
 				] }
