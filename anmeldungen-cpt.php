@@ -130,6 +130,7 @@ register_post_meta( 'anmeldung', 'kinderprogramm_notfall_nummer', $string );
 register_post_meta( 'anmeldung', 'ausfluege', $multiple_numbers );
 register_post_meta( 'anmeldung', 'workshops', $multiple_numbers );
 register_post_meta( 'anmeldung', 'uebernachtung_and_breakfast', $boolean );
+register_post_meta( 'anmeldung', 'privatuebernachtung', $boolean );
 register_post_meta( 'anmeldung', 'uebernachtung_zelt_mit', $string );
 register_post_meta( 'anmeldung', 'uebernachtung', $string );
 register_post_meta( 'anmeldung', 'verpflegung', $multiple_numbers );

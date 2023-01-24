@@ -27,6 +27,8 @@ export default ( props ) => {
 			teilnahmetage,
 			mitarbeit,
 			kinderprogramm,
+			privatuebernachtung,
+			uebernachtung_and_breakfast,
 			kinderprogramm_bemerkung,
 			bemerkung,
 			kinderprogramm_notfall_nummer,
@@ -184,6 +186,11 @@ export default ( props ) => {
 					) }
 				</div>
 			) : null }
+			<div className={ 'uebernachtung' }>
+				<h2>Übernachtung</h2>
+				{ !! uebernachtung_and_breakfast && <li>Massenlager</li> }
+				{ !! privatuebernachtung && <li>Privatübernachtung</li> }
+			</div>
 
 			{ Array.isArray( kinderprogramm ) && kinderprogramm.length ? (
 				<div className={ 'kinderprogramm' }>

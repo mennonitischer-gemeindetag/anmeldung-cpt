@@ -61,6 +61,7 @@ function handle_signup_request( $request ) {
 			'ausfluege'                            => $request['ausfluege'] ? $request['ausfluege'] : [],
 			'workshops'                            => $request['workshops'] ? $request['workshops'] : [],
 			'uebernachtung_and_breakfast'          => $request['uebernachtung_and_breakfast'] ? true : false,
+			'privatuebernachtung'                  => $request['privatuebernachtung'] ? true : false,
 			'uebernachtung'                        => sanitize_text_field( $request['uebernachtung'] ),
 			'uebernachtung_zelt_mit'               => sanitize_text_field( $request['uebernachtung_zelt_mit'] ),
 			'verpflegung'                          => $request['verpflegung'] ? $request['verpflegung'] : [],

@@ -46,6 +46,17 @@ export default function Uebernachtungen() {
 					extra Anmeldeseite
 				</a>
 			</p>
+			<div>
+				<Field
+					component={ 'input' }
+					name={ 'privatuebernachtung' }
+					type={ 'checkbox' }
+					id={ 'privatuebernachtung' }
+				/>
+				<label htmlFor={ 'privatuebernachtung' }>
+					Ich möchte gerne, wenn möglich, eine Privatunterkunft haben.
+				</label>
+			</div>
 		</Wizard.Page>
 	);
 }

@@ -136,6 +136,11 @@
 			"source": "meta",
 			"meta": "uebernachtung_and_breakfast"
 		},
+		"privatuebernachtung": {
+			"type": "string",
+			"source": "meta",
+			"meta": "privatuebernachtung"
+		},
 		"uebernachtung_zelt_mit": {
 			"type": "string",
 			"source": "meta",
