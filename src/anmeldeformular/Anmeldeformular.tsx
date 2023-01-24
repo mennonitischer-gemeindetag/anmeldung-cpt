@@ -120,7 +120,10 @@ export default () => {
 			{ !! signUpError && <Failure error={ signUpError } /> }
 			{ !! successfulSignUp && <Success signUpID={ signUpId } /> }
 			{ ! signUpError && ! successfulSignUp && (
-				<Wizard onSubmit={ onSubmit }>
+				<Wizard
+					onSubmit={ onSubmit }
+					initialValues={ { teilnahmetage: [ '349' ] } }
+				>
 					<PersonalInfo setAge={ updateAge } />
 					<TeilnameTage
 						tickets={ tickets }
