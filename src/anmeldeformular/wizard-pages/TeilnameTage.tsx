@@ -140,6 +140,7 @@ export default ( { tickets, kinderprogramm } ) => {
 							id={ `kinderprogramm_notfall_nummer` }
 							name={ `kinderprogramm_notfall_nummer` }
 							type="text"
+							required={ true }
 							component={ `input` }
 						/>
 					</div>
