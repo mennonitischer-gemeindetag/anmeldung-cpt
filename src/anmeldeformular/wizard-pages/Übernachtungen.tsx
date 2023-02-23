@@ -36,16 +36,6 @@ export default function Uebernachtungen() {
 					Montag (01.05.2023) (15€)
 				</label>
 			</div>
-			<p>
-				Anmeldungen für die Jugendherberge Leutesdorf erfolgen auf einer
-				<a
-					href="https://gemeindetag.mennoniten.de/jugendherberge-leutesdorf/"
-					target="_blank"
-					rel="noreferrer"
-				>
-					extra Anmeldeseite
-				</a>
-			</p>
 			<div>
 				<Field
 					component={ 'input' }
